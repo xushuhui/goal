@@ -3,9 +3,12 @@ import (
 	"net/http"
 	
 	
-	"answer-server/core"
+	"go-web/core"
 
 )
+
+
+//UserLogin func
 func UserLogin(writer http.ResponseWriter,
 	request *http.Request) {
 	// request.ParseForm()
@@ -13,14 +16,13 @@ func UserLogin(writer http.ResponseWriter,
 	// mobile := request.PostForm.Get("mobile")
 	// passwd := request.PostForm.Get("passwd")
 
-	loginok := true
-	
-	if(loginok){
-		//{"id":1,"token":"xx"}
-		data := make(map[string]interface{})
-		data["id"]=1
-		data["token"]="test"
-		core.Succeed(writer)
-	}
+	//loginok := true
+	core.Fail(writer,core.CODE_SYSTEM_ERROR)
+	// if(loginok){
+	// 	data := make(map[string]interface{})
+	// 	data["id"]=1
+	// 	data["token"]="test"
+	// 	core.Succeed(writer)
+	// }
 
 }

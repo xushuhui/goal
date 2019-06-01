@@ -2,7 +2,7 @@ package main
 
 import (
 	
-	"answer-server/controller"
+	"go-web/controller"
 	"net/http"
 
 	//"github.com/go-redis/redis"
