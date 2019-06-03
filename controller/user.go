@@ -19,7 +19,7 @@ func UserLogin(writer http.ResponseWriter,r *http.Request) {
         return
 	}
 	user := request.UserLogin(r);
-	service.UserLogin(user)
+	service.UserLogin(writer,user)
 	loginok := true
 	//core.Fail(writer,core.CODE_SYSTEM_ERROR)
 	if(loginok){
