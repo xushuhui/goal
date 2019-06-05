@@ -1,8 +1,6 @@
 package controller
 import (
 	"net/http"
-	
-	"go-web/core"
 	 "go-web/request"
 	"go-web/service"
 )
@@ -20,15 +18,8 @@ func UserLogin(writer http.ResponseWriter,r *http.Request) {
 	}
 	user := request.UserLogin(r);
 	service.UserLogin(writer,user)
-	loginok := true
+	
 	//core.Fail(writer,core.CODE_SYSTEM_ERROR)
-	if(loginok){
-		data := make(map[string]interface{})
-		data["id"]=1
-		data["token"]="test"
-		// data["mobile"]=mobile
-		// data["pwd"]=pwd
-		core.SetData(writer,data)
-	}
+	
 
 }

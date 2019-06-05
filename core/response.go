@@ -39,4 +39,5 @@ func Resp(writer http.ResponseWriter, error_code int, msg string, data interface
 		log.Println(err.Error())
 	}
 	writer.Write(ret)
+	return
 }
