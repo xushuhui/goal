@@ -1,8 +1,7 @@
 package request
 import (
-    "fmt"
-    "encoding/json"
     "net/http"
+    "go-web/core"
 )
 type User struct {
     Mobile string `json:"mobile"`
@@ -10,9 +9,6 @@ type User struct {
 }
 func UserLogin(Request *http.Request) *User {
     var user *User
-    err := json.NewDecoder(Request.Body).Decode(&user)
-    if err != nil {
-        fmt.Println(err);
-    }
+    core.Bind(Request,&user)
     return user
 }
