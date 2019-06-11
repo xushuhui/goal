@@ -1,22 +1,18 @@
 package main
 
 import (
-	
 	"go-web/controller"
 	"net/http"
-
 	//"github.com/go-redis/redis"
-	
+	"github.com/jinzhu/gorm"
 	"log"
 )
-
-// func httpHandle(w http.ResponseWriter, req *http.Request) {
-// 	//ret := core.Succeed(w);
-// 	fmt.Println(ret)
-// 	fmt.Println("path", req.URL.Path)
-// 	fmt.Fprintf(w, req.URL.Path)
-// }
-
+func init(){
+	gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
+		return "zhj_" + defaultTableName;
+	}
+	
+}
 func main() {
 	// client := redis.NewClient(&redis.Options{
 	// 	Addr:     "localhost:6379",

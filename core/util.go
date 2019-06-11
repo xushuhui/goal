@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"errors"
 	"net/http"
+	"crypto/md5"
+	"encoding/hex"
 )
 func Bind(req *http.Request,obj interface{}) error{
 	contentType := req.Header.Get("Content-Type")
@@ -23,4 +25,10 @@ func BindJson(req *http.Request,obj interface{}) error{
 	}
 	err = json.Unmarshal(s,obj)
 	return err
+}
+func Md5Encode(data string) string{
+	h := md5.New()
+	h.Write([]byte(data)) // 需要加密的字符串为 123456
+	cipherStr := h.Sum(nil)
+	return  hex.EncodeToString(cipherStr)
 }

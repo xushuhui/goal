@@ -1,6 +1,7 @@
 package core
 
 const(
+	CODE_DB_CONNECT_ERROR int = -4
 	CODE_SQL_ERROR int = -3
 	CODE_INVALID_PARAMS int = -2
 	CODE_SYSTEM_ERROR int = -1
@@ -9,8 +10,11 @@ const(
 	CODE_ERROR_PASSWORD int = 1001
 )
 var errormap map[int]string = map[int]string{
-	CODE_OK:"OK",
+	CODE_DB_CONNECT_ERROR:"db connect error",
+	CODE_SQL_ERROR:"db sql error",
+	CODE_INVALID_PARAMS:"error params",
 	CODE_SYSTEM_ERROR:"system error",
+	CODE_OK:"OK",
 	CODE_NO_USER:"no user",
 	CODE_ERROR_PASSWORD:"pass error",
 }

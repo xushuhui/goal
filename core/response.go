@@ -18,8 +18,10 @@ type Data struct {
 func Fail(writer http.ResponseWriter, error_code int) {
 	Resp(writer, error_code, GetMsg(error_code), nil)
 }
+func FailMsg(writer http.ResponseWriter, error_code int,msg string) {
+	Resp(writer, error_code, msg, nil)
+}
 func Succeed(writer http.ResponseWriter) {
-
 	Resp(writer, CODE_OK, GetMsg(CODE_OK), nil)
 }
 func SetData(writer http.ResponseWriter, data interface{}) {
