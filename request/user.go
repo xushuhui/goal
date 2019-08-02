@@ -1,7 +1,7 @@
 package request
 
 import (
-	"go-web/core"
+	"go-web/utils"
 	"net/http"
 )
 
@@ -12,7 +12,7 @@ type UserLoginStruct struct {
 
 func UserLogin(Request *http.Request) *UserLoginStruct {
 	var user *UserLoginStruct
-	err := core.Bind(Request, &user)
+	err := utils.Bind(Request, &user)
 	if err != nil {
 		panic(err)
 	}
@@ -26,7 +26,7 @@ type UserRegStruct struct {
 
 func UserReg(Request *http.Request) *UserRegStruct {
 	var user *UserRegStruct
-	err := core.Bind(Request, &user)
+	err := utils.Bind(Request, &user)
 	if err != nil {
 		panic(err)
 	}

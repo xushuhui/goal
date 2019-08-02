@@ -2,12 +2,11 @@ package service
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-
 	"go-web/core"
 	"go-web/model"
 	"go-web/request"
 	"net/http"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func UserLogin(writer http.ResponseWriter, userRequest *request.UserLoginStruct) {
@@ -17,13 +16,13 @@ func UserLogin(writer http.ResponseWriter, userRequest *request.UserLoginStruct)
 	fmt.Println(userInfo)
 	fmt.Printf("v1 type:%T\n", userInfo)
 
-	//if userInfo == nil {
-	//	core.Fail(writer, core.CODE_NO_USER)
-	//	return
-	//}
+	if userInfo == nil {
+		core.Fail(writer, core.NO_USER)
+		return
+	}
 
 	//if !core.ValidatePassword(userRequest.Pwd, userInfo.UserEntry, userInfo.UserPwd) {
-	//	core.Fail(writer, core.CODE_ERROR_PASSWORD)
+	//	core.Fail(writer, core.ERROR_PASSWORD)
 	//	return
 	//}
 	data := make(map[string]interface{})
@@ -40,7 +39,7 @@ func UserReg(writer http.ResponseWriter, userRequest *request.UserRegStruct) {
 	fmt.Println(userInfo)
 	fmt.Printf("v1 type:%T\n", userInfo)
 	//if userInfo != nil {
-	//	core.Fail(writer, core.CODE_USER_EXIST)
+	//	core.Fail(writer, core.USER_EXIST)
 	//	return
 	//}
 

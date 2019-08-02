@@ -1,25 +1,26 @@
 package core
 
 const (
-	CODE_DB_CONNECT_ERROR int = -4
-	CODE_SQL_ERROR        int = -3
-	CODE_INVALID_PARAMS   int = -2
-	CODE_SYSTEM_ERROR     int = -1
-	CODE_OK               int = 0
-	CODE_NO_USER          int = 1000
-	CODE_ERROR_PASSWORD   int = 1001
-	CODE_USER_EXIST       int = 1002
+	OK              = iota
+	DB_CONNECT_ERROR 
+	SQL_ERROR        
+	INVALID_PARAMS   
+	SYSTEM_ERROR     
+	NO_USER         
+	ERROR_PASSWORD  
+	USER_EXIST     
 )
 
 var errormap map[int]string = map[int]string{
-	CODE_DB_CONNECT_ERROR: "db connect error",
-	CODE_SQL_ERROR:        "db sql error",
-	CODE_INVALID_PARAMS:   "error params",
-	CODE_SYSTEM_ERROR:     "system error",
-	CODE_OK:               "OK",
-	CODE_NO_USER:          "no user",
-	CODE_ERROR_PASSWORD:   "pass error",
-	CODE_USER_EXIST:       "user exist",
+	OK:               "OK",
+	DB_CONNECT_ERROR: "db connect error",
+	SQL_ERROR:        "db sql error",
+	INVALID_PARAMS:   "error params",
+	SYSTEM_ERROR:     "system error",
+	
+	NO_USER:          "no user",
+	ERROR_PASSWORD:   "pass error",
+	USER_EXIST:       "user exist",
 }
 
 func GetMsg(errorcode int) string {
