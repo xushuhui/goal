@@ -17,3 +17,4 @@ go web framework
 - [ ] json web token
 - [ ] cors
 - [ ] tests
+- [ ] log

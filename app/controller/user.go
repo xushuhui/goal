@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"go-web/request"
-	"go-web/service"
+	"go-web/app/request"
+	"go-web/app/service"
 	"net/http"
 )
 

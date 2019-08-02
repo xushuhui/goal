@@ -1,7 +1,7 @@
 package request
 
 import (
-	"go-web/utils"
+	"go-web/app/utils"
 	"net/http"
 )
 

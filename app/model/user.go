@@ -7,8 +7,12 @@ import (
 type User struct {
 	UserID    uint   `gorm:"primary_key"`
 	UserAcc   string `gorm:"column:user_acc"`
-	UserPwd   string
-	UserEntry string
+	UserPwd   string `gorm:"column:user_pwd"`
+	UserEntry string `gorm:"column:user_entry"`
+}
+
+func (User) TableName() string {
+	return "user"
 }
 
 var db *gorm.DB
@@ -19,14 +23,12 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
 	db.SingularTable(true)
 }
-func GetUserByAcc(mobile string) User {
-	var User = User{}
+func GetUserByAcc(mobile string) (res interface{}) {
+	var user User
+	err := db.Where("user_acc = ?", mobile).First(&user)
+	return err
 
-	//err :=db.Where("user_acc = ?", mobile).First(&User).Error
-	//if err == gorm.ErrRecordNotFound {
-	//	return nil
-	//}
-	return User
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-web/controller"
+	"go-web/app/controller"
 	"net/http"
 	//"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
