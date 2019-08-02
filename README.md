@@ -10,7 +10,10 @@ go web framework
 - [x] service
 - [x] database
 - [x] model
-
 - [x] service
 - [ ] validate
 - [ ] route
+- [ ] middle
+- [ ] json web token
+- [ ] cors
+- [ ] tests
