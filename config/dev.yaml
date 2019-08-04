@@ -1,0 +1,7 @@
+mysql:
+    host: 127.0.0.1:3306
+    user: root
+    pwd: 123456
+    dbname: test
+redis:
+    host: 127.0.0.1:6379

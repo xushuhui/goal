@@ -3,18 +3,18 @@ package service
 import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"go-web/app/model"
+	"go-web/app/models"
 	"go-web/app/request"
 	"go-web/core"
 	"net/http"
 )
 
-var userModel *model.User
+var userModel *models.User
 
 var response *core.Response
 
 func UserLogin(writer http.ResponseWriter, userRequest *request.UserLoginStruct) {
-	model.GetUserByAcc(userRequest.Mobile)
+	models.GetUserByAcc(userRequest.Mobile)
 	fmt.Println(userModel.UserID)
 	//if result:= userModel.GetUserByAcc(userRequest.Mobile); result == false {
 	//	response.Fail(writer, core.NO_USER)

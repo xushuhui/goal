@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-web/app/controller"
+	"go-web/core"
 	"net/http"
 	//"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
@@ -23,8 +23,11 @@ func main() {
 	// conf := config.ReadConfig();
 	// log.Println("conf", conf)
 	// http.HandleFunc("/", httpHandle)
-	http.HandleFunc("/user/login", controller.UserLogin)
-	http.HandleFunc("/user/reg", controller.UserReg)
+
+	// http.HandleFunc("/user/login", controller.UserLogin)
+	// http.HandleFunc("/user/reg", controller.UserReg)
+
+	core.ReadMysqlConf()
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		log.Fatal("Listen", err)
