@@ -13,8 +13,10 @@ go web framework
 - [x] service
 - [ ] validate
 - [ ] route
-- [ ] middle
-- [ ] json web token
+- [ ] middleware
+- [x] json web token
 - [ ] cors
 - [ ] tests
 - [ ] log
+redis pool
+mysql pool
