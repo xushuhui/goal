@@ -1,21 +1,18 @@
 package service
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"go-web/app/models"
 	"go-web/app/request"
 	"go-web/core"
 	"net/http"
 )
 
-var userModel *models.User
+//var userModel *models.User
 
-var response *core.Response
-
-func UserLogin(writer http.ResponseWriter, userRequest *request.UserLoginStruct) {
-	models.GetUserByAcc(userRequest.Mobile)
-	fmt.Println(userModel.UserID)
+func UserLogin(c *gin.Context) {
+	//models.GetUserByAcc(userRequest.Mobile)
+	//fmt.Println(userModel.UserID)
 	//if result:= userModel.GetUserByAcc(userRequest.Mobile); result == false {
 	//	response.Fail(writer, core.NO_USER)
 	//	return
@@ -29,7 +26,7 @@ func UserLogin(writer http.ResponseWriter, userRequest *request.UserLoginStruct)
 
 	data["id"] = 1
 	data["token"] = "test"
-	response.SetData(writer, data)
+	core.SetData(data)
 	return
 }
 func UserReg(writer http.ResponseWriter, userRequest *request.UserRegStruct) {
@@ -38,5 +35,6 @@ func UserReg(writer http.ResponseWriter, userRequest *request.UserRegStruct) {
 	//	response.Fail(writer, core.USER_EXIST)
 	//	return
 	//}
-
+	core.Succeed()
+	return
 }

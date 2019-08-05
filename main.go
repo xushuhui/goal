@@ -24,8 +24,8 @@ func main() {
 	// log.Println("conf", conf)
 	// http.HandleFunc("/", httpHandle)
 
-	// http.HandleFunc("/user/login", controller.UserLogin)
-	// http.HandleFunc("/user/reg", controller.UserReg)
+	//http.HandleFunc("/user/login", controller.UserLogin)
+	//http.HandleFunc("/user/reg", controller.UserReg)
 
 	core.ReadMysqlConf()
 	err := http.ListenAndServe(":8000", nil)
