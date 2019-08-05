@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
@@ -36,8 +35,10 @@ func init() {
 	if err := yaml.Unmarshal(yamlFile, &env); err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
-
-	fmt.Println(env.Env)
+	yamlFile = readConf(env.Env)
+	if err := yaml.Unmarshal(yamlFile, &conf); err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
 }
 func readConf(fileName string) []byte {
 	path := "./config/" + fileName + ".yaml"
@@ -48,9 +49,11 @@ func readConf(fileName string) []byte {
 	}
 	return yamlFile
 }
-func ReadMysqlConf() {
-	yamlFile := readConf(env.Env)
-	if err := yaml.Unmarshal(yamlFile, &conf); err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
+func ReadMysqlConf() Mysql {
+
+	return conf.Mysql
+}
+func ReadRedisConf() Redis {
+
+	return conf.Redis
 }

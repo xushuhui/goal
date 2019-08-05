@@ -1,11 +1,10 @@
 package main
 
 import (
-	"go-web/core"
-	"net/http"
-	//"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
+	"go-web/core"
 	"log"
+	"net/http"
 )
 
 func init() {
@@ -15,6 +14,7 @@ func init() {
 
 }
 func main() {
+	core.InitEnv()
 	// client := redis.NewClient(&redis.Options{
 	// 	Addr:     "localhost:6379",
 	// })
