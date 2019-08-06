@@ -2,7 +2,9 @@ package core
 
 import (
 	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 )
 
 type Response struct {
@@ -39,6 +41,8 @@ func Resp(error_code int, msg string, data interface{}) []byte {
 	if err != nil {
 		log.Println(err.Error())
 	}
-
 	return ret
+}
+func JsonResp(c *gin.Context, resp []byte) {
+	c.JSON(http.StatusOK, resp)
 }

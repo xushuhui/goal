@@ -1,16 +1,15 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"go-web/app/request"
 	"go-web/core"
-	"net/http"
 )
 
 //var userModel *models.User
 
-func UserLogin(c *gin.Context) {
+func UserLogin(loginRequest *request.UserLoginRequest) []byte {
 	//models.GetUserByAcc(userRequest.Mobile)
 	//fmt.Println(userModel.UserID)
 	//if result:= userModel.GetUserByAcc(userRequest.Mobile); result == false {
@@ -26,10 +25,10 @@ func UserLogin(c *gin.Context) {
 
 	data["id"] = 1
 	data["token"] = "test"
-	core.SetData(data)
-	return
+	fmt.Println(data)
+	return core.SetData(data)
 }
-func UserReg(writer http.ResponseWriter, userRequest *request.UserRegStruct) {
+func UserReg(regRequest request.UserRegRequest) {
 
 	//if result := userModel.GetUserByAcc(userRequest.Mobile); result != false {
 	//	response.Fail(writer, core.USER_EXIST)

@@ -3,8 +3,7 @@ package main
 import (
 	"github.com/jinzhu/gorm"
 	"go-web/core"
-	"log"
-	"net/http"
+	"go-web/routes"
 )
 
 func init() {
@@ -20,16 +19,15 @@ func main() {
 	// })
 
 	//test(w http.ResponseWriter)
-	// conf := config.ReadConfig();
-	// log.Println("conf", conf)
+
 	// http.HandleFunc("/", httpHandle)
 
 	//http.HandleFunc("/user/login", controller.UserLogin)
 	//http.HandleFunc("/user/reg", controller.UserReg)
-
-	core.ReadMysqlConf()
-	err := http.ListenAndServe(":8000", nil)
-	if err != nil {
-		log.Fatal("Listen", err)
-	}
+	_ = routes.Router().Run(":8000")
+	//core.ReadMysqlConf()
+	//err := http.ListenAndServe(":8000", nil)
+	//if err != nil {
+	//	log.Fatal("Listen", err)
+	//}
 }

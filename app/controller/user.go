@@ -1,25 +1,26 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"go-web/app/request"
-	"go-web/app/service"
+
 	"go-web/core"
-	"net/http"
 )
 
 //UserLogin func
 func UserLogin(c *gin.Context) {
 	if c.Request == nil {
-		//http.Error(writer, "Please send a request body", 400)
-		core.Fail(core.SYSTEMERROR)
-		c.JSON(http.StatusOK, core.Fail(core.SYSTEMERROR))
+		core.JsonResp(c, core.Fail(core.SYSTEMERROR))
 		return
 	}
-	user := request.UserLogin(c.Request)
-	service.UserLogin(writer, user)
+	buf := make([]byte, 1024)
+	n, _ := c.Request.Body.Read(buf)
+	fmt.Println(string(buf[0:n]))
+
+	//resp := service.UserLogin(request.UserLogin(c))
+	//core.JsonResp(c, resp)
 }
-func UserReg(writer http.ResponseWriter, r *http.Request) {
-	userRequest := request.UserReg(r)
-	service.UserReg(writer, userRequest)
+func UserReg(c *gin.Context) {
+	//userRequest := request.UserReg(r)
+	//service.UserReg(userRequest)
 }
