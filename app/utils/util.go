@@ -4,23 +4,12 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
-	"net/http"
-	"strings"
 )
 
-func Bind(req *http.Request, obj interface{}) error {
-	contentType := req.Header.Get("Content-Type")
-	//如果是简单的json
-	if strings.Contains(strings.ToLower(contentType), "application/json") {
-		return BindJson(req, obj)
-	}
-	return errors.New("当前方法暂不支持")
-}
-
-func BindJson(req *http.Request, obj interface{}) error {
-	s, err := ioutil.ReadAll(req.Body) //把  body 内容读入字符串
+func BindJson(c *gin.Context, obj interface{}) error {
+	s, err := ioutil.ReadAll(c.Request.Body) //把  body 内容读入字符串
 	if err != nil {
 		return err
 	}

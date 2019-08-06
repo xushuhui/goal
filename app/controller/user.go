@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-
+	"go-web/app/request"
+	"go-web/app/service"
 	"go-web/core"
 )
 
@@ -13,12 +13,8 @@ func UserLogin(c *gin.Context) {
 		core.JsonResp(c, core.Fail(core.SYSTEMERROR))
 		return
 	}
-	buf := make([]byte, 1024)
-	n, _ := c.Request.Body.Read(buf)
-	fmt.Println(string(buf[0:n]))
-
-	//resp := service.UserLogin(request.UserLogin(c))
-	//core.JsonResp(c, resp)
+	resp := service.UserLogin(request.UserLogin(c))
+	core.JsonResp(c, resp)
 }
 func UserReg(c *gin.Context) {
 	//userRequest := request.UserReg(r)

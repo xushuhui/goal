@@ -50,10 +50,8 @@ func readConf(fileName string) []byte {
 	return yamlFile
 }
 func ReadMysqlConf() Mysql {
-
 	return conf.Mysql
 }
 func ReadRedisConf() Redis {
-
 	return conf.Redis
 }

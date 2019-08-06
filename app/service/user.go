@@ -9,7 +9,8 @@ import (
 
 //var userModel *models.User
 
-func UserLogin(loginRequest *request.UserLoginRequest) []byte {
+func UserLogin(loginRequest *request.UserLoginRequest) core.Response {
+
 	//models.GetUserByAcc(userRequest.Mobile)
 	//fmt.Println(userModel.UserID)
 	//if result:= userModel.GetUserByAcc(userRequest.Mobile); result == false {
@@ -26,7 +27,7 @@ func UserLogin(loginRequest *request.UserLoginRequest) []byte {
 	data["id"] = 1
 	data["token"] = "test"
 	fmt.Println(data)
-	return core.SetData(data)
+	return core.Succeed()
 }
 func UserReg(regRequest request.UserRegRequest) {
 

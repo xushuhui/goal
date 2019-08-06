@@ -6,14 +6,13 @@ import (
 	"net/http"
 )
 
-func VerifyToken() gin.HandlerFunc {
+func AuthToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.FormValue("token")
+		token := c.Request.Header.Get("bear ")
 		if len(token) < 3 {
 			c.Abort()
-
 			c.JSON(http.StatusOK, core.Fail(core.SYSTEMERROR))
-
 		}
+		c.Next()
 	}
 }

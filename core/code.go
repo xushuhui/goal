@@ -11,7 +11,7 @@ const (
 	USEREXIST
 )
 
-var errormap map[int]string = map[int]string{
+var codeMap map[int]string = map[int]string{
 	OK:             "OK",
 	DBCONNECTERROR: "db connect error",
 	SQLERROR:       "db sql error",
@@ -22,6 +22,6 @@ var errormap map[int]string = map[int]string{
 	USEREXIST:      "user exist",
 }
 
-func GetMsg(errorcode int) string {
-	return errormap[errorcode]
+func GetMsg(code int) string {
+	return codeMap[code]
 }

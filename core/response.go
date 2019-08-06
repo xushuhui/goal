@@ -1,48 +1,37 @@
 package core
 
 import (
-	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"log"
+
 	"net/http"
 )
 
 type Response struct {
-	ErrorCode int         `json:"error_code"`
-	Msg       string      `json:"msg"`
-	Data      interface{} `json:"data,omitempty"`
-}
-type Data struct {
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
 	Data interface{} `json:"data,omitempty"`
 }
 
-func Fail(error_code int) []byte {
-	return Resp(error_code, GetMsg(error_code), nil)
+func Fail(code int) Response {
+	return Resp(code, GetMsg(code), nil)
 }
-func FailMsg(error_code int, msg string) []byte {
-	return Resp(error_code, msg, nil)
+func FailMsg(code int, msg string) Response {
+	return Resp(code, msg, nil)
 }
-func Succeed() []byte {
+func Succeed() Response {
 	return Resp(OK, GetMsg(OK), nil)
 }
-func SetData(data interface{}) []byte {
+func SetData(data interface{}) Response {
 	return Resp(OK, GetMsg(OK), data)
 }
 
-func Resp(error_code int, msg string, data interface{}) []byte {
-	//writer.Header().Set("Content-Type", "application/json")
-	//writer.WriteHeader(http.StatusOK) //设置200状态
-	res := Response{
-		ErrorCode: error_code,
-		Msg:       msg,
-		Data:      data,
+func Resp(code int, msg string, data interface{}) Response {
+	return Response{
+		Code: code,
+		Msg:  msg,
+		Data: data,
 	}
-	ret, err := json.Marshal(res)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	return ret
 }
-func JsonResp(c *gin.Context, resp []byte) {
+func JsonResp(c *gin.Context, resp Response) {
 	c.JSON(http.StatusOK, resp)
 }

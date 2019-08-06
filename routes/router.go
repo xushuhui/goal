@@ -8,10 +8,10 @@ import (
 
 func Router() *gin.Engine {
 	router := gin.Default()
-
+	router.Use(middleware.Cors())
 	router.POST("/user/login", controller.UserLogin)
 	router.POST("/user/register", controller.UserReg)
-	router.Use(middleware.VerifyToken())
+	router.Use(middleware.AuthToken())
 	return router
 
 }
