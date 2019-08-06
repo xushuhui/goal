@@ -1,32 +1,22 @@
 package core
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/go-redis/redis"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 	"os"
+
+	//_ "github.com/go-sql-driver/mysql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-var dbConn *sql.DB
 var redisConn *redis.Client
 
 func InitEnv() {
-	initMysql()
+	GetDBConn()
 	initRedis()
 }
-func initMysql() {
-	conf := ReadMysqlConf()
-	//"test:test@tcp(127.0.0.1:3306)/fileserver?charset=utf8"
-	mysqlSource := conf.User + ":" + conf.Pwd + "@tcp(" + conf.Host + ")/" + conf.Dbname + "?charset=utf8"
-	dbConn, _ = sql.Open("mysql", mysqlSource)
-	dbConn.SetMaxOpenConns(1000)
-	err := dbConn.Ping()
-	if err != nil {
-		fmt.Println("Failed to connect to mysql, err:" + err.Error())
-		os.Exit(1)
-	}
-}
+
 func initRedis() {
 	conf := ReadRedisConf()
 	redisConn := redis.NewClient(&redis.Options{
@@ -43,8 +33,23 @@ func initRedis() {
 }
 
 // DBConn : 返回数据库连接对象
-func DBConn() *sql.DB {
-	return dbConn
+func GetDBConn() *gorm.DB {
+
+	conf := ReadMysqlConf()
+	mysqlSource := conf.User + ":" + conf.Pwd + "@tcp(" + conf.Host + ")/" + conf.Dbname + "?charset=utf8"
+
+	DbConn, err := gorm.Open("mysql", mysqlSource)
+
+	DbConn.SingularTable(true)
+	if err != nil {
+		fmt.Println("Failed to connect to mysql, err:" + err.Error())
+		os.Exit(1)
+	}
+
+	gorm.DefaultTableNameHandler = func(DbConn *gorm.DB, defaultTableName string) string {
+		return "zhj_" + defaultTableName
+	}
+	return DbConn
 }
 func RedisConn() *redis.Client {
 	return redisConn

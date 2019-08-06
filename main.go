@@ -1,20 +1,14 @@
 package main
 
 import (
-	"github.com/jinzhu/gorm"
+	"fmt"
 	"go-web/core"
 	"go-web/routes"
 )
 
-func init() {
-	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return "zhj_" + defaultTableName
-	}
-
-}
 func main() {
 	core.InitEnv()
-
+	fmt.Println(core.Md5Encode("123456"))
 	_ = routes.Router().Run(":8000")
 
 }

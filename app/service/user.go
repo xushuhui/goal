@@ -1,33 +1,29 @@
 package service
 
 import (
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	"go-web/app/models"
 	"go-web/app/request"
 	"go-web/core"
+	"go-web/core/ext"
 )
 
 //var userModel *models.User
 
-func UserLogin(loginRequest *request.UserLoginRequest) core.Response {
+func UserLogin(loginRequest *request.UserLoginRequest) *core.Response {
 
-	//models.GetUserByAcc(userRequest.Mobile)
-	//fmt.Println(userModel.UserID)
-	//if result:= userModel.GetUserByAcc(userRequest.Mobile); result == false {
-	//	response.Fail(writer, core.NO_USER)
-	//	return
-	//}
-	//
-	//if !core.ValidatePassword(userRequest.Pwd, userModel.UserEntry, userModel.UserPwd) {
-	//	response.Fail(writer, core.ERROR_PASSWORD)
-	//	return
-	//}
+	model, err := models.GetUserByAcc(loginRequest.Mobile)
+	if err == gorm.ErrRecordNotFound {
+		return core.Fail(core.NOUSER)
+	}
+
+	if !core.ValidatePassword(loginRequest.Pwd, model.UserEntry, model.UserPwd) {
+		return core.Fail(core.ERRORPASSWORD)
+	}
 	data := make(map[string]interface{})
-
-	data["id"] = 1
-	data["token"] = "test"
-	fmt.Println(data)
-	return core.Succeed()
+	data["token"] = ext.GenerateToken(model.UserID)
+	return core.SetData(data)
 }
 func UserReg(regRequest request.UserRegRequest) {
 
@@ -35,6 +31,6 @@ func UserReg(regRequest request.UserRegRequest) {
 	//	response.Fail(writer, core.USER_EXIST)
 	//	return
 	//}
-	core.Succeed()
+	//core.Succeed()
 	return
 }

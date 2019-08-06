@@ -37,5 +37,6 @@ func MakePassword(plainpwd, salt string) string {
 	return Md5Encode(Md5Encode(plainpwd) + Md5Encode(salt))
 }
 func ValidatePassword(plainpwd, salt, password string) bool {
-	return MakePassword(plainpwd, salt) == password
+	pwd := MakePassword(plainpwd, salt)
+	return pwd == password
 }

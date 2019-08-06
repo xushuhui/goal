@@ -9,10 +9,10 @@ import (
 )
 
 // 带权限创建令牌
-func MakeToken(userId int) string {
+func GenerateToken(user interface{}) string {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": userId,
+		"user_id": user,
 		"exp":     time.Now().Add(time.Hour * 480).Unix(),
 	})
 

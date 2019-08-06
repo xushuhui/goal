@@ -11,7 +11,7 @@ const (
 	USEREXIST
 )
 
-var codeMap map[int]string = map[int]string{
+var codeMap = map[int]string{
 	OK:             "OK",
 	DBCONNECTERROR: "db connect error",
 	SQLERROR:       "db sql error",

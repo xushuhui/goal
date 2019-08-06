@@ -1,34 +1,32 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"go-web/core"
 )
 
 type User struct {
-	UserID    uint   `gorm:"primary_key"`
-	UserAcc   string `gorm:"column:user_acc"`
-	UserPwd   string `gorm:"column:user_pwd"`
-	UserEntry string `gorm:"column:user_entry"`
+	UserID    uint `gorm:"primary_key"`
+	UserAcc   string
+	UserPwd   string
+	UserEntry string
 }
-
-func (User) TableName() string {
-	return "user"
-}
-
-var db *gorm.DB
-var err error
 
 func init() {
-	db, err = gorm.Open("mysql", "root:root@/zhj?charset=utf8&parseTime=True&loc=Local")
-	if err != nil {
-		panic(err)
-	}
-
-	db.SingularTable(true)
+	//db, err = gorm.Open("mysql", "root:root@/zhj?charset=utf8&parseTime=True&loc=Local")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
+	//	return "prefix_" + defaultTableName;
+	//}
+	//db.SingularTable(true)
 }
-func GetUserByAcc(mobile string) (res interface{}) {
-	var user User
-	err := db.Where("user_acc = ?", mobile).First(&user)
-	return err
 
+func GetUserByAcc(mobile string) (*User, error) {
+	var user User
+	err := core.GetDBConn().Where("user_acc = ?", mobile).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }

@@ -12,26 +12,27 @@ type Response struct {
 	Data interface{} `json:"data,omitempty"`
 }
 
-func Fail(code int) Response {
+func Fail(code int) *Response {
 	return Resp(code, GetMsg(code), nil)
 }
-func FailMsg(code int, msg string) Response {
+func FailMsg(code int, msg string) *Response {
 	return Resp(code, msg, nil)
 }
-func Succeed() Response {
+func Succeed() *Response {
 	return Resp(OK, GetMsg(OK), nil)
 }
-func SetData(data interface{}) Response {
+func SetData(data interface{}) *Response {
 	return Resp(OK, GetMsg(OK), data)
 }
 
-func Resp(code int, msg string, data interface{}) Response {
-	return Response{
+func Resp(code int, msg string, data interface{}) *Response {
+
+	return &Response{
 		Code: code,
 		Msg:  msg,
 		Data: data,
 	}
 }
-func JsonResp(c *gin.Context, resp Response) {
+func JsonResp(c *gin.Context, resp *Response) {
 	c.JSON(http.StatusOK, resp)
 }
