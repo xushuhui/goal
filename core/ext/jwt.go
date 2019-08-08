@@ -1,11 +1,10 @@
 package ext
 
 import (
-	"fmt"
+	"errors"
+	"github.com/dgrijalva/jwt-go"
 	"strings"
 	"time"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 // 带权限创建令牌
@@ -25,24 +24,42 @@ func GenerateToken(user interface{}) string {
 }
 
 // ParseToken parse JWT token in http header.
-func ParseToken(authString string) (t *jwt.Token, err error) {
+func ParseToken(authString string) (t jwt.MapClaims, err error) {
 
 	kv := strings.Split(authString, " ")
 	if len(kv) != 2 || kv[0] != "Bearer" {
-		//return nil
+		return nil, errors.New("token error")
 	}
 	tokenString := kv[1]
-
 	// Parse token
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return []byte("mykey"), nil
 	})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	if !token.Valid {
-		fmt.Println("vaild token")
+		return nil, errors.New("token error")
 	}
 
-	return token, nil
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims, nil
+	} else {
+		return nil, errors.New("token error")
+	}
+
 }
+
+//func ParseToken(token string) (*Claims, error) {
+//	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+//		return jwtSecret, nil
+//	})
+//
+//	if tokenClaims != nil {
+//		if claims, ok := tokenClaims.Claims.(*Claims); ok && tokenClaims.Valid {
+//			return claims, nil
+//		}
+//	}
+//
+//	return nil, err
+//}

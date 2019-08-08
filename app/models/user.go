@@ -30,3 +30,12 @@ func GetUserByAcc(mobile string) (*User, error) {
 	}
 	return &user, nil
 }
+func GetUserById(userId int) (*User, error) {
+	var user User
+	err := core.GetDBConn().First(&user, userId).Error
+
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}

@@ -26,16 +26,13 @@ type Redis struct {
 	Host string `yaml:"host"`
 }
 
-var env *Env
 var conf *Conf
 
-func init() {
-	yamlFile := readConf("app")
+const ENV = "dev"
 
-	if err := yaml.Unmarshal(yamlFile, &env); err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
-	yamlFile = readConf(env.Env)
+func init() {
+
+	yamlFile := readConf(ENV)
 	if err := yaml.Unmarshal(yamlFile, &conf); err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}

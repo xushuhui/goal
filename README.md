@@ -4,7 +4,7 @@ go web framework
 ### TODO
 - [x] controller 
 - [x] config 
-- [x] error_code 
+- [x] code
 - [x] request 
 - [x] response 
 - [x] service
@@ -12,11 +12,11 @@ go web framework
 - [x] model
 - [x] service
 - [ ] validate
-- [ ] route
-- [ ] middleware
+- [x] route
+- [x] middleware
 - [x] json web token
-- [ ] cors
+- [x] cors
 - [ ] tests
 - [ ] log
-redis pool
-mysql pool
+- [ ] redis pool
+- [ ] mysql pool

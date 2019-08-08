@@ -12,6 +12,7 @@ func Router() *gin.Engine {
 	router.POST("/user/login", controller.UserLogin)
 	router.POST("/user/register", controller.UserReg)
 	router.Use(middleware.AuthToken())
+	router.GET("/book", controller.BookList)
 	return router
 
 }

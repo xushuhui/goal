@@ -9,6 +9,7 @@ const (
 	NOUSER
 	ERRORPASSWORD
 	USEREXIST
+	TOKENMUST
 )
 
 var codeMap = map[int]string{
@@ -20,6 +21,7 @@ var codeMap = map[int]string{
 	NOUSER:         "no user",
 	ERRORPASSWORD:  "pass error",
 	USEREXIST:      "user exist",
+	TOKENMUST:      "token must",
 }
 
 func GetMsg(code int) string {

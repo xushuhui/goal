@@ -9,8 +9,6 @@ import (
 	"go-web/core/ext"
 )
 
-//var userModel *models.User
-
 func UserLogin(loginRequest *request.UserLoginRequest) *core.Response {
 
 	model, err := models.GetUserByAcc(loginRequest.Mobile)
