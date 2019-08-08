@@ -31,7 +31,6 @@ var conf *Conf
 const ENV = "dev"
 
 func init() {
-
 	yamlFile := readConf(ENV)
 	if err := yaml.Unmarshal(yamlFile, &conf); err != nil {
 		log.Fatalf("Unmarshal: %v", err)

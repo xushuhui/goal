@@ -10,7 +10,6 @@ import (
 )
 
 func UserLogin(loginRequest *request.UserLoginRequest) *core.Response {
-
 	model, err := models.GetUserByAcc(loginRequest.Mobile)
 	if err == gorm.ErrRecordNotFound {
 		return core.Fail(core.NOUSER)

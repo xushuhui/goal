@@ -20,3 +20,4 @@ go web framework
 - [ ] log
 - [ ] redis pool
 - [ ] mysql pool
+insert into zhj_user (name) values ('t1')
