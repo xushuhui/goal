@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"go-web/app/request"
-	"go-web/app/service"
+	"go-web/app/services"
 	"go-web/core"
 )
 
@@ -13,7 +13,7 @@ func UserLogin(c *gin.Context) {
 		core.JsonResp(c, core.Fail(core.SYSTEMERROR))
 		return
 	}
-	resp := service.UserLogin(request.UserLogin(c))
+	resp := services.UserLogin(request.UserLogin(c))
 	core.JsonResp(c, resp)
 }
 func UserReg(c *gin.Context) {

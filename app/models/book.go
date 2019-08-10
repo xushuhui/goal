@@ -1,12 +1,6 @@
 package models
 
 type Book struct {
-	ID uint `gorm:"primary_key"`
-}
-
-func GetBooks() {
-
-}
-func GetBook(Id int) {
-
+	ID   uint   `sql:"id"`
+	Name string `sql:"name"`
 }

@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	_ "github.com/go-sql-driver/mysql"
