@@ -5,16 +5,3 @@
  * Email: xushuhui@qq.com
  * 博客: https://www.phpst.cn
  */
-package main
-
-import (
-	"go-web/core"
-	"go-web/routes"
-)
-
-func main() {
-	core.InitEnv()
-
-	_ = routes.Router().Run(":8000")
-
-}
