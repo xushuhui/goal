@@ -15,7 +15,7 @@ func UserLogin(loginRequest *request.UserLoginRequest) *core.Response {
 		return core.Fail(core.NOUSER)
 	}
 
-	if !core.ValidatePassword(loginRequest.Pwd, model.UserEntry, model.UserPwd) {
+	if !core.ValidatePassword(loginRequest.Password, model.UserEntry, model.UserPwd) {
 		return core.Fail(core.ERRORPASSWORD)
 	}
 	data := make(map[string]interface{})

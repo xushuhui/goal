@@ -6,29 +6,29 @@ import (
 )
 
 type UserLoginRequest struct {
-	Mobile string `json:"mobile"`
-	Pwd    string `json:"password"`
+	Mobile   string `json:"mobile"`
+	Password string `json:"password"`
 }
 
 func UserLogin(c *gin.Context) *UserLoginRequest {
-	var user *UserLoginRequest
-	err := utils.BindJson(c, &user)
+	var request *UserLoginRequest
+	err := utils.BindJson(c, &request)
 	if err != nil {
 		panic(err)
 	}
-	return user
+	return request
 }
 
 type UserRegRequest struct {
-	Mobile string `json:"mobile"`
-	Pwd    string `json:"password"`
+	Mobile   string `json:"mobile"`
+	Password string `json:"password"`
 }
 
 func UserReg(c *gin.Context) *UserRegRequest {
-	var user *UserRegRequest
-	err := utils.BindJson(c, &user)
+	var request *UserRegRequest
+	err := utils.BindJson(c, &request)
 	if err != nil {
 		panic(err)
 	}
-	return user
+	return request
 }

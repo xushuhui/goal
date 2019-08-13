@@ -16,6 +16,7 @@ func BindJson(c *gin.Context, obj interface{}) error {
 	err = json.Unmarshal(s, obj)
 	return err
 }
+
 func Md5Encode(data string) string {
 	h := md5.New()
 	h.Write([]byte(data)) // 需要加密的字符串为 123456

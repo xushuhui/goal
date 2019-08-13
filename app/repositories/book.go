@@ -35,17 +35,6 @@ func init() {
 	}
 }
 
-//func Conn() (err error)  {
-//	if mysqlConn ==nil {
-//		mysql,err := ext.NewMysqlConn()
-//		if err !=nil {
-//			return err
-//		}
-//		mysqlConn=mysql
-//	}
-//
-//	return nil
-//}
 func (b *BookMangerRepository) Insert(book *models.Book) (productID int64, err error) {
 
 	sql := "INSERT " + b.table + " set userID=?,productID=?,orderStatus=?"
