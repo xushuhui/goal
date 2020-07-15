@@ -8,19 +8,20 @@
 package routes
 
 import (
+	"goal/api"
+	"goal/middleware"
+
 	"github.com/gin-gonic/gin"
-	"go-web/app/controller"
-	"go-web/app/middleware"
 )
 
 func Router() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
-	router.Use(middleware.Statcost())
-	router.POST("/user/login", controller.UserLogin)
-	router.POST("/user/register", controller.UserReg)
-	router.Use(middleware.AuthToken())
-	router.GET("/book", controller.BookList)
+	router.Use(middleware.StatCost())
+	router.POST("/user/login", api.UserLogin)
+	router.POST("/user/register", api.UserReg)
+	router.Use(middleware.Auth())
+	router.GET("/book", api.BookList)
 	return router
 
 }

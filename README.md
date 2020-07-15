@@ -1,4 +1,4 @@
-## go-web
+## goal
 go web framework
 
 ### TODO

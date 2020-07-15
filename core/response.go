@@ -3,36 +3,44 @@ package core
 import (
 	"github.com/gin-gonic/gin"
 
-	"net/http"
+	errCode "goal/code"
 )
 
-type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data,omitempty"`
+// JsonResponse 数据返回通用 JSON 数据结构
+type JsonResponse struct {
+	Code    int         `json:"code"`    // 错误码 ((0: 成功，1: 失败，>1: 错误码))
+	Message string      `json:"message"` // 提示信息
+	Data    interface{} `json:"data"`    // 返回数据 (业务接口定义具体数据结构)
 }
 
-func Fail(code int) *Response {
-	return Resp(code, GetMsg(code), nil)
+func ParseRequest(c *gin.Context, request interface{}) (err error) {
+	return c.ShouldBind(request)
 }
-func FailMsg(code int, msg string) *Response {
-	return Resp(code, msg, nil)
+func FailResp(c *gin.Context, code int) {
+	c.AbortWithStatusJSON(200, JsonResponse{
+		Code:    code,
+		Message: errCode.GetMsg(code),
+	})
+	return
 }
-func Succeed() *Response {
-	return Resp(OK, GetMsg(OK), nil)
-}
-func SetData(data interface{}) *Response {
-	return Resp(OK, GetMsg(OK), data)
+func ErrorParamsResp(c *gin.Context, msg string) {
+	c.AbortWithStatusJSON(200, JsonResponse{
+		Code:    errCode.InvalidParams,
+		Message: msg,
+	})
+	return
 }
 
-func Resp(code int, msg string, data interface{}) *Response {
-
-	return &Response{
-		Code: code,
-		Msg:  msg,
-		Data: data,
-	}
+func SuccessResp(c *gin.Context) {
+	c.JSON(200, JsonResponse{
+		Code:    0,
+		Message: errCode.GetMsg(0),
+	})
 }
-func JsonResp(c *gin.Context, resp *Response) {
-	c.JSON(http.StatusOK, resp)
+func SetData(c *gin.Context, data interface{}) {
+	c.JSON(200, JsonResponse{
+		Code:    0,
+		Message: errCode.GetMsg(0),
+		Data:    data,
+	})
 }
