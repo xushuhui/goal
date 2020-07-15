@@ -5,7 +5,7 @@ import (
 )
 
 //UserLogin func
-func UserLogin(c *gin.Context) {
+func Login(c *gin.Context) {
 
 }
 func UserReg(c *gin.Context) {
