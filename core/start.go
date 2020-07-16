@@ -5,7 +5,6 @@ import (
 )
 
 func StartModule() {
-
 	initRedis()
 	InitValidate()
 	DebugEnv()

@@ -1,4 +1,4 @@
-package conf
+package config
 
 import (
 	"github.com/go-ini/ini"
@@ -15,6 +15,7 @@ var (
 	HTTPPort string
 
 	JwtSecret     string
+	AppName       string
 	ReadTimeout   time.Duration
 	WriteTimeout  time.Duration
 	DBType        string
@@ -60,6 +61,7 @@ func loadApp() {
 		log.Fatalf("Fail to get section 'app': %v", err)
 	}
 	JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
+	AppName = sec.Key("AppName").MustString("app")
 }
 func loadDB() {
 	sec, err := Cfg.GetSection("database")

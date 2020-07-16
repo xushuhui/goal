@@ -3,7 +3,7 @@ package route
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"goal/conf"
+	"goal/config"
 	"log"
 	"net/http"
 	"time"
@@ -14,14 +14,14 @@ var (
 )
 
 func HttpServerRun() {
-	gin.SetMode(conf.RunMode)
+	gin.SetMode(config.RunMode)
 	r := InitRouter()
-	port := conf.HTTPPort
+	port := config.HTTPPort
 	HttpSrvHandler = &http.Server{
 		Addr:         port,
 		Handler:      r,
-		ReadTimeout:  conf.ReadTimeout,
-		WriteTimeout: conf.WriteTimeout,
+		ReadTimeout:  config.ReadTimeout,
+		WriteTimeout: config.WriteTimeout,
 	}
 	go func() {
 		log.Printf(" [INFO] HttpServerRun:%s\n", port)
