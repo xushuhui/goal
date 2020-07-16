@@ -23,6 +23,17 @@ var (
 	RedisHost     string
 	RedisPassword string
 )
+var (
+	ApiAuthConfig = map[string]map[string]string{
+		// 调用方
+		"DEMO": {
+			"md5": "IgkibX71IEf382PT",
+			"aes": "IgkibX71IEf382PT",
+			"rsa": "rsa/public.pem",
+		},
+	}
+	AppSignExpiry = "120"
+)
 
 func init() {
 	var err error

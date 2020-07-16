@@ -2,22 +2,20 @@
 go web framework
 
 ### TODO
-- [x] controller 
-- [x] config 
-- [x] code
-- [x] request 
-- [x] response 
-- [x] service
-- [x] database
-- [x] model
-- [x] service
-- [ ] validate
-- [x] route
-- [x] middleware
+
+- [x] mysql
+- [x] redis
+- [x] validate 验证信息
 - [x] json web token
 - [x] cors
+- [x] 自定义响应
+- [x] 错误码和提示信息
+- [x] 统一错误处理
+- [x] log 日志
+- [x] config 配置
 - [ ] tests
-- [ ] log
-- [ ] redis pool
-- [ ] mysql pool
-insert into zhj_user (name) values ('t1')
+
+- [ ] alarm 服务器错误警告（邮箱，钉钉）
+- [ ] websocket server
+- [ ] tcp server
+- [ ] 请求参数签名

@@ -14,6 +14,6 @@ require (
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/stretchr/testify v1.6.1 // indirect
-	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
+	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
 	gopkg.in/ini.v1 v1.57.0 // indirect
-	)
+)

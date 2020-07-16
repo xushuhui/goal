@@ -23,7 +23,7 @@ func FailResp(c *gin.Context, code int) {
 	})
 	return
 }
-func ErrorParamsResp(c *gin.Context, msg string) {
+func InvalidParamsResp(c *gin.Context, msg string) {
 	c.AbortWithStatusJSON(200, JsonResponse{
 		Code:    errCode.InvalidParams,
 		Message: msg,

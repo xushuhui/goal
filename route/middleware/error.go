@@ -30,7 +30,7 @@ func ErrorHandle() gin.HandlerFunc {
 			errStr = e.Err.Error()
 		}
 
-		core.ErrorParamsResp(c, errStr)
+		core.InvalidParamsResp(c, errStr)
 	}
 
 }
