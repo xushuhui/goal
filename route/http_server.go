@@ -1,10 +1,9 @@
-package core
+package route
 
 import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"goal/config"
-	"goal/route"
 	"log"
 	"net/http"
 	"time"
@@ -16,7 +15,7 @@ var (
 
 func HttpServerRun() {
 	gin.SetMode(config.RunMode)
-	r := route.InitRouter()
+	r := InitRouter()
 	port := config.HTTPPort
 	HttpSrvHandler = &http.Server{
 		Addr:         port,

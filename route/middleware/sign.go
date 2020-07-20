@@ -15,14 +15,13 @@ import (
 )
 
 // AES 对称加密
-func SetUp() gin.HandlerFunc {
+func Sign() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
 		sign, err := verifySign(c)
 
 		if sign != nil {
-
 			core.InvalidParamsResp(c, "Debug Sign")
 			return
 		}

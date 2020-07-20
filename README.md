@@ -13,9 +13,9 @@ go web framework
 - [x] 统一错误处理
 - [x] log 日志
 - [x] config 配置
+- [x] 请求参数签名
 - [ ] tests
 
 - [ ] alarm 服务器错误警告（邮箱，钉钉）
 - [ ] websocket server
 - [ ] tcp server
-- [ ] 请求参数签名

@@ -9,6 +9,7 @@ package main
 
 import (
 	"goal/core"
+	"goal/route"
 	"os"
 	"os/signal"
 	"syscall"
@@ -18,10 +19,10 @@ func main() {
 
 	core.StartModule()
 
-	core.HttpServerRun()
+	route.HttpServerRun()
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGKILL, syscall.SIGQUIT, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	core.HttpServerStop()
+	route.HttpServerStop()
 
 }

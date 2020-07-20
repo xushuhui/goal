@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	cd "goal/app/code"
 	"goal/core"
-	"goal/ext"
+	"goal/lib"
 	"time"
 )
 
@@ -17,7 +17,7 @@ func Auth() gin.HandlerFunc {
 			return
 		}
 
-		claims, err := ext.ParseToken(Authorization)
+		claims, err := lib.ParseToken(Authorization)
 		if err != nil {
 			core.FailResp(c, cd.ErrorAuthToken)
 			return
