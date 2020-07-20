@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"goal/config"
 	"goal/core"
 	"goal/utils"
 	"log"
@@ -12,10 +13,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	AppAccessLogName = "app-access.log"
-	AppErrorLogName  = "app-error.log"
-	AppGrpcLogName   = "app-grpc.log"
+var (
+	AppAccessLogName = config.AppName + "-access.log"
+	AppErrorLogName  = config.AppName + "-error.log"
+	AppGrpcLogName   = config.AppName + "-grpc.log"
 )
 
 type bodyLogWriter struct {
@@ -36,10 +37,8 @@ func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		bodyLogWriter := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
-
 		//开始时间
 		startTime := utils.GetCurrentMilliUnix()
-
 		//处理请求
 		c.Next()
 		//结束时间
