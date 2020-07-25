@@ -14,9 +14,9 @@ import (
 )
 
 var (
-	AppAccessLogName = config.AppName + "-access.log"
-	AppErrorLogName  = config.AppName + "-error.log"
-	AppGrpcLogName   = config.AppName + "-grpc.log"
+	AppAccessLogName = config.AppSetting.AppName + "-access.log"
+	AppErrorLogName  = config.AppSetting.AppName + "-error.log"
+	AppGrpcLogName   = config.AppSetting.AppName + "-grpc.log"
 )
 
 type bodyLogWriter struct {

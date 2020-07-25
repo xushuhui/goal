@@ -14,14 +14,14 @@ var (
 )
 
 func HttpServerRun() {
-	gin.SetMode(config.RunMode)
+	gin.SetMode(config.ServerSetting.RunMode)
 	r := InitRouter()
-	port := config.HTTPPort
+	port := config.ServerSetting.HttpPort
 	HttpSrvHandler = &http.Server{
 		Addr:         port,
 		Handler:      r,
-		ReadTimeout:  config.ReadTimeout,
-		WriteTimeout: config.WriteTimeout,
+		ReadTimeout:  config.ServerSetting.ReadTimeout,
+		WriteTimeout: config.ServerSetting.WriteTimeout,
 	}
 	go func() {
 		log.Printf(" [INFO] HttpServerRun:%s\n", port)

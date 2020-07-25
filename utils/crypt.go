@@ -63,3 +63,9 @@ func pkcs5UnPadding(decrypted []byte) []byte {
 	unPadding := int(decrypted[length-1])
 	return decrypted[:(length - unPadding)]
 }
+func EncodeMD5(value string) string {
+	m := md5.New()
+	m.Write([]byte(value))
+
+	return hex.EncodeToString(m.Sum(nil))
+}

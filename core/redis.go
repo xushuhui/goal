@@ -20,9 +20,9 @@ func initRedis() {
 }
 func NewClient() {
 	RDB = redis.NewClient(&redis.Options{
-		Addr:     config.RedisHost,
-		Password: config.RedisPassword, // no password set
-		DB:       0,                    // use default DB
+		Addr:     config.RedisSetting.Host,
+		Password: config.RedisSetting.Password, // no password set
+		DB:       0,                            // use default DB
 	})
 
 }
