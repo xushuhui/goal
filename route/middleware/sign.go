@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"goal/config"
 	"goal/core"
+	"goal/setting"
 	"goal/utils"
 	"net/url"
 	"sort"
@@ -45,7 +45,7 @@ func verifySign(c *gin.Context) (map[string]string, error) {
 	ts := strings.Join(c.Request.Form["ts"], "")
 	var appSecret string
 	// 验证来源
-	value, ok := config.ApiAuthConfig[ak]
+	value, ok := setting.ApiAuthConfig[ak]
 	if ok {
 		appSecret = value["aes"]
 	} else {
@@ -70,7 +70,7 @@ func verifySign(c *gin.Context) (map[string]string, error) {
 
 	// 验证过期时间
 	timestamp := time.Now().Unix()
-	exp, _ := strconv.ParseInt(config.AppSignExpiry, 10, 64)
+	exp, _ := strconv.ParseInt(setting.AppSignExpiry, 10, 64)
 	tsInt, _ := strconv.ParseInt(ts, 10, 64)
 	if tsInt > timestamp || timestamp-tsInt >= exp {
 		return nil, errors.New("ts Error")

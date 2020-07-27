@@ -1,7 +1,7 @@
 package lib
 
 import (
-	"goal/config"
+	"goal/setting"
 	"goal/utils"
 	"io"
 	"io/ioutil"
@@ -28,11 +28,11 @@ func GetFileExt(name string) string {
 }
 
 func GetSavePath() string {
-	return config.AppSetting.UploadSavePath
+	return setting.AppSetting.UploadSavePath
 }
 
 func GetServerUrl() string {
-	return config.AppSetting.UploadServerUrl
+	return setting.AppSetting.UploadServerUrl
 }
 
 func CheckSavePath(dst string) bool {
@@ -46,7 +46,7 @@ func CheckContainExt(t FileType, name string) bool {
 	ext = strings.ToUpper(ext)
 	switch t {
 	case TypeImage:
-		for _, allowExt := range config.AppSetting.UploadImageAllowExts {
+		for _, allowExt := range setting.AppSetting.UploadImageAllowExts {
 			if strings.ToUpper(allowExt) == ext {
 				return true
 			}
@@ -62,7 +62,7 @@ func CheckMaxSize(t FileType, f multipart.File) bool {
 	size := len(content)
 	switch t {
 	case TypeImage:
-		if size >= config.AppSetting.UploadImageMaxSize*1024*1024 {
+		if size >= setting.AppSetting.UploadImageMaxSize*1024*1024 {
 			return true
 		}
 	}

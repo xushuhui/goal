@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	cd "goal/app/code"
+	cd "goal/app/errcode"
 	"goal/core"
 	"goal/lib"
 	"time"

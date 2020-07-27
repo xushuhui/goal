@@ -2,8 +2,9 @@ package core
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 
-	errCode "goal/app/code"
+	errCode "goal/app/errcode"
 )
 
 // JsonResponse 数据返回通用 JSON 数据结构
@@ -24,6 +25,7 @@ func FailResp(c *gin.Context, code int) {
 	return
 }
 func InvalidParamsResp(c *gin.Context, msg string) {
+
 	c.AbortWithStatusJSON(200, JsonResponse{
 		Code:    errCode.InvalidParams,
 		Message: msg,
@@ -50,3 +52,41 @@ func ServerError(c *gin.Context) {
 		Message: errCode.GetMsg(errCode.ServerError),
 	})
 }
+
+type Response struct {
+	Ctx *gin.Context
+}
+
+func NewResponse(ctx *gin.Context) *Response {
+	return &Response{
+		Ctx: ctx,
+	}
+}
+
+func (r *Response) ToResponse(data interface{}) {
+	if data == nil {
+		data = gin.H{}
+	}
+	r.Ctx.JSON(http.StatusOK, data)
+}
+
+func (r *Response) ToResponseList(list interface{}, totalRows int) {
+	r.Ctx.JSON(http.StatusOK, gin.H{
+		"list": list,
+		"pager": Pager{
+			Page:      GetPage(r.Ctx),
+			PageSize:  GetPageSize(r.Ctx),
+			TotalRows: totalRows,
+		},
+	})
+}
+
+//func (r *Response) ToErrorResponse(err *errcode.Error) {
+//	response := gin.H{"code": err.Code(), "msg": err.Msg()}
+//	details := err.Details()
+//	if len(details) > 0 {
+//		response["details"] = details
+//	}
+//
+//	r.Ctx.JSON(err.StatusCode(), response)
+//}

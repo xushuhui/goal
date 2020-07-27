@@ -4,19 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"goal/config"
 	"goal/core"
+	"goal/setting"
 	"goal/utils"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
-)
-
-var (
-	AppAccessLogName = config.AppSetting.AppName + "-access.log"
-	AppErrorLogName  = config.AppSetting.AppName + "-error.log"
-	AppGrpcLogName   = config.AppSetting.AppName + "-grpc.log"
 )
 
 type bodyLogWriter struct {
@@ -79,7 +73,7 @@ func Logger() gin.HandlerFunc {
 		accessLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)
 
 		accessLogJson, _ := utils.JsonEncode(accessLogMap)
-
+		AppAccessLogName := setting.AppSetting.AppName + "-access.log"
 		if f, err := os.OpenFile("log/"+AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); err != nil {
 			log.Println(err)
 		} else {
