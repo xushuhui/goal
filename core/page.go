@@ -7,6 +7,7 @@ import (
 )
 
 type Pager struct {
+	List interface{} `json:"list"`
 	// 页码
 	Page int `json:"page"`
 	// 每页数量

@@ -25,5 +25,7 @@ func NewClient() {
 		Password: setting.RedisSetting.Password, // no password set
 		DB:       0,                             // use default DB
 	})
-
+}
+func SelectDB(db int) {
+	RDB.Do("SELECT", db)
 }
