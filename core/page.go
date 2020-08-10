@@ -2,7 +2,7 @@ package core
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/setting"
+	"goal/global"
 	"goal/utils"
 )
 
@@ -28,10 +28,10 @@ func GetPage(c *gin.Context) int {
 func GetPageSize(c *gin.Context) int {
 	pageSize, _ := utils.StringToInt(c.Query("page_size"))
 	if pageSize <= 0 {
-		return setting.AppSetting.DefaultPageSize
+		return global.AppSetting.DefaultPageSize
 	}
-	if pageSize > setting.AppSetting.MaxPageSize {
-		return setting.AppSetting.MaxPageSize
+	if pageSize > global.AppSetting.MaxPageSize {
+		return global.AppSetting.MaxPageSize
 	}
 
 	return pageSize

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"goal/setting"
+	"goal/global"
 	"log"
 	"net/http"
 	"time"
@@ -15,15 +15,15 @@ var (
 )
 
 func HttpServerRun() {
-	fmt.Println("mode", setting.ServerSetting.RunMode)
-	gin.SetMode(setting.ServerSetting.RunMode)
+	fmt.Println("mode", global.ServerSetting.RunMode)
+	gin.SetMode(global.ServerSetting.RunMode)
 	r := InitRouter()
-	port := setting.ServerSetting.HttpPort
+	port := global.ServerSetting.HttpPort
 	HttpSrvHandler = &http.Server{
 		Addr:           ":" + port,
 		Handler:        r,
-		ReadTimeout:    setting.ServerSetting.ReadTimeout,
-		WriteTimeout:   setting.ServerSetting.WriteTimeout,
+		ReadTimeout:    global.ServerSetting.ReadTimeout,
+		WriteTimeout:   global.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 	go func() {

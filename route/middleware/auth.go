@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	cd "goal/app/errcode"
 	"goal/core"
 	"goal/lib"
+	"goal/pkg/errcode"
 	"time"
 )
 
@@ -13,17 +13,17 @@ func Auth() gin.HandlerFunc {
 		Authorization := c.Request.Header.Get("Authorization")
 
 		if Authorization == "" {
-			core.FailResp(c, cd.InvalidParams)
+			core.FailResp(c, errcode.InvalidParams)
 			return
 		}
 
 		claims, err := lib.ParseToken(Authorization)
 		if err != nil {
-			core.FailResp(c, cd.ErrorAuthToken)
+			core.FailResp(c, errcode.ErrorAuthToken)
 			return
 		}
 		if time.Now().Unix() > claims.ExpiresAt {
-			core.FailResp(c, cd.TimeoutAuthToken)
+			core.FailResp(c, errcode.TimeoutAuthToken)
 			return
 		}
 

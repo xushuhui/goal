@@ -2,11 +2,11 @@ package services
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/app/errcode"
 	"goal/app/model"
 	"goal/app/request"
 	"goal/core"
 	"goal/lib"
+	errcode2 "goal/pkg/errcode"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -19,7 +19,7 @@ func Login(c *gin.Context, req request.Login) (err error) {
 	// 正确密码验证
 	err = bcrypt.CompareHashAndPassword([]byte(userModel.Password), []byte(req.Password))
 	if err != nil {
-		core.FailResp(c, errcode.ErrorPassWord)
+		core.FailResp(c, errcode2.ErrorPassWord)
 		return
 	}
 	data, err := lib.GenerateToken(userModel.Id)

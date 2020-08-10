@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"goal/setting"
+	"goal/global"
+	"goal/pkg/setting"
 	"time"
 )
 
@@ -17,26 +18,27 @@ func init() {
 	//	log.Panicln("err:", err.Error())
 	//}
 }
+
 func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
-	db, err := gorm.Open(setting.DatabaseSetting.DBType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=Local",
-		setting.DatabaseSetting.UserName,
-		setting.DatabaseSetting.Password,
-		setting.DatabaseSetting.Host,
-		setting.DatabaseSetting.DBName,
-		setting.DatabaseSetting.Charset,
-		setting.DatabaseSetting.ParseTime,
+	db, err := gorm.Open(databaseSetting.DBType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=Local",
+		databaseSetting.UserName,
+		databaseSetting.Password,
+		databaseSetting.Host,
+		databaseSetting.DBName,
+		databaseSetting.Charset,
+		databaseSetting.ParseTime,
 	))
 	if err != nil {
 		return nil, err
 	}
 
-	if setting.ServerSetting.RunMode == "debug" {
+	if global.ServerSetting.RunMode == "debug" {
 		db.LogMode(true)
 	}
 	db.SingularTable(true)
-	db.Callback().Create().Replace("gorm:create_at", updateTimeStampForCreateCallback)
-	db.Callback().Update().Replace("gorm:update_at", updateTimeStampForUpdateCallback)
-	db.Callback().Delete().Replace("gorm:delete_at", deleteCallback)
+	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
+	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
+	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
 	db.DB().SetMaxIdleConns(databaseSetting.MaxIdleConns)
 	db.DB().SetMaxOpenConns(databaseSetting.MaxOpenConns)
 	//otgorm.AddGormCallbacks(db)

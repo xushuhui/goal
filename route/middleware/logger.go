@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"goal/core"
-	"goal/setting"
+	"goal/global"
 	"goal/utils"
 	"log"
 	"os"
@@ -73,7 +73,7 @@ func Logger() gin.HandlerFunc {
 		accessLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)
 
 		accessLogJson, _ := utils.JsonEncode(accessLogMap)
-		AppAccessLogName := setting.AppSetting.AppName + "-access.log"
+		AppAccessLogName := global.AppSetting.AppName + "-access.log"
 		if f, err := os.OpenFile("log/"+AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); err != nil {
 			log.Println(err)
 		} else {

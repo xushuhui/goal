@@ -2,8 +2,7 @@ package core
 
 import (
 	"github.com/go-redis/redis"
-
-	"goal/setting"
+	"goal/global"
 	"log"
 )
 
@@ -21,9 +20,9 @@ func initRedis() {
 }
 func NewClient() {
 	RDB = redis.NewClient(&redis.Options{
-		Addr:     setting.RedisSetting.Host,
-		Password: setting.RedisSetting.Password, // no password set
-		DB:       0,                             // use default DB
+		Addr:     global.RedisSetting.Host,
+		Password: global.RedisSetting.Password, // no password set
+		DB:       0,                            // use default DB
 	})
 }
 func SelectDB(db int) {

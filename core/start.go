@@ -2,7 +2,8 @@ package core
 
 import (
 	"flag"
-	"goal/setting"
+	"goal/global"
+	"goal/pkg/setting"
 	"log"
 	"strings"
 	"time"
@@ -42,36 +43,36 @@ func initSetting() error {
 	if err != nil {
 		return err
 	}
-	err = s.ReadSection("Server", &setting.ServerSetting)
+	err = s.ReadSection("Server", &global.ServerSetting)
 	if err != nil {
 		return err
 	}
-	err = s.ReadSection("App", &setting.AppSetting)
+	err = s.ReadSection("App", &global.AppSetting)
 	if err != nil {
 		return err
 	}
-	err = s.ReadSection("Database", &setting.DatabaseSetting)
+	err = s.ReadSection("Database", &global.DatabaseSetting)
 	if err != nil {
 		return err
 	}
-	err = s.ReadSection("JWT", &setting.JWTSetting)
+	err = s.ReadSection("JWT", &global.JWTSetting)
 	if err != nil {
 		return err
 	}
-	err = s.ReadSection("Email", &setting.EmailSetting)
+	err = s.ReadSection("Email", &global.EmailSetting)
 	if err != nil {
 		return err
 	}
 
-	setting.AppSetting.DefaultContextTimeout *= time.Second
-	setting.JWTSetting.Expire *= time.Second
-	setting.ServerSetting.ReadTimeout *= time.Second
-	setting.ServerSetting.WriteTimeout *= time.Second
+	global.AppSetting.DefaultContextTimeout *= time.Second
+	global.JWTSetting.Expire *= time.Second
+	global.ServerSetting.ReadTimeout *= time.Second
+	global.ServerSetting.WriteTimeout *= time.Second
 	if port != "" {
-		setting.ServerSetting.HttpPort = port
+		global.ServerSetting.HttpPort = port
 	}
 	if runMode != "" {
-		setting.ServerSetting.RunMode = runMode
+		global.ServerSetting.RunMode = runMode
 	}
 
 	return nil

@@ -2,7 +2,7 @@ package core
 
 import (
 	"github.com/gin-gonic/gin"
-	errCode "goal/app/errcode"
+	"goal/pkg/errcode"
 )
 
 // JsonResponse 数据返回通用 JSON 数据结构
@@ -18,14 +18,14 @@ func ParseRequest(c *gin.Context, request interface{}) (err error) {
 func FailResp(c *gin.Context, code int) {
 	c.AbortWithStatusJSON(200, JsonResponse{
 		Code:    code,
-		Message: errCode.GetMsg(code),
+		Message: errcode.GetMsg(code),
 	})
 	return
 }
 func InvalidParamsResp(c *gin.Context, msg string) {
 
 	c.AbortWithStatusJSON(200, JsonResponse{
-		Code:    errCode.InvalidParams,
+		Code:    errcode.InvalidParams,
 		Message: msg,
 	})
 	return
@@ -34,13 +34,13 @@ func InvalidParamsResp(c *gin.Context, msg string) {
 func SuccessResp(c *gin.Context) {
 	c.JSON(200, JsonResponse{
 		Code:    0,
-		Message: errCode.GetMsg(0),
+		Message: errcode.GetMsg(0),
 	})
 }
 func SetData(c *gin.Context, data interface{}) {
 	c.JSON(200, JsonResponse{
 		Code:    0,
-		Message: errCode.GetMsg(0),
+		Message: errcode.GetMsg(0),
 		Data:    data,
 	})
 }
@@ -48,7 +48,7 @@ func SetData(c *gin.Context, data interface{}) {
 func SetPage(c *gin.Context, list interface{}, totalRows int) {
 	c.JSON(200, JsonResponse{
 		Code:    0,
-		Message: errCode.GetMsg(0),
+		Message: errcode.GetMsg(0),
 		Data: Pager{
 			Page:      GetPage(c),
 			PageSize:  GetPageSize(c),
@@ -59,7 +59,7 @@ func SetPage(c *gin.Context, list interface{}, totalRows int) {
 }
 func ServerError(c *gin.Context) {
 	c.JSON(500, JsonResponse{
-		Code:    errCode.ServerError,
-		Message: errCode.GetMsg(errCode.ServerError),
+		Code:    errcode.ServerError,
+		Message: errcode.GetMsg(errcode.ServerError),
 	})
 }
