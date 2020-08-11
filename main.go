@@ -8,8 +8,8 @@
 package main
 
 import (
-	"goal/core"
-	"goal/route"
+	"goal/internal/route"
+	"goal/pkg/core"
 	"os"
 	"os/signal"
 	"syscall"

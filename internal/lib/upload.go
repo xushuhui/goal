@@ -1,7 +1,6 @@
 package lib
 
 import (
-	"goal/configs"
 	"goal/global"
 	"goal/utils"
 	"io"

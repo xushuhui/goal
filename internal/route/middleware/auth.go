@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/core"
-	"goal/lib"
+	"goal/internal/lib"
+	"goal/pkg/core"
 	"goal/pkg/errcode"
 	"time"
 )

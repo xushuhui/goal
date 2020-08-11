@@ -2,8 +2,8 @@ package route
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/app/api"
-	"goal/route/middleware"
+	"goal/internal/api"
+	"goal/internal/route/middleware"
 	"net/http"
 )
 

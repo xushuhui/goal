@@ -2,9 +2,9 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/app/request"
-	"goal/app/services"
-	"goal/core"
+	"goal/internal/request"
+	"goal/internal/services"
+	"goal/pkg/core"
 )
 
 //UserLogin func

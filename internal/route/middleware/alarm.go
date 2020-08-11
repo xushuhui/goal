@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/core"
+	"goal/pkg/core"
 	"runtime/debug"
 	"strings"
 )
