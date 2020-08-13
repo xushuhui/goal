@@ -3,7 +3,7 @@ package core
 import (
 	"github.com/gin-gonic/gin"
 	"goal/global"
-	"goal/utils"
+	"goal/pkg/utils"
 )
 
 type Pager struct {

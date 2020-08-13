@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"goal/global"
 	"goal/pkg/core"
-	"goal/utils"
+	"goal/pkg/utils"
 	"log"
 	"os"
 
@@ -33,6 +33,8 @@ func Logger() gin.HandlerFunc {
 		c.Writer = bodyLogWriter
 		//开始时间
 		startTime := utils.GetCurrentMilliUnix()
+		body, _ := c.GetRawData()
+
 		//处理请求
 		c.Next()
 		//结束时间
@@ -62,7 +64,8 @@ func Logger() gin.HandlerFunc {
 		accessLogMap["request_proto"] = c.Request.Proto
 		accessLogMap["request_ua"] = c.Request.UserAgent()
 		accessLogMap["request_referer"] = c.Request.Referer()
-		accessLogMap["request_post_data"] = c.Request.PostForm.Encode()
+
+		accessLogMap["request_post_data"] = string(body)
 		accessLogMap["request_client_ip"] = c.ClientIP()
 
 		accessLogMap["response_time"] = endTime

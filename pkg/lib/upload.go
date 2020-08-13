@@ -2,7 +2,7 @@ package lib
 
 import (
 	"goal/global"
-	"goal/utils"
+	"goal/pkg/utils"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -19,7 +19,6 @@ func GetFileName(name string) string {
 	ext := GetFileExt(name)
 	fileName := strings.TrimSuffix(name, ext)
 	fileName = utils.EncodeMD5(fileName)
-
 	return fileName + ext
 }
 
@@ -37,7 +36,6 @@ func GetServerUrl() string {
 
 func CheckSavePath(dst string) bool {
 	_, err := os.Stat(dst)
-
 	return os.IsNotExist(err)
 }
 

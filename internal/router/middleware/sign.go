@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"goal/global"
 	"goal/pkg/core"
-	"goal/utils"
+	"goal/pkg/utils"
 	"net/url"
 	"sort"
 	"strconv"

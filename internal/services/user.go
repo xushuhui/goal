@@ -2,11 +2,11 @@ package services
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/internal/lib"
 	"goal/internal/model"
 	"goal/internal/request"
 	"goal/pkg/core"
 	errcode2 "goal/pkg/errcode"
+	"goal/pkg/lib"
 	"golang.org/x/crypto/bcrypt"
 )
 

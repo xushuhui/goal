@@ -1,9 +1,9 @@
-package route
+package router
 
 import (
 	"github.com/gin-gonic/gin"
 	"goal/internal/api"
-	"goal/internal/route/middleware"
+	"goal/internal/router/middleware"
 	"net/http"
 )
 

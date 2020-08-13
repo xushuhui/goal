@@ -3,7 +3,10 @@ package core
 import (
 	"flag"
 	"goal/global"
+	"goal/internal/model"
+	"goal/pkg/logger"
 	"goal/pkg/setting"
+	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"strings"
 	"time"
@@ -11,15 +14,27 @@ import (
 
 func StartModule() {
 	//initRedis()
-	InitValidate()
-	err := setupFlag()
+	var err error
+	err = initValidate()
 	if err != nil {
-		log.Fatalf("init.setupFlag err: %v", err)
+		log.Fatalf("initValidate err: %v", err)
+	}
+	err = initFlag()
+	if err != nil {
+		log.Fatalf("initFlag err: %v", err)
 	}
 	err = initSetting()
 	if err != nil {
-		log.Fatalf("init.setupSetting err: %v", err)
+		log.Fatalf("initSetting err: %v", err)
 	}
+	err = initLogger()
+	if err != nil {
+		log.Fatalf("initLogger err: %v", err)
+	}
+	//err = initDBEngine()
+	//if err != nil {
+	//	log.Fatalf("initDBEngine err: %v", err)
+	//}
 }
 
 var (
@@ -29,10 +44,10 @@ var (
 	isVersion bool
 )
 
-func setupFlag() error {
+func initFlag() error {
 	flag.StringVar(&port, "port", "", "启动端口")
 	flag.StringVar(&runMode, "mode", "", "启动模式")
-	flag.StringVar(&config, "config", "setting/", "config.yaml")
+	flag.StringVar(&config, "config", "configs/", "config.yaml")
 	flag.BoolVar(&isVersion, "version", false, "编译信息")
 	flag.Parse()
 
@@ -73,6 +88,27 @@ func initSetting() error {
 	}
 	if runMode != "" {
 		global.ServerSetting.RunMode = runMode
+	}
+
+	return nil
+}
+func initLogger() error {
+	fileName := global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  fileName,
+		MaxSize:   500,
+		MaxAge:    10,
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+
+	return nil
+}
+
+func initDBEngine() error {
+	var err error
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return err
 	}
 
 	return nil

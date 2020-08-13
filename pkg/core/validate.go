@@ -29,7 +29,7 @@ func mobileTranslation(ut ut.Translator, fe validator.FieldError) string {
 
 var trans ut.Translator
 
-func InitValidate() {
+func initValidate() (e error) {
 	// 中文翻译
 	zh := zhongwen.New()
 	uni := ut.New(zh, zh)
@@ -40,13 +40,22 @@ func InitValidate() {
 		// 注册一个获取json tag的自定义方法
 		//v.RegisterTagNameFunc(jsonTag)
 		// 验证器注册翻译器
-		zhtranslations.RegisterDefaultTranslations(v, trans)
+		e = zhtranslations.RegisterDefaultTranslations(v, trans)
+		if e != nil {
+			return
+		}
 		v.RegisterTagNameFunc(func(fld reflect.StructField) string {
 			return fld.Tag.Get("comment")
 		})
 		// 自定义验证方法
-		v.RegisterValidation("mobile", mobileValidate)
-		v.RegisterTranslation("mobile", trans, mobileRegister, mobileTranslation)
+		e = v.RegisterValidation("mobile", mobileValidate)
+		if e != nil {
+			return
+		}
+		e = v.RegisterTranslation("mobile", trans, mobileRegister, mobileTranslation)
+		if e != nil {
+			return
+		}
 		//v.RegisterTranslation("required", trans, func(ut ut.Translator) error {
 		//	return ut.Add("required", "{0} must have a value!", true) // see universal-translator for details
 		//}, func(ut ut.Translator, fe validator.FieldError) string {
@@ -55,6 +64,7 @@ func InitValidate() {
 		//	return t
 		//})
 	}
+	return
 }
 
 func Translate(errs validator.ValidationErrors) string {
