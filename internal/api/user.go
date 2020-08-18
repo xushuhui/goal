@@ -1,18 +1,19 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"goal/global"
 	"goal/internal/request"
 	"goal/internal/services"
 	"goal/pkg/core"
+
+	"github.com/gin-gonic/gin"
 )
 
 //UserLogin func
 func Login(c *gin.Context) {
-	global.Logger.Debug(c, "debug test")
+
 	var req request.Login
 	if err := core.ParseRequest(c, &req); err != nil {
+		
 		c.Error(err)
 		return
 	}

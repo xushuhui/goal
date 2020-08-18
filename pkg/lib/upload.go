@@ -13,7 +13,10 @@ import (
 
 type FileType int
 
-const TypeImage FileType = iota + 1
+const (
+	TypeImage FileType = iota +1
+	TypePng   FileType = iota +2
+)
 
 func GetFileName(name string) string {
 	ext := GetFileExt(name)
