@@ -15,7 +15,6 @@ func Tracing() func(c *gin.Context) {
 		var span opentracing.Span
 		spanCtx, err := opentracing.GlobalTracer().Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(c.Request.Header))
 		if err != nil {
-
 			span, newCtx = opentracing.StartSpanFromContextWithTracer(c.Request.Context(), global.Tracer, c.Request.URL.Path)
 		} else {
 			span, newCtx = opentracing.StartSpanFromContextWithTracer(
