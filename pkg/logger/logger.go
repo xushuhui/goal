@@ -27,17 +27,17 @@ const (
 func (l Level) String() string {
 	switch l {
 	case LevelDebug:
-		return "debug"
+		return "[DEBUG]"
 	case LevelInfo:
-		return "info"
+		return "[INFO]"
 	case LevelWarn:
-		return "warn"
+		return "[WARN]"
 	case LevelError:
-		return "error"
+		return "[ERROR]"
 	case LevelFatal:
-		return "fatal"
+		return "[FATAL]"
 	case LevelPanic:
-		return "panic"
+		return "[PANIC]"
 	}
 	return ""
 }
@@ -107,11 +107,11 @@ func (l *Logger) WithCallersFrames() *Logger {
 }
 
 func (l *Logger) WithTrace() *Logger {
-	_, ok := l.ctx.(*gin.Context)
+	ginCtx, ok := l.ctx.(*gin.Context)
 	if ok {
 		return l.WithFields(Fields{
-			"trace_id": 1,
-			"span_id":  2,
+			"trace_id": ginCtx.MustGet("X-Trace-ID"),
+			"span_id":  ginCtx.MustGet("X-Span-ID"),
 		})
 	}
 	return l
@@ -119,8 +119,8 @@ func (l *Logger) WithTrace() *Logger {
 
 func (l *Logger) JSONFormat(level Level, message string) map[string]interface{} {
 	data := make(Fields, len(l.fields)+4)
-	data["level"] = level.String()
-	data["time"] = time.Now().Local().UnixNano()
+
+	data["time"] = time.Now().Local().Format("2006-01-02 15:04:05.0000")
 	data["message"] = message
 	data["callers"] = l.callers
 	if len(l.fields) > 0 {
@@ -136,7 +136,8 @@ func (l *Logger) JSONFormat(level Level, message string) map[string]interface{} 
 
 func (l *Logger) Output(level Level, message string) {
 	body, _ := json.Marshal(l.JSONFormat(level, message))
-	content := string(body)
+	content := level.String() + string(body)
+
 	switch level {
 	case LevelDebug:
 		l.newLogger.Print(content)

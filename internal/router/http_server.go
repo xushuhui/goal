@@ -2,7 +2,6 @@ package router
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"goal/global"
 	"log"
@@ -15,7 +14,7 @@ var (
 )
 
 func HttpServerRun() {
-	fmt.Println("mode", global.ServerSetting.RunMode)
+
 	gin.SetMode(global.ServerSetting.RunMode)
 	r := InitRouter()
 	port := global.ServerSetting.HttpPort

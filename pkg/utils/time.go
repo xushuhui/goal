@@ -3,10 +3,13 @@ package utils
 import "time"
 
 // 获取当前的时间 - 字符串
-func GetCurrentDate() string {
+func GetCurrentTime() string {
 	return time.Now().Format("2006/01/02 15:04:05")
 }
 
+func GetCurrentDate() string {
+	return time.Now().Format("2006/01/02")
+}
 // 获取当前的时间 - Unix时间戳
 func GetCurrentUnix() int64 {
 	return time.Now().Unix()

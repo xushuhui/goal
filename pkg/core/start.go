@@ -6,10 +6,14 @@ import (
 	"goal/internal/model"
 	"goal/pkg/logger"
 	"goal/pkg/setting"
-	"gopkg.in/natefinch/lumberjack.v2"
+	"goal/pkg/tracer"
+	"goal/pkg/utils"
 	"log"
+	"os"
 	"strings"
 	"time"
+
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func StartModule() {
@@ -35,6 +39,14 @@ func StartModule() {
 	//if err != nil {
 	//	log.Fatalf("initDBEngine err: %v", err)
 	//}
+	err = initRedis()
+	if err != nil {
+		log.Fatalf("initRedis err: %v", err)
+	}
+	err = initTracer()
+	if err != nil {
+		log.Fatalf("initTracer err: %v", err)
+	}
 }
 
 var (
@@ -93,13 +105,13 @@ func initSetting() error {
 	return nil
 }
 func initLogger() error {
-	fileName := global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt
+	fileName := global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate()+ global.AppSetting.LogFileExt
 	global.Logger = logger.NewLogger(&lumberjack.Logger{
 		Filename:  fileName,
 		MaxSize:   500,
 		MaxAge:    10,
 		LocalTime: true,
-	}, "", log.LstdFlags).WithCaller(2)
+	} , "", log.LstdFlags).WithCaller(2)
 
 	return nil
 }
@@ -111,5 +123,13 @@ func initDBEngine() error {
 		return err
 	}
 
+	return nil
+}
+func initTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer("s", "127.0.0.1:6831")
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
 	return nil
 }

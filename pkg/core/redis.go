@@ -1,20 +1,20 @@
 package core
 
 import (
-	"github.com/go-redis/redis"
 	"goal/global"
-	"log"
+
+	"github.com/go-redis/redis"
 )
 
 // 声明一个全局的rdb变量
 var RDB *redis.Client
 
 // 初始化连接
-func initRedis() {
+func initRedis() (err error) {
 	NewClient()
 	_, err := RDB.Ping().Result()
 	if err != nil {
-		log.Fatalf(" [ERROR] redis connect :%s err:%v\n", RDB, err)
+		return
 	}
 
 }

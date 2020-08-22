@@ -3,10 +3,12 @@ package test
 import (
 	"fmt"
 	"testing"
+
+	
 )
 
 func TestA(t *testing.T) {
-	swit(1)
+	
 }
 func swit(types int) {
 	var j int
