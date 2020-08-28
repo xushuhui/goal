@@ -3,6 +3,7 @@ Server:
   HttpPort: 8000
   ReadTimeout: 60
   WriteTimeout: 60
+  Domain: localhost
 App:
   AppName: app
   DefaultPageSize: 10

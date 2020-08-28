@@ -19,3 +19,4 @@ go web framework
 - [ ] alarm 服务器错误警告（邮箱，钉钉）
 - [ ] websocket server
 - [ ] tcp server
+- [ ] https

@@ -9,7 +9,6 @@ import (
 	"goal/pkg/tracer"
 	"goal/pkg/utils"
 	"log"
-	"os"
 	"strings"
 	"time"
 
@@ -39,10 +38,10 @@ func StartModule() {
 	//if err != nil {
 	//	log.Fatalf("initDBEngine err: %v", err)
 	//}
-	err = initRedis()
-	if err != nil {
-		log.Fatalf("initRedis err: %v", err)
-	}
+	//err = initRedis()
+	//if err != nil {
+	//log.Fatalf("initRedis err: %v", err)
+	//}
 	err = initTracer()
 	if err != nil {
 		log.Fatalf("initTracer err: %v", err)
@@ -105,13 +104,13 @@ func initSetting() error {
 	return nil
 }
 func initLogger() error {
-	fileName := global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate()+ global.AppSetting.LogFileExt
+	fileName := global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate() + global.AppSetting.LogFileExt
 	global.Logger = logger.NewLogger(&lumberjack.Logger{
 		Filename:  fileName,
 		MaxSize:   500,
 		MaxAge:    10,
 		LocalTime: true,
-	} , "", log.LstdFlags).WithCaller(2)
+	}, "", log.LstdFlags).WithCaller(2)
 
 	return nil
 }

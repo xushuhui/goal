@@ -11,13 +11,14 @@ import (
 
 var (
 	HttpSrvHandler *http.Server
+	port           string
 )
 
 func HttpServerRun() {
 
 	gin.SetMode(global.ServerSetting.RunMode)
 	r := InitRouter()
-	port := global.ServerSetting.HttpPort
+	port = global.ServerSetting.HttpPort
 	HttpSrvHandler = &http.Server{
 		Addr:           ":" + port,
 		Handler:        r,
@@ -25,14 +26,20 @@ func HttpServerRun() {
 		WriteTimeout:   global.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-	go func() {
-		log.Printf(" [INFO] HttpServerRun:%s\n", port)
-		if err := HttpSrvHandler.ListenAndServe(); err != nil {
-			log.Fatalf(" [ERROR] HttpServerRun:%s err:%v\n", port, err)
-		}
-	}()
-}
 
+	go httpListen()
+	log.Printf(" [INFO] HttpServerRun:%s\n", port)
+}
+func httpListen() {
+	if err := HttpSrvHandler.ListenAndServe(); err != nil {
+		log.Fatalf(" [ERROR] HttpServerRun:%s err:%v\n", port, err)
+	}
+}
+func httpsListen() {
+	if err := HttpSrvHandler.ListenAndServeTLS("storage/cert.pem", "storage/key.pem"); err != nil {
+		log.Fatalf(" [ERROR] HttpServerRun:%s err:%v\n", port, err)
+	}
+}
 func HttpServerStop() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

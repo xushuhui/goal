@@ -3,12 +3,9 @@ package test
 import (
 	"fmt"
 	"testing"
-
-	
 )
 
 func TestA(t *testing.T) {
-	
 }
 func swit(types int) {
 	var j int

@@ -11,6 +11,7 @@ type ServerSettingS struct {
 	HttpPort     string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
+	Domain       string
 }
 
 type AppSettingS struct {

@@ -12,11 +12,11 @@ var RDB *redis.Client
 // 初始化连接
 func initRedis() (err error) {
 	NewClient()
-	_, err := RDB.Ping().Result()
+	_, err = RDB.Ping().Result()
 	if err != nil {
 		return
 	}
-
+	return
 }
 func NewClient() {
 	RDB = redis.NewClient(&redis.Options{
