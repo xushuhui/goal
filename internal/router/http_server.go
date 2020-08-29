@@ -26,9 +26,9 @@ func HttpServerRun() {
 		WriteTimeout:   global.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
-
 	go httpListen()
 	log.Printf(" [INFO] HttpServerRun:%s\n", port)
+
 }
 func httpListen() {
 	if err := HttpSrvHandler.ListenAndServe(); err != nil {

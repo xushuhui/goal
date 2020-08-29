@@ -14,9 +14,11 @@ go web framework
 - [x] log 日志
 - [x] config 配置
 - [x] 请求参数签名
-- [ ] tests
+- [x] tests
+
+- [x] 文件上传
 
 - [ ] alarm 服务器错误警告（邮箱，钉钉）
 - [ ] websocket server
 - [ ] tcp server
-- [ ] https
+- [x] https

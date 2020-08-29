@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 	"github.com/uber/jaeger-client-go"
 	"goal/global"
