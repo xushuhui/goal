@@ -4,7 +4,6 @@ import (
 	cr "crypto/rand"
 	"fmt"
 	"io"
-	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -94,15 +93,6 @@ func SubAtNameString(str string) (nameList []string) {
 	return
 }
 
-func IntFenToYuanStr(fen int64) (yuan string) {
-	yuan = strconv.FormatFloat(float64(fen)/100, 'f', -1, 64)
-	return
-}
-
-func Int01FenToYuanStr(fen int64) (yuan string) {
-	yuan = strconv.FormatFloat(float64(fen)/10000, 'f', -1, 64)
-	return
-}
 func UUID() (string, error) {
 	uuid := make([]byte, 16)
 	n, err := io.ReadFull(cr.Reader, uuid)
