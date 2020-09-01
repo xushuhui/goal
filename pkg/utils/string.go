@@ -4,7 +4,6 @@ import (
 	cr "crypto/rand"
 	"fmt"
 	"io"
-	"strings"
 	"unicode/utf8"
 )
 
@@ -76,23 +75,6 @@ func FilterEmoji(content string) string {
 	return newContent
 }
 
-func SubAtNameString(str string) (nameList []string) {
-	if ok := strings.Contains(str, "@all "); ok {
-		nameList = append(nameList, "all")
-		return
-	}
-	atIdx := strings.Index(str, "@")
-	atStrs := strings.Split(str[atIdx+1:], "@")
-	for _, v := range atStrs {
-		placeIdx := strings.Index(v, " ")
-		if placeIdx == -1 {
-			continue
-		}
-		nameList = append(nameList, v[:placeIdx])
-	}
-	return
-}
-
 func UUID() (string, error) {
 	uuid := make([]byte, 16)
 	n, err := io.ReadFull(cr.Reader, uuid)
@@ -104,4 +86,13 @@ func UUID() (string, error) {
 	// version 4 (pseudo-random); see section 4.1.3
 	uuid[6] = uuid[6]&^0xf0 | 0x40
 	return fmt.Sprintf("%x%x%x%x%x", uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:]), nil
+}
+
+// Reverse 将其实参字符串以符文为单位左右反转。
+func Reverse(s string) string {
+	r := []rune(s)
+	for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
+		r[i], r[j] = r[j], r[i]
+	}
+	return string(r)
 }

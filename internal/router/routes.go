@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"goal/internal/api"
 	"goal/internal/middleware"
+	"goal/pkg/api"
 	"net/http"
 )
 
@@ -15,7 +15,6 @@ func InitRouter() *gin.Engine {
 	router.Use(middleware.Cors(), middleware.Tracing(), middleware.ErrorHandle())
 	// 添加 Get 请求路由
 	router.GET("/", func(context *gin.Context) {
-
 		context.String(http.StatusOK, "hello gsssssn")
 	})
 

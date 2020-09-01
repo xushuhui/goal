@@ -22,3 +22,6 @@ go web framework
 - [ ] websocket server
 - [ ] tcp server
 - [x] https
+- [x] doc
+
+godoc -http=:6060
