@@ -1,4 +1,4 @@
-package doc
+package docs
 
 /*
 	doc this is example

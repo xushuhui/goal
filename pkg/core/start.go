@@ -18,20 +18,17 @@ import (
 func StartModule() {
 	//initRedis()
 	var err error
-	err = initValidate()
-	if err != nil {
+
+	if err = initValidate(); err != nil {
 		log.Fatalf("initValidate err: %v", err)
 	}
-	err = initFlag()
-	if err != nil {
+	if err = initFlag(); err != nil {
 		log.Fatalf("initFlag err: %v", err)
 	}
-	err = initSetting()
-	if err != nil {
+	if err = initSetting(); err != nil {
 		log.Fatalf("initSetting err: %v", err)
 	}
-	err = initLogger()
-	if err != nil {
+	if err = initLogger(); err != nil {
 		log.Fatalf("initLogger err: %v", err)
 	}
 	//err = initDBEngine()

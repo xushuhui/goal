@@ -3,12 +3,14 @@ package test
 import (
 	"context"
 	"testing"
+	"time"
 )
 
 func TestB(t *testing.T) {
-	ctx := context.TODO()
-	f(ctx)
-	t.Log(ctx.Value("foo"))
+	tn := time.Now().AddDate(0, 0, -2)
+	t.Log(tn.Format("20060102"))
+	year, week := tn.ISOWeek()
+	t.Log(year, week)
 
 }
 
