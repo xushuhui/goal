@@ -46,3 +46,7 @@ Database:
 Redis:
   HOST: 127.0.0.1:6379
   PASSWORD:
+Log:
+  Level: trace
+  ReportCaller: true
+  Formatter: json

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type ServerSettingS struct {
+type ServerSettings struct {
 	RunMode      string
 	HttpPort     string
 	ReadTimeout  time.Duration
@@ -14,7 +14,7 @@ type ServerSettingS struct {
 	Domain       string
 }
 
-type AppSettingS struct {
+type AppSettings struct {
 	AppName               string
 	DefaultPageSize       int
 	MaxPageSize           int
@@ -28,7 +28,7 @@ type AppSettingS struct {
 	UploadImageAllowExts  []string
 }
 
-type EmailSettingS struct {
+type EmailSettings struct {
 	Host     string
 	Port     int
 	UserName string
@@ -38,7 +38,7 @@ type EmailSettingS struct {
 	To       []string
 }
 
-type JWTSettingS struct {
+type JWTSettings struct {
 	Secret string
 	Issuer string
 	Expire time.Duration
@@ -59,6 +59,11 @@ type DatabaseSettingS struct {
 type RedisSettings struct {
 	Host     string
 	Password string
+}
+type LogSettings struct {
+	Level        string
+	Formatter    string
+	ReportCaller bool
 }
 
 var sections = make(map[string]interface{})

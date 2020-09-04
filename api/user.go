@@ -1,7 +1,6 @@
 package api
 
 import (
-	"goal/global"
 	"goal/internal/request"
 	"goal/internal/services"
 	"goal/pkg/core"
@@ -30,7 +29,6 @@ POST参数：
 */
 func Login(c *gin.Context) {
 
-	global.Logger.Errorf(c, "test")
 	var req request.Login
 	if err := core.ParseRequest(c, &req); err != nil {
 		c.Error(err)

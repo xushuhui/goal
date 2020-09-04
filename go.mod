@@ -14,8 +14,8 @@ require (
 	github.com/jinzhu/gorm v1.9.14
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0
+	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/viper v1.7.0
-	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/uber/jaeger-client-go v2.25.0+incompatible
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
 	github.com/unrolled/secure v1.0.8

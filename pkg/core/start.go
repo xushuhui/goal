@@ -7,27 +7,24 @@ import (
 	"goal/pkg/logger"
 	"goal/pkg/setting"
 	"goal/pkg/tracer"
-	"goal/pkg/utils"
 	"log"
 	"strings"
 	"time"
-
-	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func StartModule() {
 	//initRedis()
 	var err error
-
-	if err = initValidate(); err != nil {
-		log.Fatalf("initValidate err: %v", err)
-	}
 	if err = initFlag(); err != nil {
 		log.Fatalf("initFlag err: %v", err)
 	}
 	if err = initSetting(); err != nil {
 		log.Fatalf("initSetting err: %v", err)
 	}
+	if err = initValidate(); err != nil {
+		log.Fatalf("initValidate err: %v", err)
+	}
+
 	if err = initLogger(); err != nil {
 		log.Fatalf("initLogger err: %v", err)
 	}
@@ -39,6 +36,7 @@ func StartModule() {
 	//if err != nil {
 	//log.Fatalf("initRedis err: %v", err)
 	//}
+	logger.ApiLog.Debug("debug")
 	err = initTracer()
 	if err != nil {
 		log.Fatalf("initTracer err: %v", err)
@@ -74,16 +72,23 @@ func initSetting() error {
 	if err != nil {
 		return err
 	}
-	err = s.ReadSection("Database", &global.DatabaseSetting)
-	if err != nil {
+
+	if err = s.ReadSection("Database", &global.DatabaseSetting); err != nil {
 		return err
 	}
-	err = s.ReadSection("JWT", &global.JWTSetting)
-	if err != nil {
+
+	if err = s.ReadSection("Redis", &global.RedisSetting); err != nil {
 		return err
 	}
-	err = s.ReadSection("Email", &global.EmailSetting)
-	if err != nil {
+
+	if err = s.ReadSection("JWT", &global.JWTSetting); err != nil {
+		return err
+	}
+
+	if err = s.ReadSection("Log", &global.LogSetting); err != nil {
+		return err
+	}
+	if err = s.ReadSection("Email", &global.EmailSetting); err != nil {
 		return err
 	}
 
@@ -101,13 +106,16 @@ func initSetting() error {
 	return nil
 }
 func initLogger() error {
-	fileName := global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate() + global.AppSetting.LogFileExt
-	global.Logger = logger.NewLogger(&lumberjack.Logger{
-		Filename:  fileName,
-		MaxSize:   500,
-		MaxAge:    10,
-		LocalTime: true,
-	}, "", log.LstdFlags).WithCaller(2)
+	//fileName := global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate() + global.AppSetting.LogFileExt
+	//global.Logger = logger.NewLogger(&lumberjack.Logger{
+	//	Filename:  fileName,
+	//	MaxSize:   500,
+	//	MaxAge:    10,
+	//	LocalTime: true,
+	//}, "", log.LstdFlags).WithCaller(2)
+	logger.SetFormatter(global.LogSetting.Formatter)
+	logger.SetLevel(global.LogSetting.Level)
+	logger.SetReportCaller(global.LogSetting.ReportCaller)
 
 	return nil
 }

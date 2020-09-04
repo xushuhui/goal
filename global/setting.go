@@ -1,18 +1,17 @@
 package global
 
 import (
-	"goal/pkg/logger"
 	"goal/pkg/setting"
 )
 
 var (
-	ServerSetting   *setting.ServerSettingS
-	AppSetting      *setting.AppSettingS
-	EmailSetting    *setting.EmailSettingS
-	JWTSetting      *setting.JWTSettingS
+	ServerSetting   *setting.ServerSettings
+	AppSetting      *setting.AppSettings
+	EmailSetting    *setting.EmailSettings
+	JWTSetting      *setting.JWTSettings
 	DatabaseSetting *setting.DatabaseSettingS
 	RedisSetting    *setting.RedisSettings
-	Logger          *logger.Logger
+	LogSetting      *setting.LogSettings
 )
 var (
 	ApiAuthConfig = map[string]map[string]string{
