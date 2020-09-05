@@ -1,6 +1,7 @@
 package global
 
 import (
+	"github.com/sirupsen/logrus"
 	"goal/pkg/setting"
 )
 
@@ -12,6 +13,7 @@ var (
 	DatabaseSetting *setting.DatabaseSettingS
 	RedisSetting    *setting.RedisSettings
 	LogSetting      *setting.LogSettings
+	Logger          *logrus.Logger
 )
 var (
 	ApiAuthConfig = map[string]map[string]string{

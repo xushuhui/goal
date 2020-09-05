@@ -36,7 +36,7 @@ func StartModule() {
 	//if err != nil {
 	//log.Fatalf("initRedis err: %v", err)
 	//}
-	logger.ApiLog.Debug("debug")
+	global.Logger.Debug("debug")
 	err = initTracer()
 	if err != nil {
 		log.Fatalf("initTracer err: %v", err)
@@ -105,19 +105,21 @@ func initSetting() error {
 
 	return nil
 }
-func initLogger() error {
-	//fileName := global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate() + global.AppSetting.LogFileExt
+func initLogger() (e error) {
 	//global.Logger = logger.NewLogger(&lumberjack.Logger{
 	//	Filename:  fileName,
 	//	MaxSize:   500,
 	//	MaxAge:    10,
 	//	LocalTime: true,
 	//}, "", log.LstdFlags).WithCaller(2)
-	logger.SetFormatter(global.LogSetting.Formatter)
-	logger.SetLevel(global.LogSetting.Level)
-	logger.SetReportCaller(global.LogSetting.ReportCaller)
+	global.Logger, e = logger.NewLogger()
+	if e != nil {
+		return
+	}
 
-	return nil
+	//logger.Log.AddHook(&logger.AppHook{})
+
+	return
 }
 
 func initDBEngine() error {
