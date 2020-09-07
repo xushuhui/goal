@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"goal/global"
 	"goal/pkg/utils"
@@ -22,17 +21,6 @@ var (
 
 type F = logrus.Fields
 
-func SetReportCaller(b bool) {
-	logrus.SetReportCaller(b)
-}
-
-func SetLevel(level string) {
-	if level, err := logrus.ParseLevel(level); err != nil {
-		panic(fmt.Errorf("Log Level %s", err))
-	} else {
-		logrus.SetLevel(level)
-	}
-}
 func SetFileOut() {
 	e := os.MkdirAll(LogDir(), 777)
 	if e != nil {
@@ -76,5 +64,5 @@ func NewLogger() (l *logrus.Logger, e error) {
 //	return log.WithField("topic", "access")
 //}
 func LogDir() string {
-	return global.AppSetting.LogSavePath + "/" + utils.GetCurrentDate() + "/"
+	return global.LogSetting.SavePath + "/" + utils.GetCurrentDate() + "/"
 }

@@ -9,9 +9,6 @@ App:
   DefaultPageSize: 10
   MaxPageSize: 100
   DefaultContextTimeout: 60
-  LogSavePath: storage/logs
-  LogFileName: app
-  LogFileExt: .log
   UploadSavePath: storage/uploads
   UploadServerUrl: http://127.0.0.1:8000/static
   UploadImageMaxSize: 5  # MB
@@ -50,3 +47,4 @@ Log:
   Level: trace
   ReportCaller: true
   Formatter: json
+  SavePath: storage/logs

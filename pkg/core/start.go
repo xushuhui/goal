@@ -2,13 +2,14 @@ package core
 
 import (
 	"flag"
+	"github.com/gin-gonic/gin"
 	"goal/global"
 	"goal/internal/model"
 	"goal/pkg/logger"
 	"goal/pkg/setting"
 	"goal/pkg/tracer"
 	"log"
-	"strings"
+	"os"
 	"time"
 )
 
@@ -44,23 +45,24 @@ func StartModule() {
 }
 
 var (
-	port      string
-	runMode   string
-	config    string
+	port    string
+	runMode string
+
 	isVersion bool
 )
 
 func initFlag() error {
 	flag.StringVar(&port, "port", "", "启动端口")
-	flag.StringVar(&runMode, "mode", "", "启动模式")
-	flag.StringVar(&config, "config", "configs/", "config.yaml")
+	flag.StringVar(&runMode, "mode", gin.Mode(), "启动模式")
 	flag.BoolVar(&isVersion, "version", false, "编译信息")
 	flag.Parse()
 
 	return nil
 }
 func initSetting() error {
-	s, err := setting.NewSetting(strings.Split(config, ",")...)
+	path, _ := os.Getwd()
+	config := path + "/configs"
+	s, err := setting.NewSetting(config, runMode, "yaml")
 	if err != nil {
 		return err
 	}
@@ -88,6 +90,7 @@ func initSetting() error {
 	if err = s.ReadSection("Log", &global.LogSetting); err != nil {
 		return err
 	}
+
 	if err = s.ReadSection("Email", &global.EmailSetting); err != nil {
 		return err
 	}

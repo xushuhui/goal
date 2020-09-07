@@ -19,9 +19,6 @@ type AppSettings struct {
 	DefaultPageSize       int
 	MaxPageSize           int
 	DefaultContextTimeout time.Duration
-	LogSavePath           string
-	LogFileName           string
-	LogFileExt            string
 	UploadSavePath        string
 	UploadServerUrl       string
 	UploadImageMaxSize    int
@@ -64,6 +61,7 @@ type LogSettings struct {
 	Level        string
 	Formatter    string
 	ReportCaller bool
+	SavePath     string
 }
 
 var sections = make(map[string]interface{})
@@ -95,15 +93,12 @@ type Setting struct {
 	vp *viper.Viper
 }
 
-func NewSetting(configs ...string) (*Setting, error) {
+func NewSetting(configDir, configName, configType string) (*Setting, error) {
 	vp := viper.New()
-	vp.SetConfigName("config")
-	for _, config := range configs {
-		if config != "" {
-			vp.AddConfigPath(config)
-		}
-	}
-	vp.SetConfigType("yaml")
+	vp.AddConfigPath(configDir)
+	vp.SetConfigName(configName)
+
+	vp.SetConfigType(configType)
 	err := vp.ReadInConfig()
 	if err != nil {
 		return nil, err
