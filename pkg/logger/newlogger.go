@@ -2,8 +2,9 @@ package logger
 
 import (
 	"github.com/sirupsen/logrus"
-	"goal/global"
 	"goal/pkg/utils"
+
+	"io"
 	"os"
 )
 
@@ -13,56 +14,59 @@ var (
 		"text": &logrus.TextFormatter{TimestampFormat: "2006-01-02 15:04:05"},
 		//"test": &inLog.TestFormatter{TimestampFormat: "2006-01-02 15:04:05"},
 	}
-
+	logDir string
 	//ApiLog    = apiLog()
-	//MysqlLog  = mysqlLog()
-	//AccessLog = accessLog()
+
 )
 
-type F = logrus.Fields
-
-func SetFileOut() {
-	e := os.MkdirAll(LogDir(), 777)
+func setFileOut() (f io.Writer, e error) {
+	e = os.MkdirAll(logDir, 777)
 	if e != nil {
 		return
 	}
-	//level := logrus.Level.String()
-	//logFile := LogDir() + level+ global.AppSetting.LogFileExt
-	//f,e := os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
-	//if e != nil {
-	//	return
-	//}
-	//
-	//log.SetOutput(f)
+	logFile := logDir + "app.log"
+	f, e = os.OpenFile(logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
+	if e != nil {
+		return
+	}
 
 	return
 }
 
-func NewLogger() (l *logrus.Logger, e error) {
-	l = logrus.StandardLogger()
+func LogDir(savePath string) string {
+	return savePath + "/" + utils.GetCurrentDate() + "/"
+}
 
-	l.SetFormatter(Formatter[global.LogSetting.Formatter])
-	level, e := logrus.ParseLevel(global.LogSetting.Level)
+type Logger struct {
+	Logrus *logrus.Logger
+}
+
+func NewLogger(format, lvl string, reportCaller bool, savePath string) (l *Logger, e error) {
+	lrus := logrus.StandardLogger()
+
+	lrus.SetFormatter(Formatter[format])
+	level, e := logrus.ParseLevel(lvl)
 	if e != nil {
 		return
 	}
-	l.SetLevel(level)
-	l.SetReportCaller(global.LogSetting.ReportCaller)
-	SetFileOut()
+	lrus.SetLevel(level)
+	lrus.SetReportCaller(reportCaller)
+	logDir = LogDir(savePath)
+	l = &Logger{
+		lrus,
+	}
+	l.setOutput()
 	return
+}
+func (l *Logger) setOutput() {
+	writer, e := setFileOut()
+	if e != nil {
+
+	}
+	l.Logrus.SetOutput(io.MultiWriter(l.Logrus.Out, writer))
 }
 
 //func apiLog() *log.Entry {
 //	return log.WithField("topic", "api")
 //}
 //
-//func mysqlLog() *log.Entry {
-//	return log.WithField("topic", "mysql")
-//}
-//
-//func accessLog() *log.Entry {
-//	return log.WithField("topic", "access")
-//}
-func LogDir() string {
-	return global.LogSetting.SavePath + "/" + utils.GetCurrentDate() + "/"
-}

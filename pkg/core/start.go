@@ -37,7 +37,8 @@ func StartModule() {
 	//if err != nil {
 	//log.Fatalf("initRedis err: %v", err)
 	//}
-	global.Logger.Debug("debug")
+	global.Logger.Logrus.Debug("test")
+
 	err = initTracer()
 	if err != nil {
 		log.Fatalf("initTracer err: %v", err)
@@ -115,7 +116,8 @@ func initLogger() (e error) {
 	//	MaxAge:    10,
 	//	LocalTime: true,
 	//}, "", log.LstdFlags).WithCaller(2)
-	global.Logger, e = logger.NewLogger()
+	logSet := global.LogSetting
+	global.Logger, e = logger.NewLogger(logSet.Formatter, logSet.Level, logSet.ReportCaller, logSet.SavePath)
 	if e != nil {
 		return
 	}
