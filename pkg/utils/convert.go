@@ -114,30 +114,9 @@ func ToBool(v interface{}) (bool, error) {
 		default:
 			return false, errors.New("cannot convert " + value + " to bool")
 		}
-	case float32:
+	case float32, float64, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
 		return value != 0, nil
-	case float64:
-		return value != 0, nil
-	case int8:
-		return value != 0, nil
-	case int16:
-		return value != 0, nil
-	case int32:
-		return value != 0, nil
-	case int:
-		return value != 0, nil
-	case int64:
-		return value != 0, nil
-	case uint8:
-		return value != 0, nil
-	case uint16:
-		return value != 0, nil
-	case uint32:
-		return value != 0, nil
-	case uint:
-		return value != 0, nil
-	case uint64:
-		return value != 0, nil
+
 	default:
 		return false, errors.New(fmt.Sprintf("cannot convert %v(%v) to bool", v, reflect.TypeOf(v)))
 	}
@@ -249,10 +228,6 @@ func ToInt32(v interface{}) (int32, error) {
 	return int32(i), e
 }
 
-//func ToInt64(v interface{}) (int64, error) {
-//	i, e := ToFloat64(v)
-//	return int64(i), e
-//}
 func ToFloat32(v interface{}) (float32, error) {
 	i, e := ToFloat64(v)
 	return float32(i), e
@@ -478,11 +453,6 @@ func Struct2Map2(obj interface{}) map[string]interface{} {
 	return data
 }
 
-// //MAP->结构
-func MapToStruct(data map[string]interface{}, obj interface{}) error {
-	return Decode(data, obj)
-}
-
 func Bool2Int(b bool) int {
 	if b {
 		return 1
@@ -540,37 +510,4 @@ func XmlMarshal(v interface{}, safeEncoding bool) ([]byte, error) {
 		b = bytes.Replace(b, []byte("&amp;"), []byte("&"), -1)
 	}
 	return b, err
-}
-
-/// <summary>
-/// Json序列化对象成[]byte
-/// </summary>
-/// <param name="v">被序列化的对象</param>
-/// <returns>序列化后的字节数组</returns>
-func JSONEncode(v interface{}) ([]byte, error) {
-	buffer := &bytes.Buffer{}
-
-	e := json.NewEncoder(buffer).Encode(v)
-	if e != nil {
-		return nil, e
-	}
-	byteSlice := buffer.Bytes()
-
-	return byteSlice, nil
-}
-
-/// <summary>
-/// Json反序列化[]byte到对象,解决Marshal解码科学计数法的问题（float->科学计数法）
-/// </summary>
-/// <param name="b">被反序列化的字节数组</param>
-/// <param name="v">被反序列化的对象,必须是对象指针</param>
-/// <returns></returns>
-func JSONDecode(b []byte, v interface{}) (e error) {
-	d := json.NewDecoder(bytes.NewReader(b))
-	d.UseNumber()
-	e = d.Decode(v)
-	if e != nil {
-		return e
-	}
-	return
 }

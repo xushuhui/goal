@@ -1,22 +1,47 @@
 package core
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"goal/pkg/errcode"
 )
 
-// JsonResponse 数据返回通用 JSON 数据结构
-type JsonResponse struct {
+// Error 数据返回通用 JSON 数据结构
+type Error struct {
 	Code    int         `json:"code"`    // 错误码 ((0: 成功，1: 失败，>1: 错误码))
 	Message string      `json:"message"` // 提示信息
 	Data    interface{} `json:"data"`    // 返回数据 (业务接口定义具体数据结构)
+
+}
+
+func (e Error) Error() (re string) {
+	return fmt.Sprintf("code=%v, Message=%v", e.Code, e.Message)
+}
+
+func NewError(code int, message string) (e Error) {
+	if message == "" {
+		message = errcode.GetMsg(code)
+	}
+	e = Error{
+		Code:    code,
+		Message: message,
+	}
+	return
 }
 
 func ParseRequest(c *gin.Context, request interface{}) (err error) {
-	return c.ShouldBind(request)
+	err = c.ShouldBind(request)
+
+	if err != nil {
+		msg := Translate(err.(validator.ValidationErrors))
+		err = NewError(errcode.InvalidParams, msg)
+		return
+	}
+	return
 }
 func FailResp(c *gin.Context, code int) {
-	c.AbortWithStatusJSON(200, JsonResponse{
+	c.AbortWithStatusJSON(200, Error{
 		Code:    code,
 		Message: errcode.GetMsg(code),
 	})
@@ -24,7 +49,7 @@ func FailResp(c *gin.Context, code int) {
 }
 func InvalidParamsResp(c *gin.Context, msg string) {
 
-	c.AbortWithStatusJSON(200, JsonResponse{
+	c.AbortWithStatusJSON(200, Error{
 		Code:    errcode.InvalidParams,
 		Message: msg,
 	})
@@ -32,13 +57,13 @@ func InvalidParamsResp(c *gin.Context, msg string) {
 }
 
 func SuccessResp(c *gin.Context) {
-	c.JSON(200, JsonResponse{
+	c.JSON(200, Error{
 		Code:    0,
 		Message: errcode.GetMsg(0),
 	})
 }
 func SetData(c *gin.Context, data interface{}) {
-	c.JSON(200, JsonResponse{
+	c.JSON(200, Error{
 		Code:    0,
 		Message: errcode.GetMsg(0),
 		Data:    data,
@@ -46,7 +71,7 @@ func SetData(c *gin.Context, data interface{}) {
 }
 
 func SetPage(c *gin.Context, list interface{}, totalRows int) {
-	c.JSON(200, JsonResponse{
+	c.JSON(200, Error{
 		Code:    0,
 		Message: errcode.GetMsg(0),
 		Data: Pager{
@@ -58,7 +83,7 @@ func SetPage(c *gin.Context, list interface{}, totalRows int) {
 	})
 }
 func ServerError(c *gin.Context) {
-	c.JSON(500, JsonResponse{
+	c.JSON(500, Error{
 		Code:    errcode.ServerError,
 		Message: errcode.GetMsg(errcode.ServerError),
 	})

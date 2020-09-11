@@ -37,7 +37,7 @@ func StartModule() {
 	//if err != nil {
 	//log.Fatalf("initRedis err: %v", err)
 	//}
-	global.Logger.Logrus.Debug("test")
+	global.Logger.Debug("test")
 
 	err = initTracer()
 	if err != nil {

@@ -38,7 +38,7 @@ func LogDir(savePath string) string {
 }
 
 type Logger struct {
-	Logrus *logrus.Logger
+	*logrus.Logger
 }
 
 func NewLogger(format, lvl string, reportCaller bool, savePath string) (l *Logger, e error) {
@@ -63,7 +63,7 @@ func (l *Logger) setOutput() {
 	if e != nil {
 
 	}
-	l.Logrus.SetOutput(io.MultiWriter(l.Logrus.Out, writer))
+	l.SetOutput(io.MultiWriter(l.Out, writer))
 }
 
 //func apiLog() *log.Entry {

@@ -55,7 +55,7 @@ func call(t *testing.T, testcase []TestCase) {
 			fmt.Printf("接口返回%s", w.Body.String())
 			fmt.Println()
 		}
-		s := core.JsonResponse{}
+		s := core.Error{}
 		err := json.Unmarshal([]byte(w.Body.String()), &s)
 		assert.NoError(t, err)
 		assert.Equal(t, v.errMsg, s.Message, "错误信息不一致")

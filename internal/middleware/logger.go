@@ -44,12 +44,12 @@ func Logger() gin.HandlerFunc {
 		var responseData interface{}
 
 		if responseBody != "" {
-			response := core.JsonResponse{}
-			err := json.Unmarshal([]byte(responseBody), &response)
+			Error := core.Error{}
+			err := json.Unmarshal([]byte(responseBody), &Error)
 			if err == nil {
-				responseCode = response.Code
-				responseMsg = response.Message
-				responseData = response.Data
+				responseCode = Error.Code
+				responseMsg = Error.Message
+				responseData = Error.Data
 			}
 		}
 
@@ -73,12 +73,12 @@ func Logger() gin.HandlerFunc {
 
 		accessLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)
 
-		accessLogJson, _ := utils.JsonEncode(accessLogMap)
+		accessLogJson, _ := utils.JSONEncode(accessLogMap)
 		AppAccessLogName := global.AppSetting.AppName + "-access.log"
 		if f, err := os.OpenFile("log/"+AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); err != nil {
 			log.Println(err)
 		} else {
-			f.WriteString(accessLogJson + "\n")
+			f.WriteString(string(accessLogJson) + "\n")
 		}
 	}
 }
