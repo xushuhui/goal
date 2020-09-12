@@ -3,7 +3,6 @@ package logger
 import (
 	"github.com/sirupsen/logrus"
 	"goal/pkg/utils"
-
 	"io"
 	"os"
 )
@@ -33,10 +32,6 @@ func setFileOut() (f io.Writer, e error) {
 	return
 }
 
-func LogDir(savePath string) string {
-	return savePath + "/" + utils.GetCurrentDate() + "/"
-}
-
 type Logger struct {
 	*logrus.Logger
 }
@@ -51,7 +46,7 @@ func NewLogger(format, lvl string, reportCaller bool, savePath string) (l *Logge
 	}
 	lrus.SetLevel(level)
 	lrus.SetReportCaller(reportCaller)
-	logDir = LogDir(savePath)
+	logDir = utils.LogDir(savePath)
 	l = &Logger{
 		lrus,
 	}

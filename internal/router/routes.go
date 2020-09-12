@@ -12,7 +12,7 @@ func InitRouter() *gin.Engine {
 	//加载静态资源，一般是上传的资源，例如用户上传的图片
 	router.StaticFS("/upload", http.Dir("storage/upload"))
 
-	router.Use(middleware.Cors(), middleware.Tracing(), middleware.ErrorHandle())
+	router.Use(middleware.Cors(), middleware.Tracing(), middleware.AccessLog(), middleware.ErrorHandle())
 	// 添加 Get 请求路由
 	router.GET("/", func(context *gin.Context) {
 		context.String(http.StatusOK, "hello gsssssn")

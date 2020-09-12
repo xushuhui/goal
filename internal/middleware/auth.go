@@ -13,17 +13,17 @@ func Auth() gin.HandlerFunc {
 		Authorization := c.Request.Header.Get("Authorization")
 
 		if Authorization == "" {
-			core.FailResp(c, errcode.InvalidParams)
+			//core.FailResp(c, errcode.InvalidParams)
 			return
 		}
 
 		claims, err := lib.ParseToken(Authorization)
 		if err != nil {
-			core.FailResp(c, errcode.ErrorAuthToken)
+			err = core.NewError(errcode.ErrorAuthToken)
 			return
 		}
 		if time.Now().Unix() > claims.ExpiresAt {
-			core.FailResp(c, errcode.TimeoutAuthToken)
+			err = core.NewError(errcode.TimeoutAuthToken)
 			return
 		}
 

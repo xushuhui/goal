@@ -7,6 +7,7 @@ import (
 	"goal/global"
 	"goal/pkg/core"
 	"goal/pkg/utils"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -27,16 +28,22 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 	return w.ResponseWriter.WriteString(s)
 }
 
-func Logger() gin.HandlerFunc {
+func AccessLog() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		fmt.Println("accesslog start")
 		bodyLogWriter := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
+		rawData, _ := c.GetRawData()
+
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(rawData))
 		//开始时间
 		startTime := utils.GetCurrentMilliUnix()
 		//处理请求
 		c.Next()
+
 		//结束时间
 		endTime := utils.GetCurrentMilliUnix()
+
 		responseBody := bodyLogWriter.body.String()
 
 		var responseCode int
@@ -63,7 +70,7 @@ func Logger() gin.HandlerFunc {
 		accessLogMap["request_ua"] = c.Request.UserAgent()
 		accessLogMap["request_referer"] = c.Request.Referer()
 
-		accessLogMap["request_post_data"] = ""
+		accessLogMap["request_post_data"] = string(rawData)
 		accessLogMap["request_client_ip"] = c.ClientIP()
 
 		accessLogMap["response_time"] = endTime
@@ -74,8 +81,8 @@ func Logger() gin.HandlerFunc {
 		accessLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)
 
 		accessLogJson, _ := utils.JSONEncode(accessLogMap)
-		AppAccessLogName := global.AppSetting.AppName + "-access.log"
-		if f, err := os.OpenFile("log/"+AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); err != nil {
+		AppAccessLogName := utils.LogDir(global.LogSetting.SavePath) + "access.log"
+		if f, err := os.OpenFile(AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); err != nil {
 			log.Println(err)
 		} else {
 			f.WriteString(string(accessLogJson) + "\n")

@@ -19,10 +19,14 @@ func (e Error) Error() (re string) {
 	return fmt.Sprintf("code=%v, Message=%v", e.Code, e.Message)
 }
 
-func NewError(code int, message string) (e Error) {
-	if message == "" {
-		message = errcode.GetMsg(code)
+func NewError(code int) (e Error) {
+	e = Error{
+		Code:    code,
+		Message: errcode.GetMsg(code),
 	}
+	return
+}
+func NewErrorMessage(code int, message string) (e Error) {
 	e = Error{
 		Code:    code,
 		Message: message,
@@ -35,15 +39,15 @@ func ParseRequest(c *gin.Context, request interface{}) (err error) {
 
 	if err != nil {
 		msg := Translate(err.(validator.ValidationErrors))
-		err = NewError(errcode.InvalidParams, msg)
+		err = NewErrorMessage(errcode.InvalidParams, msg)
 		return
 	}
 	return
 }
-func FailResp(c *gin.Context, code int) {
+func FailResp(c *gin.Context, code int, msg string) {
 	c.AbortWithStatusJSON(200, Error{
 		Code:    code,
-		Message: errcode.GetMsg(code),
+		Message: msg,
 	})
 	return
 }

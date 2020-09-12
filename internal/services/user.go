@@ -19,7 +19,7 @@ func Login(c *gin.Context, req request.Login) (err error) {
 	// 正确密码验证
 	err = bcrypt.CompareHashAndPassword([]byte(userModel.Password), []byte(req.Password))
 	if err != nil {
-		core.FailResp(c, errcode.ErrorPassWord)
+		err = core.NewError(errcode.ErrorPassWord)
 		return
 	}
 	data, err := lib.GenerateToken(userModel.Id)

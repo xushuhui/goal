@@ -29,3 +29,6 @@ func CreateFile(fileName string) (f *os.File, e error) {
 	}
 	return
 }
+func LogDir(savePath string) string {
+	return savePath + "/" + GetCurrentDate() + "/"
+}
