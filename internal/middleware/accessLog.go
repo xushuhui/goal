@@ -30,7 +30,6 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 
 func AccessLog() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fmt.Println("accesslog start")
 		bodyLogWriter := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
 		rawData, _ := c.GetRawData()

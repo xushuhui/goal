@@ -33,7 +33,9 @@ func NewErrorMessage(code int, message string) (e Error) {
 	}
 	return
 }
-
+func NewInvalidParamsError(message string) (e Error) {
+	return NewErrorMessage(errcode.InvalidParams, message)
+}
 func ParseRequest(c *gin.Context, request interface{}) (err error) {
 	err = c.ShouldBind(request)
 

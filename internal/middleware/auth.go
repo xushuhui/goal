@@ -10,10 +10,11 @@ import (
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		var err error
 		Authorization := c.Request.Header.Get("Authorization")
 
 		if Authorization == "" {
-			//core.FailResp(c, errcode.InvalidParams)
+			err = core.NewInvalidParamsError("empty Authorization")
 			return
 		}
 

@@ -22,12 +22,12 @@ func Sign() gin.HandlerFunc {
 		sign, err := verifySign(c)
 
 		if sign != nil {
-			core.InvalidParamsResp(c, "Debug Sign")
+			err = core.NewInvalidParamsError("Debug Sign")
 			return
 		}
 
 		if err != nil {
-			core.InvalidParamsResp(c, err.Error())
+			err = core.NewInvalidParamsError(err.Error())
 			return
 		}
 

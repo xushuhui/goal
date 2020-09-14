@@ -1,7 +1,6 @@
 package services
 
 import (
-	"github.com/gin-gonic/gin"
 	"goal/internal/model"
 	"goal/internal/request"
 	"goal/pkg/core"
@@ -10,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(c *gin.Context, req request.Login) (err error) {
+func Login(req request.Login) (data string, err error) {
 
 	userModel, err := model.GetAccountUserOne("phone=?", req.Phone)
 	if err != nil {
@@ -22,10 +21,10 @@ func Login(c *gin.Context, req request.Login) (err error) {
 		err = core.NewError(errcode.ErrorPassWord)
 		return
 	}
-	data, err := lib.GenerateToken(userModel.Id)
+	data, err = lib.GenerateToken(userModel.Id)
 	if err != nil {
 		return
 	}
-	core.SetData(c, data)
+
 	return
 }
