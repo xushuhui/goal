@@ -27,7 +27,7 @@ Email:
     - xxx
 JWT:
   Secret: eddycjy
-  Issuer: goal
+  Issuer: lin-cms-go
   Expire: 7200
 Database:
   DBType: mysql

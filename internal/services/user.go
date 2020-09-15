@@ -21,7 +21,7 @@ func Login(req request.Login) (data string, err error) {
 		err = core.NewError(errcode.ErrorPassWord)
 		return
 	}
-	data, err = lib.GenerateToken(userModel.Id)
+	data, err = lib.GenerateToken(userModel.ID)
 	if err != nil {
 		return
 	}
