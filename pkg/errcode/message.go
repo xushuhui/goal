@@ -1,5 +1,16 @@
 package errcode
 
+const (
+	SUCCESS = iota
+	InvalidParams
+	ServerError
+	AuthCheckTokenFail
+	AuthCheckTokenTimeout
+	ErrorAuthToken
+	TimeoutAuthToken
+	ErrorPassWord
+)
+
 var MsgFlags = map[int]string{
 	SUCCESS:               "ok",
 	InvalidParams:         "请求参数错误",
