@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(req request.Login) (data string, err error) {
+func Login(req request.Login) (data map[string]interface{}, err error) {
 
 	userModel, err := model.GetAccountUserOne("phone=?", req.Phone)
 	if err != nil {
@@ -21,10 +21,11 @@ func Login(req request.Login) (data string, err error) {
 		err = core.NewError(errcode.ErrorPassWord)
 		return
 	}
-	data, err = lib.GenerateToken(userModel.ID)
+	token, err := lib.GenerateToken(userModel.ID)
 	if err != nil {
 		return
 	}
-
+	data = make(map[string]interface{})
+	data["access_token"] = token
 	return
 }

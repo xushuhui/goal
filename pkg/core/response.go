@@ -46,10 +46,10 @@ func ParseRequest(c *gin.Context, request interface{}) (err error) {
 	}
 	return
 }
-func FailResp(c *gin.Context, code int, msg string) {
+func FailResp(c *gin.Context, code int) {
 	c.AbortWithStatusJSON(200, Error{
 		Code:    code,
-		Message: msg,
+		Message: errcode.GetMsg(code),
 	})
 	return
 }

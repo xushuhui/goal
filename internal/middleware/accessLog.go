@@ -61,7 +61,7 @@ func AccessLog() gin.HandlerFunc {
 
 		//日志格式
 		accessLogMap := make(map[string]interface{})
-
+		accessLogMap["request_uid"], _ = c.Get("uid")
 		accessLogMap["request_time"] = startTime
 		accessLogMap["request_method"] = c.Request.Method
 		accessLogMap["request_uri"] = c.Request.RequestURI
