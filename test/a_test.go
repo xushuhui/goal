@@ -29,8 +29,8 @@ func TestA(t *testing.T) {
 	//fmt.Println( checkFront(newArr))
 
 	j, _ := json.Marshal(newArr)
-	if f, err := os.OpenFile("a.txt", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); err != nil {
-		log.Println(err)
+	if f, e := os.OpenFile("a.txt", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0777); e != nil {
+		log.Println(e)
 	} else {
 
 		f.WriteString(string(j))

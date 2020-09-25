@@ -1,4 +1,5 @@
 package tracer
+
 import (
 	"io"
 	"time"
@@ -20,9 +21,9 @@ func NewJaegerTracer(serviceName, agentHostPort string) (opentracing.Tracer, io.
 			LocalAgentHostPort:  agentHostPort,
 		},
 	}
-	tracer, closer, err := cfg.NewTracer()
-	if err != nil {
-		return nil, nil, err
+	tracer, closer, e := cfg.NewTracer()
+	if e != nil {
+		return nil, nil, e
 	}
 	opentracing.SetGlobalTracer(tracer)
 	return tracer, closer, nil

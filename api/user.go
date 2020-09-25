@@ -29,14 +29,14 @@ POST参数：
 */
 func Login(c *gin.Context) {
 	var req request.Login
-	if err := core.ParseRequest(c, &req); err != nil {
-		c.Error(err)
+	if e := core.ParseRequest(c, &req); e != nil {
+		c.Error(e)
 		return
 	}
 
-	data, err := services.Login(req)
-	if err != nil {
-		c.Error(err)
+	data, e := services.Login(req)
+	if e != nil {
+		c.Error(e)
 		return
 	}
 	core.SetData(c, data)

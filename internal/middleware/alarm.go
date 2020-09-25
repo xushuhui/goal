@@ -11,7 +11,7 @@ func Alarm() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		defer func() {
-			if err := recover(); err != nil {
+			if e := recover(); e != nil {
 
 				DebugStack := ""
 				for _, v := range strings.Split(string(debug.Stack()), "\n") {
@@ -20,7 +20,7 @@ func Alarm() gin.HandlerFunc {
 
 				//subject := fmt.Sprintf("【重要错误】%s 项目出错了！", config.AppName)
 				//
-				//body := strings.ReplaceAll(MailTemplate, "{ErrorMsg}", fmt.Sprintf("%s", err))
+				//body := strings.ReplaceAll(MailTemplate, "{ErrorMsg}", fmt.Sprintf("%s", e))
 				//body  = strings.ReplaceAll(body, "{RequestTime}", utils.GetCurrentDate())
 				//body  = strings.ReplaceAll(body, "{RequestURL}", c.Request.Method + "  " + c.Request.Host + c.Request.RequestURI)
 				//body  = strings.ReplaceAll(body, "{RequestUA}", c.Request.UserAgent())

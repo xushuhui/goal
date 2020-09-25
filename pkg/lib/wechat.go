@@ -9,10 +9,10 @@ import (
 
 // DecodeWeAppUserInfo 解密微信小程序用户信息
 func DecodeWeAppUserInfo(encryptedData string, sessionKey string, iv string) (result []byte, e error) {
-	bytes, err := base64.StdEncoding.DecodeString(encryptedData)
-	if err != nil {
-		fmt.Println("encryptedData: ", encryptedData, "\n", err.Error())
-		return nil, err
+	bytes, e := base64.StdEncoding.DecodeString(encryptedData)
+	if e != nil {
+		fmt.Println("encryptedData: ", encryptedData, "\n", e.Error())
+		return nil, e
 	}
 
 	key, keyErr := base64.StdEncoding.DecodeString(sessionKey)
@@ -32,9 +32,9 @@ func DecodeWeAppUserInfo(encryptedData string, sessionKey string, iv string) (re
 }
 
 func AESDecrypt(cipherText, key, iv []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key) //选择加密算法
-	if err != nil {
-		return nil, err
+	block, e := aes.NewCipher(key) //选择加密算法
+	if e != nil {
+		return nil, e
 	}
 	blockModel := cipher.NewCBCDecrypter(block, iv)
 	plantText := make([]byte, len(cipherText))

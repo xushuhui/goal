@@ -67,9 +67,9 @@ type LogSettings struct {
 var sections = make(map[string]interface{})
 
 func (s *Setting) ReadSection(k string, v interface{}) error {
-	err := s.vp.UnmarshalKey(k, v)
-	if err != nil {
-		return err
+	e := s.vp.UnmarshalKey(k, v)
+	if e != nil {
+		return e
 	}
 
 	if _, ok := sections[k]; !ok {
@@ -80,9 +80,9 @@ func (s *Setting) ReadSection(k string, v interface{}) error {
 
 func (s *Setting) ReloadAllSection() error {
 	for k, v := range sections {
-		err := s.ReadSection(k, v)
-		if err != nil {
-			return err
+		e := s.ReadSection(k, v)
+		if e != nil {
+			return e
 		}
 	}
 
@@ -99,9 +99,9 @@ func NewSetting(configDir, configName, configType string) (*Setting, error) {
 	vp.SetConfigName(configName)
 
 	vp.SetConfigType(configType)
-	err := vp.ReadInConfig()
-	if err != nil {
-		return nil, err
+	e := vp.ReadInConfig()
+	if e != nil {
+		return nil, e
 	}
 
 	s := &Setting{vp}

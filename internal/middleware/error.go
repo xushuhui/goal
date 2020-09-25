@@ -15,15 +15,15 @@ func ErrorHandle() gin.HandlerFunc {
 		if e == nil {
 			return
 		}
-		err := e.Err
+		errors := e.Err
 
-		switch err.(type) {
+		switch errors.(type) {
 		case core.Error:
-			codeErr := err.(core.Error)
-			core.FailResp(c, codeErr.Code, codeErr.Message)
+			codeErr := errors.(core.Error)
+			core.FailResp(c, codeErr.Code)
 
 		case *json.UnmarshalTypeError:
-			unmarshalTypeError := err.(*json.UnmarshalTypeError)
+			unmarshalTypeError := errors.(*json.UnmarshalTypeError)
 			errStr := fmt.Errorf("%s 类型错误，期望类型 %s", unmarshalTypeError.Field, unmarshalTypeError.Type.String()).Error()
 			core.InvalidParamsResp(c, errStr)
 		default:

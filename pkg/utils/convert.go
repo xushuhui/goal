@@ -26,33 +26,33 @@ func BytesToUint32(from []byte) (to uint32) {
 	binary.Read(buffer, binary.BigEndian, &to)
 	return
 }
-func StringToInt(v string) (d int, err error) {
-	tmp, err := strconv.ParseInt(v, 10, 32)
-	if err != nil {
+func StringToInt(v string) (d int, e error) {
+	tmp, e := strconv.ParseInt(v, 10, 32)
+	if e != nil {
 		return
 	}
-	return int(tmp), err
+	return int(tmp), e
 }
-func StringToUint(v string) (d uint, err error) {
-	tmp, err := strconv.ParseUint(v, 10, 32)
-	if err != nil {
+func StringToUint(v string) (d uint, e error) {
+	tmp, e := strconv.ParseUint(v, 10, 32)
+	if e != nil {
 		return
 	}
-	return uint(tmp), err
+	return uint(tmp), e
 }
-func StringToUint32(v string) (d uint32, err error) {
-	tmp, err := strconv.ParseUint(v, 10, 32)
-	if err != nil {
+func StringToUint32(v string) (d uint32, e error) {
+	tmp, e := strconv.ParseUint(v, 10, 32)
+	if e != nil {
 		return
 	}
-	return uint32(tmp), err
+	return uint32(tmp), e
 }
-func StringToUint8(v string) (d uint8, err error) {
-	tmp, err := strconv.ParseUint(v, 10, 8)
-	if err != nil {
+func StringToUint8(v string) (d uint8, e error) {
+	tmp, e := strconv.ParseUint(v, 10, 8)
+	if e != nil {
 		return
 	}
-	return uint8(tmp), err
+	return uint8(tmp), e
 }
 func StringToUint64(v string) (d uint64, err error) {
 	d, err = strconv.ParseUint(v, 10, 64)

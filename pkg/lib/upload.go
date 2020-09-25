@@ -14,8 +14,8 @@ import (
 type FileType int
 
 const (
-	TypeImage FileType = iota +1
-	TypePng   FileType = iota +2
+	TypeImage FileType = iota + 1
+	TypePng   FileType = iota + 2
 )
 
 func GetFileName(name string) string {
@@ -38,8 +38,8 @@ func GetServerUrl() string {
 }
 
 func CheckSavePath(dst string) bool {
-	_, err := os.Stat(dst)
-	return os.IsNotExist(err)
+	_, e := os.Stat(dst)
+	return os.IsNotExist(e)
 }
 
 func CheckContainExt(t FileType, name string) bool {
@@ -72,15 +72,15 @@ func CheckMaxSize(t FileType, f multipart.File) bool {
 }
 
 func CheckPermission(dst string) bool {
-	_, err := os.Stat(dst)
+	_, e := os.Stat(dst)
 
-	return os.IsPermission(err)
+	return os.IsPermission(e)
 }
 
 func CreateSavePath(dst string, perm os.FileMode) error {
-	err := os.MkdirAll(dst, perm)
-	if err != nil {
-		return err
+	e := os.MkdirAll(dst, perm)
+	if e != nil {
+		return e
 	}
 
 	return nil

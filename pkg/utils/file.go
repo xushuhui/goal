@@ -3,14 +3,14 @@ package utils
 import "os"
 
 func PathExists(path string) (bool, error) {
-	_, err := os.Stat(path)
-	if err == nil {
+	_, e := os.Stat(path)
+	if e == nil {
 		return true, nil
 	}
-	if os.IsNotExist(err) {
+	if os.IsNotExist(e) {
 		return false, nil
 	}
-	return false, err
+	return false, e
 }
 func CreateFile(fileName string) (f *os.File, e error) {
 	exist, e := PathExists(fileName)

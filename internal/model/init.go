@@ -19,19 +19,19 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 		databaseSetting.Charset,
 		databaseSetting.ParseTime,
 	)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+	db, e := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		PrepareStmt: true,
 	})
-	if err != nil {
-		return nil, err
+	if e != nil {
+		return nil, e
 	}
 
 	if global.ServerSetting.RunMode == "debug" {
 
 	}
-	sqlDB, err := db.DB()
-	if err != nil {
-		return nil, err
+	sqlDB, e := db.DB()
+	if e != nil {
+		return nil, e
 	}
 	sqlDB.SetMaxIdleConns(databaseSetting.MaxIdleConns)
 	sqlDB.SetConnMaxLifetime(time.Hour)

@@ -29,20 +29,20 @@ func HttpServerRun() {
 
 }
 func httpListen() {
-	if err := HttpSrvHandler.ListenAndServe(); err != nil {
-		log.Fatalf(" [ERROR] HttpServerRun:%s err:%v\n", port, err)
+	if e := HttpSrvHandler.ListenAndServe(); e != nil {
+		log.Fatalf(" [ERROR] HttpServerRun:%s Error:%v\n", port, e)
 	}
 }
 func httpsListen() {
-	if err := HttpSrvHandler.ListenAndServeTLS("storage/cert.pem", "storage/key.pem"); err != nil {
-		log.Fatalf(" [ERROR] HttpServerRun:%s err:%v\n", port, err)
+	if e := HttpSrvHandler.ListenAndServeTLS("storage/cert.pem", "storage/key.pem"); e != nil {
+		log.Fatalf(" [ERROR] HttpServerRun:%s e:%v\n", port, e)
 	}
 }
 func HttpServerStop() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	if err := HttpSrvHandler.Shutdown(ctx); err != nil {
-		log.Fatalf(" [ERROR] HttpServerStop err:%v\n", err)
+	if e := HttpSrvHandler.Shutdown(ctx); e != nil {
+		log.Fatalf(" [ERROR] HttpServerStop err:%v\n", e)
 	}
 	log.Printf(" [INFO] HttpServerStop stopped\n")
 }

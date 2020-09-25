@@ -27,9 +27,9 @@ func GenerateToken(uid uint) (string, error) {
 	}
 
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := tokenClaims.SignedString(jwtSecret)
+	token, e := tokenClaims.SignedString(jwtSecret)
 
-	return token, err
+	return token, e
 }
 
 func ParseToken(authString string) (*Claims, error) {
@@ -39,7 +39,7 @@ func ParseToken(authString string) (*Claims, error) {
 		return nil, errors.New("token error")
 	}
 	token := kv[1]
-	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+	tokenClaims, e := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil
 	})
 
@@ -49,5 +49,5 @@ func ParseToken(authString string) (*Claims, error) {
 		}
 	}
 
-	return nil, err
+	return nil, e
 }

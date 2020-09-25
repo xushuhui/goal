@@ -15,32 +15,32 @@ import (
 
 func StartModule() {
 	//initRedis()
-	var err error
-	if err = initFlag(); err != nil {
-		log.Fatalf("initFlag err: %v", err)
+	var e error
+	if e = initFlag(); e != nil {
+		log.Fatalf("initFlag e: %v", e)
 	}
-	if err = initSetting(); err != nil {
-		log.Fatalf("initSetting err: %v", err)
+	if e = initSetting(); e != nil {
+		log.Fatalf("initSetting e: %v", e)
 	}
-	if err = initValidate(); err != nil {
-		log.Fatalf("initValidate err: %v", err)
+	if e = initValidate(); e != nil {
+		log.Fatalf("initValidate e: %v", e)
 	}
 
-	if err = initLogger(); err != nil {
-		log.Fatalf("initLogger err: %v", err)
+	if e = initLogger(); e != nil {
+		log.Fatalf("initLogger e: %v", e)
 	}
-	err = initDBEngine()
-	if err != nil {
-		log.Fatalf("initDBEngine err: %v", err)
+	e = initDBEngine()
+	if e != nil {
+		log.Fatalf("initDBEngine e: %v", e)
 	}
-	//err = initRedis()
-	//if err != nil {
-	//log.Fatalf("initRedis err: %v", err)
+	//e = initRedis()
+	//if e != nil {
+	//log.Fatalf("initRedis e: %v", e)
 	//}
 
-	err = initTracer()
-	if err != nil {
-		log.Fatalf("initTracer err: %v", err)
+	e = initTracer()
+	if e != nil {
+		log.Fatalf("initTracer e: %v", e)
 	}
 }
 
@@ -62,37 +62,37 @@ func initFlag() error {
 func initSetting() error {
 	path, _ := os.Getwd()
 	config := path + "/configs"
-	s, err := setting.NewSetting(config, runMode, "yaml")
-	if err != nil {
-		return err
+	s, e := setting.NewSetting(config, runMode, "yaml")
+	if e != nil {
+		return e
 	}
-	err = s.ReadSection("Server", &global.ServerSetting)
-	if err != nil {
-		return err
+	e = s.ReadSection("Server", &global.ServerSetting)
+	if e != nil {
+		return e
 	}
-	err = s.ReadSection("App", &global.AppSetting)
-	if err != nil {
-		return err
-	}
-
-	if err = s.ReadSection("Database", &global.DatabaseSetting); err != nil {
-		return err
+	e = s.ReadSection("App", &global.AppSetting)
+	if e != nil {
+		return e
 	}
 
-	if err = s.ReadSection("Redis", &global.RedisSetting); err != nil {
-		return err
+	if e = s.ReadSection("Database", &global.DatabaseSetting); e != nil {
+		return e
 	}
 
-	if err = s.ReadSection("JWT", &global.JWTSetting); err != nil {
-		return err
+	if e = s.ReadSection("Redis", &global.RedisSetting); e != nil {
+		return e
 	}
 
-	if err = s.ReadSection("Log", &global.LogSetting); err != nil {
-		return err
+	if e = s.ReadSection("JWT", &global.JWTSetting); e != nil {
+		return e
 	}
 
-	if err = s.ReadSection("Email", &global.EmailSetting); err != nil {
-		return err
+	if e = s.ReadSection("Log", &global.LogSetting); e != nil {
+		return e
+	}
+
+	if e = s.ReadSection("Email", &global.EmailSetting); e != nil {
+		return e
 	}
 
 	global.AppSetting.DefaultContextTimeout *= time.Second
@@ -127,18 +127,18 @@ func initLogger() (e error) {
 }
 
 func initDBEngine() error {
-	var err error
-	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
-	if err != nil {
-		return err
+	var e error
+	global.DBEngine, e = model.NewDBEngine(global.DatabaseSetting)
+	if e != nil {
+		return e
 	}
 
 	return nil
 }
 func initTracer() error {
-	jaegerTracer, _, err := tracer.NewJaegerTracer("s", "127.0.0.1:6831")
-	if err != nil {
-		return err
+	jaegerTracer, _, e := tracer.NewJaegerTracer("s", "127.0.0.1:6831")
+	if e != nil {
+		return e
 	}
 	global.Tracer = jaegerTracer
 	return nil

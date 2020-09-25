@@ -9,20 +9,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Login(req request.Login) (data map[string]interface{}, err error) {
+func Login(req request.Login) (data map[string]interface{}, e error) {
 
-	userModel, err := model.GetAccountUserOne("phone=?", req.Phone)
-	if err != nil {
+	userModel, e := model.GetAccountUserOne("phone=?", req.Phone)
+	if e != nil {
 		return
 	}
 	// 正确密码验证
-	err = bcrypt.CompareHashAndPassword([]byte(userModel.Password), []byte(req.Password))
-	if err != nil {
-		err = core.NewError(errcode.ErrorPassWord)
+	e = bcrypt.CompareHashAndPassword([]byte(userModel.Password), []byte(req.Password))
+	if e != nil {
+		e = core.NewError(errcode.ErrorPassWord)
 		return
 	}
-	token, err := lib.GenerateToken(userModel.ID)
-	if err != nil {
+	token, e := lib.GenerateToken(userModel.ID)
+	if e != nil {
 		return
 	}
 	data = make(map[string]interface{})

@@ -12,9 +12,9 @@ import (
 // 加密 aes_128_cbc
 func AesEncrypt(encryptStr string, key []byte, iv string) (string, error) {
 	encryptBytes := []byte(encryptStr)
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return "", err
+	block, e := aes.NewCipher(key)
+	if e != nil {
+		return "", e
 	}
 
 	blockSize := block.BlockSize()

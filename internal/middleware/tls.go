@@ -10,10 +10,10 @@ func TlsHandler() gin.HandlerFunc {
 		secureMiddleware := secure.New(secure.Options{
 			SSLRedirect: true,
 		})
-		err := secureMiddleware.Process(c.Writer, c.Request)
+		e := secureMiddleware.Process(c.Writer, c.Request)
 
 		// If there was an error, do not continue.
-		if err != nil {
+		if e != nil {
 			return
 		}
 

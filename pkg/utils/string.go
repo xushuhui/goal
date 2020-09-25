@@ -77,9 +77,9 @@ func FilterEmoji(content string) string {
 
 func UUID() (string, error) {
 	uuid := make([]byte, 16)
-	n, err := io.ReadFull(cr.Reader, uuid)
-	if n != len(uuid) || err != nil {
-		return "", err
+	n, e := io.ReadFull(cr.Reader, uuid)
+	if n != len(uuid) || e != nil {
+		return "", e
 	}
 	// variant bits; see section 4.1.1
 	uuid[8] = uuid[8]&^0xc0 | 0x80
