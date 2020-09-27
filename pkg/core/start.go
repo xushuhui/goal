@@ -14,7 +14,6 @@ import (
 )
 
 func StartModule() {
-	//initRedis()
 	var e error
 	if e = initFlag(); e != nil {
 		log.Fatalf("initFlag e: %v", e)
@@ -47,14 +46,11 @@ func StartModule() {
 var (
 	port    string
 	runMode string
-
-	isVersion bool
 )
 
 func initFlag() error {
 	flag.StringVar(&port, "port", "", "启动端口")
 	flag.StringVar(&runMode, "mode", gin.Mode(), "启动模式")
-	flag.BoolVar(&isVersion, "version", false, "编译信息")
 	flag.Parse()
 
 	return nil
@@ -109,20 +105,13 @@ func initSetting() error {
 	return nil
 }
 func initLogger() (e error) {
-	//global.Logger = logger.NewLogger(&lumberjack.Logger{
-	//	Filename:  fileName,
-	//	MaxSize:   500,
-	//	MaxAge:    10,
-	//	LocalTime: true,
-	//}, "", log.LstdFlags).WithCaller(2)
+
 	logSet := global.LogSetting
 	global.Logger, e = logger.NewLogger(logSet.Formatter, logSet.Level, logSet.ReportCaller, logSet.SavePath)
 	if e != nil {
 		return
 	}
-
 	//logger.Log.AddHook(&logger.AppHook{})
-
 	return
 }
 

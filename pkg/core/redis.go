@@ -10,14 +10,7 @@ import (
 var RDB *redis.Client
 
 // 初始化连接
-func initRedis() (e error) {
-	NewClient()
-	_, e = RDB.Ping().Result()
-	if e != nil {
-		return
-	}
-	return
-}
+
 func NewClient() {
 	RDB = redis.NewClient(&redis.Options{
 		Addr:     global.RedisSetting.Host,
