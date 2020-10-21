@@ -60,8 +60,3 @@ func (l *Logger) setOutput() {
 	}
 	l.SetOutput(io.MultiWriter(l.Out, writer))
 }
-
-//func apiLog() *log.Entry {
-//	return log.WithField("topic", "api")
-//}
-//

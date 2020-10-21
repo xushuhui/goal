@@ -77,28 +77,28 @@ func CheckPermission(dst string) bool {
 	return os.IsPermission(e)
 }
 
-func CreateSavePath(dst string, perm os.FileMode) error {
-	e := os.MkdirAll(dst, perm)
+func CreateSavePath(dst string, perm os.FileMode) (e error) {
+	e = os.MkdirAll(dst, perm)
 	if e != nil {
-		return e
+		return
 	}
 
-	return nil
+	return
 }
 
-func SaveFile(file *multipart.FileHeader, dst string) error {
-	src, err := file.Open()
-	if err != nil {
-		return err
+func SaveFile(file *multipart.FileHeader, dst string) (e error) {
+	src, e := file.Open()
+	if e != nil {
+		return
 	}
 	defer src.Close()
 
-	out, err := os.Create(dst)
-	if err != nil {
-		return err
+	out, e := os.Create(dst)
+	if e != nil {
+		return
 	}
 	defer out.Close()
 
-	_, err = io.Copy(out, src)
-	return err
+	_, e = io.Copy(out, src)
+	return
 }

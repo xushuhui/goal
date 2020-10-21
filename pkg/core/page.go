@@ -37,8 +37,8 @@ func GetPageSize(c *gin.Context) int {
 	return pageSize
 }
 
-func GetPageOffset(page, pageSize int) int {
-	result := 0
+func GetPageOffset(page, pageSize int) (result int) {
+
 	if page > 0 {
 		result = (page - 1) * pageSize
 	}
