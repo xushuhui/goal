@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/gin-gonic/gin"
 	"goal/global"
+	"goal/internal/cache"
 	"goal/internal/model"
 	"goal/pkg/logger"
 	"goal/pkg/setting"
@@ -32,10 +33,10 @@ func StartModule() {
 	if e != nil {
 		log.Fatalf("initDBEngine e: %v", e)
 	}
-	//e = initRedis()
-	//if e != nil {
-	//log.Fatalf("initRedis e: %v", e)
-	//}
+	e = initRedis()
+	if e != nil {
+		log.Fatalf("initRedis e: %v", e)
+	}
 
 	e = initTracer()
 	if e != nil {
@@ -55,40 +56,40 @@ func initFlag() error {
 
 	return nil
 }
-func initSetting() error {
+func initSetting() (e error) {
 	path, _ := os.Getwd()
 	config := path + "/configs"
 	s, e := setting.NewSetting(config, runMode, "yaml")
 	if e != nil {
-		return e
+		return
 	}
 	e = s.ReadSection("Server", &global.ServerSetting)
 	if e != nil {
-		return e
+		return
 	}
 	e = s.ReadSection("App", &global.AppSetting)
 	if e != nil {
-		return e
+		return
 	}
 
 	if e = s.ReadSection("Database", &global.DatabaseSetting); e != nil {
-		return e
+		return
 	}
 
 	if e = s.ReadSection("Redis", &global.RedisSetting); e != nil {
-		return e
+		return
 	}
 
 	if e = s.ReadSection("JWT", &global.JWTSetting); e != nil {
-		return e
+		return
 	}
 
 	if e = s.ReadSection("Log", &global.LogSetting); e != nil {
-		return e
+		return
 	}
 
 	if e = s.ReadSection("Email", &global.EmailSetting); e != nil {
-		return e
+		return
 	}
 
 	global.AppSetting.DefaultContextTimeout *= time.Second
@@ -102,7 +103,7 @@ func initSetting() error {
 		global.ServerSetting.RunMode = runMode
 	}
 
-	return nil
+	return
 }
 func initLogger() (e error) {
 
@@ -115,20 +116,27 @@ func initLogger() (e error) {
 	return
 }
 
-func initDBEngine() error {
-	var e error
+func initDBEngine() (e error) {
+
 	global.DBEngine, e = model.NewDBEngine(global.DatabaseSetting)
 	if e != nil {
-		return e
+		return
 	}
 
-	return nil
+	return
 }
-func initTracer() error {
+func initTracer() (e error) {
 	jaegerTracer, _, e := tracer.NewJaegerTracer("s", "127.0.0.1:6831")
 	if e != nil {
 		return e
 	}
 	global.Tracer = jaegerTracer
 	return nil
+}
+func initRedis() (e error) {
+	global.RDB, e = cache.NewRedisClient(global.RedisSetting)
+	if e != nil {
+		return
+	}
+	return
 }
