@@ -25,4 +25,5 @@ go web framework
 - [x] doc
 - [] 热更新
 - [ ] 开发工具
+- [ ] 消息中心
 godoc -http=:6060

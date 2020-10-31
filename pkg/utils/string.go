@@ -1,9 +1,12 @@
 package utils
 
 import (
+	"crypto/md5"
 	cr "crypto/rand"
+	"encoding/hex"
 	"fmt"
 	"io"
+	"os"
 	"unicode/utf8"
 )
 
@@ -95,4 +98,19 @@ func Reverse(s string) string {
 		r[i], r[j] = r[j], r[i]
 	}
 	return string(r)
+}
+
+func FileMd5(filename string) string {
+	// 文件全路径名
+	path := fmt.Sprintf("./%s", filename)
+	pFile, err := os.Open(path)
+	if err != nil {
+		fmt.Errorf("打开文件失败，filename=%v, err=%v", filename, err)
+		return ""
+	}
+	defer pFile.Close()
+	md5h := md5.New()
+	io.Copy(md5h, pFile)
+
+	return hex.EncodeToString(md5h.Sum(nil))
 }

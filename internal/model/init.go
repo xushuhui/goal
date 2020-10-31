@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 	"time"
 
 	"goal/global"
@@ -20,7 +21,12 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 		databaseSetting.ParseTime,
 	)
 	db, e := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		PrepareStmt: true,
+		PrepareStmt:            true,
+		SkipDefaultTransaction: true,
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix:   databaseSetting.TablePrefix,
+			SingularTable: true,
+		},
 	})
 	if e != nil {
 		return nil, e

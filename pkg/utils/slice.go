@@ -1,6 +1,6 @@
 package utils
 
-func InArray(s []interface{}, element interface{}) bool {
+func InSlice(s []interface{}, element interface{}) bool {
 	for _, v := range s {
 		if v == element {
 			return true
@@ -8,7 +8,7 @@ func InArray(s []interface{}, element interface{}) bool {
 	}
 	return false
 }
-func ArrayRemove(s []interface{}, element interface{}) (otherArr []interface{}) {
+func SliceRemove(s []interface{}, element interface{}) (otherArr []interface{}) {
 	for _, v := range s {
 		if v == element {
 			otherArr = append(otherArr, v)

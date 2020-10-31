@@ -2,6 +2,7 @@ package core
 
 import (
 	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"goal/global"
 	"goal/internal/cache"
@@ -38,9 +39,13 @@ func StartModule() {
 		log.Fatalf("initRedis e: %v", e)
 	}
 
-	e = initTracer()
+	//e = initTracer()
+	//if e != nil {
+	//	log.Fatalf("initTracer e: %v", e)
+	//}
+	e = initTask()
 	if e != nil {
-		log.Fatalf("initTracer e: %v", e)
+		log.Fatalf("initTask e: %v", e)
 	}
 }
 
@@ -139,4 +144,14 @@ func initRedis() (e error) {
 		return
 	}
 	return
+}
+func initTask() (e error) {
+	go testTask()
+	return
+}
+func testTask() {
+	for {
+		time.Sleep(1 * time.Second)
+		fmt.Println(time.Now().Unix())
+	}
 }

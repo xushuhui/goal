@@ -37,3 +37,10 @@ func JSONDecode(b []byte, v interface{}) (e error) {
 	}
 	return
 }
+
+//解析json(无科学计数问题)
+func Unmarshal(data []byte, v interface{}) error {
+	decode := json.NewDecoder(bytes.NewReader(data))
+	decode.UseNumber()
+	return decode.Decode(v)
+}
