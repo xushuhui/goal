@@ -2,7 +2,6 @@ package core
 
 import (
 	"flag"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"goal/global"
 	"goal/internal/cache"
@@ -30,14 +29,14 @@ func StartModule() {
 	if e = initLogger(); e != nil {
 		log.Fatalf("initLogger e: %v", e)
 	}
-	e = initDBEngine()
-	if e != nil {
-		log.Fatalf("initDBEngine e: %v", e)
-	}
-	e = initRedis()
-	if e != nil {
-		log.Fatalf("initRedis e: %v", e)
-	}
+	//e = initDBEngine()
+	//if e != nil {
+	//	log.Fatalf("initDBEngine e: %v", e)
+	//}
+	//e = initRedis()
+	//if e != nil {
+	//	log.Fatalf("initRedis e: %v", e)
+	//}
 
 	//e = initTracer()
 	//if e != nil {
@@ -47,6 +46,8 @@ func StartModule() {
 	if e != nil {
 		log.Fatalf("initTask e: %v", e)
 	}
+	initMsg()
+	//msg.StartMsg()
 }
 
 var (
@@ -152,6 +153,9 @@ func initTask() (e error) {
 func testTask() {
 	for {
 		time.Sleep(1 * time.Second)
-		fmt.Println(time.Now().Unix())
+
 	}
+}
+func startMsg() {
+	//RegisterNotification(1,testNotify)
 }

@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+//消息中心，单例
+//支持两种类型的回调：
+//	1.异步通知：异步调用，没有返回值
+//	2.同步回调：同步调用，有返回值
 type MsgData struct {
 	msgID int
 	data  interface{}
