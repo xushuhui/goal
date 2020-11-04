@@ -11,7 +11,7 @@ import (
 	"goal/pkg/setting"
 )
 
-func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
+func NewDBEngine(databaseSetting *setting.DatabaseSettings) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=Local",
 		databaseSetting.UserName,
 		databaseSetting.Password,

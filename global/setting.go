@@ -10,7 +10,7 @@ var (
 	AppSetting      *setting.AppSettings
 	EmailSetting    *setting.EmailSettings
 	JWTSetting      *setting.JWTSettings
-	DatabaseSetting *setting.DatabaseSettingS
+	DatabaseSetting *setting.DatabaseSettings
 	RedisSetting    *setting.RedisSettings
 	LogSetting      *setting.LogSettings
 	Logger          *logger.Logger

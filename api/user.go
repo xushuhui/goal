@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"goal/internal/request"
 	"goal/internal/services"
 	"goal/pkg/core"
@@ -30,11 +31,12 @@ POST参数：
 func Login(c *gin.Context) {
 	var req request.Login
 
-	if e := core.ParseRequest(c, req); e != nil {
+	if e := core.ParseRequest(c, &req); e != nil {
+
 		c.Error(e)
 		return
 	}
-
+	fmt.Println(">>>", req)
 	data, e := services.Login(req)
 	if e != nil {
 		c.Error(e)

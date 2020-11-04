@@ -41,7 +41,7 @@ type JWTSettings struct {
 	Expire time.Duration
 }
 
-type DatabaseSettingS struct {
+type DatabaseSettings struct {
 	DBType       string
 	UserName     string
 	Password     string
