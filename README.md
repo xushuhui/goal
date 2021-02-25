@@ -15,15 +15,15 @@ go web framework
 - [x] config 配置
 - [x] 请求参数签名
 - [x] tests
-
 - [x] 文件上传
+- [ ] ~~alarm 服务器错误警告（邮箱，钉钉）(业务层)~~
+- [ ] ~~消息中心~~(业务层)
 
-- [ ] alarm 服务器错误警告（邮箱，钉钉）
 - [ ] websocket server
 - [ ] tcp server
 - [x] https
 - [x] doc
-- [] 热更新
+- [ ] 热更新
 - [ ] 开发工具
-- [ ] 消息中心
-godoc -http=:6060
+
+

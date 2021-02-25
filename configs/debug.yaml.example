@@ -16,15 +16,7 @@ App:
     - .jpg
     - .jpeg
     - .png
-Email:
-  Host: smtp.qq.com
-  Port: 465
-  UserName: xxx
-  Password: xxx
-  IsSSL: true
-  From: xxx
-  To:
-    - xxx
+
 JWT:
   Secret: eddycjy
   Issuer: lin-cms-go
