@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	serviceLayoutURL = "https://github.com/"
+	serviceLayoutURL = "https://github.com/xushuhui/goal-layout"
 )
 
 // Project is a project template.
@@ -24,7 +24,7 @@ func (p *Project) New(ctx context.Context, dir string) error {
 	if _, err := os.Stat(to); !os.IsNotExist(err) {
 		return fmt.Errorf("%s already exists", p.Name)
 	}
-	fmt.Printf("Creating service %s\n", p.Name)
+	fmt.Printf("Creating project %s\n", p.Name)
 	repo := base.NewRepo(serviceLayoutURL)
 
 	if err := repo.CopyTo(ctx, to, p.Name, []string{".git", ".github"}); err != nil {
