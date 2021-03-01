@@ -3,6 +3,7 @@ package base
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/go-git/go-git/v5"
 	"os"
 	"path"
@@ -26,6 +27,7 @@ func NewRepo(url string) *Repo {
 func (r *Repo) Path() string {
 	start := strings.LastIndex(r.url, "/")
 	end := strings.LastIndex(r.url, ".git")
+	fmt.Println("s", start, end)
 	return path.Join(r.home, r.url[start+1:end])
 }
 

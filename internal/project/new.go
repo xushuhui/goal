@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	serviceLayoutURL = "https://github.com/xushuhui/goal-layout"
+	serviceLayoutURL = "https://github.com/xushuhui/goal-layout.git"
 )
 
 // Project is a project template.

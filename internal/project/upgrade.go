@@ -17,7 +17,7 @@ var CmdUpgrade = &cobra.Command{
 // Run upgrade the goal tools.
 func Run(cmd *cobra.Command, args []string) {
 	err := base.GoGet(
-		"github.com/go-kratos/kratos/cmd/kratos/v2",
+		"github.com/xushuhui/goal/cmd/goal",
 	)
 	if err != nil {
 		fmt.Println(err)
