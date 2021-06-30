@@ -43,13 +43,13 @@ func ModuleVersion(path string) (string, error) {
 	}
 }
 
-// KratosMod returns kratos mod.
-func KratosMod() string {
+// Mod returns goal mod.
+func Mod() string {
 	gopath := os.Getenv("GOPATH")
-	if path, err := ModuleVersion("github.com/go-kratos/kratos/v2"); err == nil {
-		// $GOPATH/pkg/mod/github.com/go-kratos/kratos@v2
+	if path, err := ModuleVersion("github.com/xushuhui/goal"); err == nil {
+		// $GOPATH/pkg/mod/github.com/xushuhui/goal
 		return filepath.Join(gopath, "pkg", "mod", path)
 	}
-	// $GOPATH/src/github.com/go-kratos/kratos
-	return filepath.Join(gopath, "src", "github.com", "go-kratos", "kratos")
+	// $GOPATH/src/github.com/xushuhui/goal
+	return filepath.Join(gopath, "src", "github.com", "xushuhui", "goal")
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/xushuhui/goal/internal/project"
+	"github.com/xushuhui/goal/cmd/goal/internal/project"
 	"log"
 )
 
@@ -24,6 +24,7 @@ func init() {
 }
 
 func main() {
+
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
 	}

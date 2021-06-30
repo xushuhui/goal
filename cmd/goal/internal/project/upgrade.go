@@ -3,7 +3,7 @@ package project
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/xushuhui/goal/internal/base"
+	"github.com/xushuhui/goal/cmd/goal/internal/base"
 )
 
 // CmdUpgrade represents the upgrade command.
