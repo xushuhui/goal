@@ -1,50 +1,73 @@
 package log
 
-import "os"
+import (
+	"context"
+	"log"
+)
 
 var (
 	// DefaultLogger is default logger.
-	DefaultLogger Logger = NewStdLogger(os.Stderr)
+	DefaultLogger Logger = NewStdLogger(log.Writer())
 )
 
 // Logger is a logger interface.
 type Logger interface {
-	Print(pairs ...interface{})
+	Log(level Level, keyvals ...interface{}) error
 }
 
 type logger struct {
-	log   Logger
-	pairs []interface{}
+	logs      []Logger
+	prefix    []interface{}
+	hasValuer bool
+	ctx       context.Context
 }
 
-func (l *logger) Print(pairs ...interface{}) {
-	l.log.Print(append(pairs, l.pairs...)...)
-}
-
-// With with logger kv pairs.
-func With(log Logger, pairs ...interface{}) Logger {
-	if len(pairs) == 0 {
-		return log
+func (c *logger) Log(level Level, keyvals ...interface{}) error {
+	kvs := make([]interface{}, 0, len(c.prefix)+len(keyvals))
+	kvs = append(kvs, c.prefix...)
+	if c.hasValuer {
+		bindValues(c.ctx, kvs)
 	}
-	return &logger{log: log, pairs: pairs}
+	kvs = append(kvs, keyvals...)
+	for _, l := range c.logs {
+		if err := l.Log(level, kvs...); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
-// Debug returns a debug logger.
-func Debug(log Logger) Logger {
-	return With(log, LevelKey, LevelDebug)
+// With with logger fields.
+func With(l Logger, kv ...interface{}) Logger {
+	if c, ok := l.(*logger); ok {
+		kvs := make([]interface{}, 0, len(c.prefix)+len(kv))
+		kvs = append(kvs, kv...)
+		kvs = append(kvs, c.prefix...)
+		return &logger{
+			logs:      c.logs,
+			prefix:    kvs,
+			hasValuer: containsValuer(kvs),
+			ctx:       c.ctx,
+		}
+	}
+	return &logger{logs: []Logger{l}, prefix: kv, hasValuer: containsValuer(kv)}
 }
 
-// Info returns a info logger.
-func Info(log Logger) Logger {
-	return With(log, LevelKey, LevelInfo)
+// WithContext returns a shallow copy of l with its context changed
+// to ctx. The provided ctx must be non-nil.
+func WithContext(ctx context.Context, l Logger) Logger {
+	if c, ok := l.(*logger); ok {
+		return &logger{
+			logs:      c.logs,
+			prefix:    c.prefix,
+			hasValuer: c.hasValuer,
+			ctx:       ctx,
+		}
+	}
+	return &logger{logs: []Logger{l}, ctx: ctx}
 }
 
-// Warn return a warn logger.
-func Warn(log Logger) Logger {
-	return With(log, LevelKey, LevelWarn)
-}
-
-// Error returns a error logger.
-func Error(log Logger) Logger {
-	return With(log, LevelKey, LevelError)
+// MultiLogger wraps multi logger.
+func MultiLogger(logs ...Logger) Logger {
+	return &logger{logs: logs}
 }
