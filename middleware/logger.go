@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Logger() internal.HandlerFunc {
+func Logging() internal.HandlerFunc {
 	return func(c *internal.Context) error {
 		t := time.Now()
 		c.Next()

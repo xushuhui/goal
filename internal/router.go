@@ -80,7 +80,7 @@ func (r *router) handle(c *Context) {
 		c.handlers = append(c.handlers, r.handlers[key])
 	} else {
 		c.handlers = append(c.handlers, func(c *Context) error {
-			c.String(http.StatusNotFound, "404 NOT FOUND: %s\n", c.Path)
+			c.String(http.StatusNotFound, http.StatusText(http.StatusNotFound), c.Path)
 			return nil
 		})
 	}

@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/xushuhui/goal/internal/json"
 	"net/http"
 )
 

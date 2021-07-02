@@ -7,6 +7,6 @@ import (
 
 func Default() *Engine {
 	engine := New()
-	engine.Use(middleware.Logger(), middleware.Recovery())
+	engine.Use(middleware.Logging(), middleware.Recovery())
 	return engine
 }

@@ -33,6 +33,12 @@ func (engine *Engine) GET(pattern string, handler HandlerFunc) {
 func (engine *Engine) POST(pattern string, handler HandlerFunc) {
 	engine.addRoute("POST", pattern, handler)
 }
+func (engine *Engine) PUT(pattern string, handler HandlerFunc) {
+	engine.addRoute("PUT", pattern, handler)
+}
+func (engine *Engine) DELETE(pattern string, handler HandlerFunc) {
+	engine.addRoute("DELETE", pattern, handler)
+}
 
 // Run defines the method to start a http server
 func (engine *Engine) Run(addr string) (err error) {
