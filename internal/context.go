@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"encoding/json"
@@ -17,15 +17,31 @@ type Context struct {
 	Method     string
 	Params     map[string]string
 	StatusCode int
+
+	// middleware
+	handlers []HandlerFunc
+	index    int
 }
 
-func NewContext(w http.ResponseWriter, req *http.Request) *Context {
+func newContext(w http.ResponseWriter, req *http.Request) *Context {
 	return &Context{
 		Writer: w,
 		Req:    req,
 		Path:   req.URL.Path,
 		Method: req.Method,
+		index:  -1,
 	}
+}
+func (c *Context) Next() {
+	c.index++
+	s := len(c.handlers)
+	for ; c.index < s; c.index++ {
+		_ = c.handlers[c.index](c)
+	}
+}
+func (c *Context) Fail(code int, err string) {
+	c.index = len(c.handlers)
+	c.JSON(code, H{"message": err})
 }
 func (c *Context) PostForm(key string) string {
 	return c.Req.FormValue(key)
