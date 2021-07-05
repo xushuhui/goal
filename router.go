@@ -1,19 +1,20 @@
-package internal
+package main
 
 import (
+	"github.com/xushuhui/goal/internal"
 	"log"
 	"net/http"
 	"strings"
 )
 
-type router struct {
-	roots    map[string]*node
+type Router struct {
+	roots    map[string]*internal.Node
 	handlers map[string]HandlerFunc
 }
 
-func newRouter() *router {
-	return &router{
-		roots:    make(map[string]*node),
+func NewRouter() *Router {
+	return &Router{
+		roots:    make(map[string]*internal.Node),
 		handlers: make(map[string]HandlerFunc)}
 }
 func parsePattern(pattern string) []string {
@@ -30,20 +31,20 @@ func parsePattern(pattern string) []string {
 	}
 	return parts
 }
-func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
+func (r *Router) AddRoute(method string, pattern string, handler HandlerFunc) {
 	log.Printf("Route %4s - %s", method, pattern)
 	parts := parsePattern(pattern)
 
 	key := method + "-" + pattern
 	_, ok := r.roots[method]
 	if !ok {
-		r.roots[method] = &node{}
+		r.roots[method] = &internal.Node{}
 	}
-	r.roots[method].insert(pattern, parts, 0)
+	r.roots[method].Insert(pattern, parts, 0)
 	r.handlers[key] = handler
 }
 
-func (r *router) getRoute(method string, path string) (*node, map[string]string) {
+func (r *Router) getRoute(method string, path string) (*internal.Node, map[string]string) {
 	searchParts := parsePattern(path)
 	params := make(map[string]string)
 	root, ok := r.roots[method]
@@ -52,10 +53,10 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 		return nil, nil
 	}
 
-	n := root.search(searchParts, 0)
+	n := root.Search(searchParts, 0)
 
 	if n != nil {
-		parts := parsePattern(n.pattern)
+		parts := parsePattern(n.Pattern)
 		for index, part := range parts {
 			if part[0] == ':' {
 				params[part[1:]] = searchParts[index]
@@ -70,12 +71,12 @@ func (r *router) getRoute(method string, path string) (*node, map[string]string)
 
 	return nil, nil
 }
-func (r *router) handle(c *Context) {
+func (r *Router) Handle(c *Context) {
 
 	n, params := r.getRoute(c.Method, c.Path)
 
 	if n != nil {
-		key := c.Method + "-" + n.pattern
+		key := c.Method + "-" + n.Pattern
 		c.Params = params
 		c.handlers = append(c.handlers, r.handlers[key])
 	} else {

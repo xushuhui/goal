@@ -1,8 +1,7 @@
-package middleware
+package main
 
 import (
 	"fmt"
-	"github.com/xushuhui/goal/internal"
 
 	"log"
 
@@ -24,8 +23,8 @@ func trace(message string) string {
 	}
 	return str.String()
 }
-func Recovery() internal.HandlerFunc {
-	return func(c *internal.Context) error {
+func Recovery() HandlerFunc {
+	return func(c *Context) error {
 		defer func() {
 			if err := recover(); err != nil {
 				message := fmt.Sprintf("%s", err)

@@ -2,14 +2,14 @@ package internal
 
 import "strings"
 
-type node struct {
-	pattern  string
+type Node struct {
+	Pattern  string
 	part     string
-	children []*node
+	children []*Node
 	isWild   bool
 }
 
-func (n *node) matchChild(part string) *node {
+func (n *Node) matchChild(part string) *Node {
 	for _, child := range n.children {
 		if child.part == part || child.isWild {
 			return child
@@ -17,8 +17,8 @@ func (n *node) matchChild(part string) *node {
 	}
 	return nil
 }
-func (n *node) matchChildren(part string) []*node {
-	nodes := make([]*node, 0)
+func (n *Node) matchChildren(part string) []*Node {
+	nodes := make([]*Node, 0)
 	for _, child := range n.children {
 		if child.part == part || child.isWild {
 			nodes = append(nodes, child)
@@ -26,22 +26,22 @@ func (n *node) matchChildren(part string) []*node {
 	}
 	return nodes
 }
-func (n *node) insert(pattern string, parts []string, height int) {
+func (n *Node) Insert(pattern string, parts []string, height int) {
 	if len(parts) == height {
-		n.pattern = pattern
+		n.Pattern = pattern
 		return
 	}
 	part := parts[height]
 	child := n.matchChild(part)
 	if child == nil {
-		child = &node{part: part, isWild: part[0] == ':' || part[0] == '*'}
+		child = &Node{part: part, isWild: part[0] == ':' || part[0] == '*'}
 		n.children = append(n.children, child)
 	}
-	child.insert(pattern, parts, height+1)
+	child.Insert(pattern, parts, height+1)
 }
-func (n *node) search(parts []string, height int) *node {
+func (n *Node) Search(parts []string, height int) *Node {
 	if len(parts) == height || strings.HasPrefix(n.part, "*") {
-		if n.pattern == "" {
+		if n.Pattern == "" {
 			return nil
 		}
 		return n
@@ -49,7 +49,7 @@ func (n *node) search(parts []string, height int) *node {
 	part := parts[height]
 	children := n.matchChildren(part)
 	for _, child := range children {
-		result := child.search(parts, height+1)
+		result := child.Search(parts, height+1)
 		if result != nil {
 			return result
 		}

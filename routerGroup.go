@@ -1,26 +1,26 @@
-package internal
+package main
 
 type RouterGroup struct {
-	prefix      string
-	middlewares []HandlerFunc
+	Prefix      string
+	Middlewares []HandlerFunc
 	parent      *RouterGroup
-	engine      *Engine
+	Engine      *Engine
 }
 
 func (group *RouterGroup) Group(prefix string) *RouterGroup {
-	engine := group.engine
+	engine := group.Engine
 	newGroup := &RouterGroup{
-		prefix: group.prefix + prefix,
+		Prefix: group.Prefix + prefix,
 		parent: group,
-		engine: engine,
+		Engine: engine,
 	}
 	engine.groups = append(engine.groups, newGroup)
 	return newGroup
 }
 
 func (group *RouterGroup) addRoute(method string, comp string, handler HandlerFunc) {
-	pattern := group.prefix + comp
-	group.engine.router.addRoute(method, pattern, handler)
+	pattern := group.Prefix + comp
+	group.Engine.router.AddRoute(method, pattern, handler)
 }
 
 // GET defines the method to add GET request
@@ -34,5 +34,5 @@ func (group *RouterGroup) POST(pattern string, handler HandlerFunc) {
 }
 
 func (group *RouterGroup) Use(middlewares ...HandlerFunc) {
-	group.middlewares = append(group.middlewares, middlewares...)
+	group.Middlewares = append(group.Middlewares, middlewares...)
 }
