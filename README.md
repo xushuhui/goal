@@ -1,7 +1,7 @@
 ## goal
 go web framework
 
-- Logging
+- logging
 - json
 - config
 

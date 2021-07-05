@@ -44,6 +44,13 @@ func (engine *Engine) DELETE(pattern string, handler HandlerFunc) {
 func (engine *Engine) Run(addr string) (err error) {
 	return http.ListenAndServe(addr, engine)
 }
+
+// Run defines the method to start a https server
+func (engine *Engine) RunTLS(addr, certFile, keyFile string) (err error) {
+	err = http.ListenAndServeTLS(addr, certFile, keyFile, engine)
+	return
+}
+
 func (engine *Engine) middlewares(path string) (middlewares []HandlerFunc) {
 	for _, group := range engine.groups {
 		if strings.HasPrefix(path, group.prefix) {
@@ -53,7 +60,6 @@ func (engine *Engine) middlewares(path string) (middlewares []HandlerFunc) {
 	return
 }
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-
 	c := newContext(w, req)
 	c.handlers = engine.middlewares(req.URL.Path)
 	engine.router.handle(c)

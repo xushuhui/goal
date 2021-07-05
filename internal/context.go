@@ -34,8 +34,8 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 }
 func (c *Context) Next() {
 	c.index++
-	s := len(c.handlers)
-	for ; c.index < s; c.index++ {
+
+	for ; c.index < len(c.handlers); c.index++ {
 		_ = c.handlers[c.index](c)
 	}
 }
@@ -50,7 +50,13 @@ func (c *Context) PostForm(key string) string {
 func (c *Context) Query(key string) string {
 	return c.Req.URL.Query().Get(key)
 }
-
+func (c *Context) DefaultQuery(key, defaultValue string) string {
+	value := c.Query(key)
+	if value != "" {
+		return value
+	}
+	return defaultValue
+}
 func (c *Context) Status(code int) {
 	c.StatusCode = code
 	c.Writer.WriteHeader(code)
