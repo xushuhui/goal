@@ -21,6 +21,12 @@ type Context struct {
 	// middleware
 	handlers []HandlerFunc
 	index    int
+
+	engine *Engine
+}
+type Param struct {
+	Key   string
+	Value string
 }
 
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
