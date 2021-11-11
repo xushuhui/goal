@@ -3,9 +3,6 @@ package main
 import (
 	"fmt"
 
-	"log"
-
-	"net/http"
 	"runtime"
 	"strings"
 )
@@ -22,18 +19,4 @@ func trace(message string) string {
 		str.WriteString(fmt.Sprintf("\n\t%s:%d", file, line))
 	}
 	return str.String()
-}
-func Recovery() HandlerFunc {
-	return func(c *Context) error {
-		defer func() {
-			if err := recover(); err != nil {
-				message := fmt.Sprintf("%s", err)
-				log.Printf("%s\n\n", trace(message))
-				c.Fail(http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError))
-			}
-		}()
-
-		c.Next()
-		return nil
-	}
 }

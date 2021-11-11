@@ -1,7 +1,12 @@
 package main
 
-func Default() *Engine {
-	engine := New()
-	engine.Use(Logging(), Recovery())
-	return engine
+import "github.com/gofiber/fiber/v2"
+
+type App struct {
+	*fiber.App
+}
+
+func Default() *App {
+
+	return &App{}
 }
