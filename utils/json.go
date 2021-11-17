@@ -2,8 +2,6 @@ package utils
 
 import (
 	"bytes"
-
-	
 )
 import jsoniter "github.com/json-iterator/go"
 
@@ -16,7 +14,7 @@ var (
 	// MarshalIndent is exported by gin/json package.
 	MarshalIndent = json.MarshalIndent
 	// NewDecoder is exported by gin/json package.
-	
+
 )
 
 /// <summary>
@@ -26,7 +24,7 @@ var (
 /// <returns>序列化后的字节数组</returns>
 func JSONEncode(v interface{}) ([]byte, error) {
 	buffer := &bytes.Buffer{}
-	
+
 	e := json.NewEncoder(buffer).Encode(v)
 	if e != nil {
 		return nil, e
