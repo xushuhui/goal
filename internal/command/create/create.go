@@ -30,7 +30,7 @@ func NewCreate() *Create {
 
 var CmdCreate = &cobra.Command{
 	Use:     "create [type] [handler-name]",
-	Short:   "Create a new handler/service/repository/model",
+	Short:   "Create a new handler/service/repo/model",
 	Example: "goal create handler user",
 	Args:    cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -80,7 +80,7 @@ var CmdCreateModel = &cobra.Command{
 }
 var CmdCreateAll = &cobra.Command{
 	Use:     "all",
-	Short:   "Create a new handler & service & repository & model",
+	Short:   "Create a new handler & service & repo & model",
 	Example: "goal create all user",
 	Args:    cobra.ExactArgs(1),
 	Run:     runCreate,
@@ -96,7 +96,7 @@ func runCreate(cmd *cobra.Command, args []string) {
 	c.FileNameFirstChar = string(c.FileNameTitleLower[0])
 
 	switch c.CreateType {
-	case "handler", "service", "data", "model":
+	case "handler", "service", "repo", "model":
 		c.genFile()
 	case "all":
 
@@ -106,7 +106,7 @@ func runCreate(cmd *cobra.Command, args []string) {
 		c.CreateType = "service"
 		c.genFile()
 
-		c.CreateType = "data"
+		c.CreateType = "repo"
 		c.genFile()
 
 		c.CreateType = "model"
@@ -120,6 +120,9 @@ func (c *Create) genFile() {
 	filePath := c.FilePath
 	if filePath == "" {
 		filePath = fmt.Sprintf("internal/%s/", c.CreateType)
+	}
+	if c.CreateType == "repo"{
+		filePath = fmt.Sprintf("internal/data/%s/", c.CreateType)
 	}
 	f := createFile(filePath, strings.ToLower(c.FileName)+".go")
 	if f == nil {
