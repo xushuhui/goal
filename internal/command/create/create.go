@@ -96,7 +96,7 @@ func runCreate(cmd *cobra.Command, args []string) {
 	c.FileNameFirstChar = string(c.FileNameTitleLower[0])
 
 	switch c.CreateType {
-	case "handler", "service", "repository", "model":
+	case "handler", "service", "data", "model":
 		c.genFile()
 	case "all":
 
@@ -106,7 +106,7 @@ func runCreate(cmd *cobra.Command, args []string) {
 		c.CreateType = "service"
 		c.genFile()
 
-		c.CreateType = "repository"
+		c.CreateType = "data"
 		c.genFile()
 
 		c.CreateType = "model"
