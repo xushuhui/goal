@@ -2,25 +2,25 @@ package service
 
 import (
 	"{{ .ProjectName }}/internal/model"
-	"{{ .ProjectName }}/internal/repository"
+	"{{ .ProjectName }}/internal/data"
 )
 
 type {{ .FileName }}Service interface {
 	Get{{ .FileName }}ById(id int64) (*model.{{ .FileName }}, error)
 }
 
-func New{{ .FileName }}Service(service *Service, {{ .FileNameTitleLower }}Repository repository.{{ .FileName }}Repository) {{ .FileName }}Service {
+func New{{ .FileName }}Service(service *Service, {{ .FileNameTitleLower }}Repo data.{{ .FileName }}Repo) {{ .FileName }}Service {
 	return &{{ .FileNameTitleLower }}Service{
 		Service:        service,
-		{{ .FileNameTitleLower }}Repository: {{ .FileNameTitleLower }}Repository,
+		{{ .FileNameTitleLower }}Repo: {{ .FileNameTitleLower }}Repo,
 	}
 }
 
 type {{ .FileNameTitleLower }}Service struct {
 	*Service
-	{{ .FileNameTitleLower }}Repository repository.{{ .FileName }}Repository
+	{{ .FileNameTitleLower }}Repo data.{{ .FileName }}Repo
 }
 
 func (s *{{ .FileNameTitleLower }}Service) Get{{ .FileName }}ById(id int64) (*model.{{ .FileName }}, error) {
-	return s.{{ .FileNameTitleLower }}Repository.FirstById(id)
+	return s.{{ .FileNameTitleLower }}Repo.FirstById(id)
 }
