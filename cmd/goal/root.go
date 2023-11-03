@@ -3,10 +3,9 @@ package goal
 import (
 	"fmt"
 
-	"github.com/xushuhui/goal/config"
-	"github.com/xushuhui/goal/internal/command/wire"
-
 	"github.com/spf13/cobra"
+
+	"github.com/xushuhui/goal/config"
 	"github.com/xushuhui/goal/internal/command/create"
 	"github.com/xushuhui/goal/internal/command/new"
 	"github.com/xushuhui/goal/internal/command/run"
@@ -31,9 +30,6 @@ func init() {
 	create.CmdCreate.AddCommand(create.CmdCreateRepo)
 	create.CmdCreate.AddCommand(create.CmdCreateModel)
 	create.CmdCreate.AddCommand(create.CmdCreateAll)
-
-	CmdRoot.AddCommand(wire.CmdWire)
-	wire.CmdWire.AddCommand(wire.CmdWireAll)
 }
 
 // Execute executes the root command.
