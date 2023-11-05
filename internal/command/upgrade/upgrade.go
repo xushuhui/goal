@@ -7,6 +7,7 @@ import (
 	"os/exec"
 
 	"github.com/spf13/cobra"
+
 	"github.com/xushuhui/goal/config"
 )
 
@@ -23,6 +24,6 @@ var CmdUpgrade = &cobra.Command{
 		if err := cmd.Run(); err != nil {
 			log.Fatalf("go install %s error\n", err)
 		}
-		fmt.Printf("\n🎉 Goal upgrade successfully!\n\n")
+		fmt.Print("\n🎉 Goal upgrade successfully!\n\n")
 	},
 }

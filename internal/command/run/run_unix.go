@@ -14,18 +14,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/xushuhui/goal/config"
-
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cobra"
+
+	"github.com/xushuhui/goal/config"
 	"github.com/xushuhui/goal/internal/pkg/helper"
 )
 
 var quit = make(chan os.Signal, 1)
-
-type Run struct {
-}
 
 var excludeDir string
 var includeExt string
@@ -54,19 +51,19 @@ var CmdRun = &cobra.Command{
 		}
 		base, err := os.Getwd()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "\033[31mERROR: %s\033[m\n", err)
+			fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
 			return
 		}
 		if dir == "" {
 			cmdPath, err := helper.FindMain(base, excludeDir)
 
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "\033[31mERROR: %s\033[m\n", err)
+				fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
 				return
 			}
 			switch len(cmdPath) {
 			case 0:
-				fmt.Fprintf(os.Stderr, "\033[31mERROR: %s\033[m\n", "The cmd directory cannot be found in the current directory")
+				fmt.Fprintf(os.Stderr, "ERROR: %s\n", "The cmd directory cannot be found in the current directory")
 				return
 			case 1:
 				for _, v := range cmdPath {
@@ -90,16 +87,14 @@ var CmdRun = &cobra.Command{
 			}
 		}
 		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-		fmt.Printf("\033[35mGoal run %s.\033[0m\n", dir)
-		fmt.Printf("\033[35mWatch excludeDir %s\033[0m\n", excludeDir)
-		fmt.Printf("\033[35mWatch includeExt %s\033[0m\n", includeExt)
+		fmt.Printf("Goal run %s.", dir)
+		fmt.Printf("Watch excludeDir %s", excludeDir)
+		fmt.Printf("Watch includeExt %s", includeExt)
 		watch(dir, programArgs)
-
 	},
 }
 
 func watch(dir string, programArgs []string) {
-
 	// Listening file path
 	watchPath := "./"
 
@@ -155,10 +150,10 @@ func watch(dir string, programArgs []string) {
 			err = syscall.Kill(-cmd.Process.Pid, syscall.SIGINT)
 
 			if err != nil {
-				fmt.Printf("\033[31mserver exiting...\033[0m\n")
+				fmt.Print("server exiting...")
 				return
 			}
-			fmt.Printf("\033[31mserver exiting...\033[0m\n")
+			fmt.Print("server exiting...")
 			os.Exit(0)
 
 		case event := <-watcher.Events:
@@ -166,7 +161,7 @@ func watch(dir string, programArgs []string) {
 			if event.Op&fsnotify.Create == fsnotify.Create ||
 				event.Op&fsnotify.Write == fsnotify.Write ||
 				event.Op&fsnotify.Remove == fsnotify.Remove {
-				fmt.Printf("\033[36mfile modified: %s\033[0m\n", event.Name)
+				fmt.Printf("file modified: %s", event.Name)
 				syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL)
 
 				cmd = start(dir, programArgs)
@@ -187,9 +182,9 @@ func start(dir string, programArgs []string) *exec.Cmd {
 
 	err := cmd.Start()
 	if err != nil {
-		log.Fatalf("\033[33;1mcmd run failed\u001B[0m")
+		log.Fatal("cmd run failed")
 	}
 	time.Sleep(time.Second)
-	fmt.Printf("\033[32;1mrunning...\033[0m\n")
+	fmt.Print("running...")
 	return cmd
 }

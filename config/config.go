@@ -2,7 +2,6 @@ package config
 
 var (
 	Version       = "0.2.0"
-	WireCmd       = "github.com/google/wire/cmd/wire@latest"
 	GoalCmd       = "github.com/xushuhui/goal@latest"
 	RepoBase      = ""
 	RepoAdvanced  = "https://github.com/xushuhui/goal-advanced-layout.git"

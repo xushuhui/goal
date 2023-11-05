@@ -3,14 +3,13 @@ package new
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 
 	"github.com/AlecAivazis/survey/v2"
-
 	"github.com/spf13/cobra"
+
 	"github.com/xushuhui/goal/config"
 	"github.com/xushuhui/goal/internal/pkg/helper"
 )
@@ -26,14 +25,15 @@ var CmdNew = &cobra.Command{
 	Long:    `Create a new project with goal layout.`,
 	Run:     run,
 }
+
 var (
 	repoURL string
 )
 
 func init() {
 	CmdNew.Flags().StringVarP(&repoURL, "repo-url", "r", repoURL, "layout repo")
-
 }
+
 func NewProject() *Project {
 	return &Project{}
 }
@@ -73,11 +73,10 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 	p.rmGit()
-	p.installWire()
-	fmt.Printf("🎉 Project \u001B[36m%s\u001B[0m created successfully!\n\n", p.ProjectName)
-	fmt.Printf("Done. Now run:\n\n")
-	fmt.Printf("› \033[36mcd %s \033[0m\n", p.ProjectName)
-	fmt.Printf("› \033[36mgoal run \033[0m\n\n")
+	fmt.Printf("🎉 Project %s created successfully!\n\n", p.ProjectName)
+	fmt.Print("Done. Now run:\n\n")
+	fmt.Printf("› cd %s ", p.ProjectName)
+	fmt.Print("› goal run \n")
 }
 
 func (p *Project) cloneTemplate() (bool, error) {
@@ -162,6 +161,7 @@ func (p *Project) replacePackageName() error {
 	}
 	return nil
 }
+
 func (p *Project) modTidy() error {
 	fmt.Println("go mod tidy")
 	cmd := exec.Command("go", "mod", "tidy")
@@ -172,17 +172,9 @@ func (p *Project) modTidy() error {
 	}
 	return nil
 }
+
 func (p *Project) rmGit() {
 	os.RemoveAll(p.ProjectName + "/.git")
-}
-func (p *Project) installWire() {
-	fmt.Printf("go install %s\n", config.WireCmd)
-	cmd := exec.Command("go", "install", config.WireCmd)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Fatalf("go install %s error\n", err)
-	}
 }
 
 func (p *Project) replaceFiles(packageName string) error {

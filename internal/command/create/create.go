@@ -10,6 +10,7 @@ import (
 	"text/template"
 
 	"github.com/spf13/cobra"
+
 	"github.com/xushuhui/goal/internal/pkg/helper"
 	"github.com/xushuhui/goal/tpl"
 )
@@ -33,10 +34,9 @@ var CmdCreate = &cobra.Command{
 	Short:   "Create a new handler/service/repo/model",
 	Example: "goal create handler user",
 	Args:    cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
-
-	},
+	Run:     func(cmd *cobra.Command, args []string) {},
 }
+
 var (
 	tplPath string
 )
@@ -47,7 +47,6 @@ func init() {
 	CmdCreateRepo.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
 	CmdCreateModel.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
 	CmdCreateAll.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
-
 }
 
 var CmdCreateHandler = &cobra.Command{
@@ -114,14 +113,14 @@ func runCreate(cmd *cobra.Command, args []string) {
 	default:
 		log.Fatalf("Invalid handler type: %s", c.CreateType)
 	}
-
 }
+
 func (c *Create) genFile() {
 	filePath := c.FilePath
 	if filePath == "" {
 		filePath = fmt.Sprintf("internal/%s/", c.CreateType)
 	}
-	if c.CreateType == "repo"{
+	if c.CreateType == "repo" {
 		filePath = fmt.Sprintf("internal/data/%s/", c.CreateType)
 	}
 	f := createFile(filePath, strings.ToLower(c.FileName)+".go")
@@ -145,8 +144,8 @@ func (c *Create) genFile() {
 		log.Fatalf("create %s error: %s", c.CreateType, err.Error())
 	}
 	log.Printf("Created new %s: %s", c.CreateType, filePath+strings.ToLower(c.FileName)+".go")
-
 }
+
 func createFile(dirPath string, filename string) *os.File {
 	filePath := filepath.Join(dirPath, filename)
 	err := os.MkdirAll(dirPath, os.ModePerm)

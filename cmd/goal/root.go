@@ -23,7 +23,6 @@ func init() {
 	CmdRoot.AddCommand(new.CmdNew)
 	CmdRoot.AddCommand(create.CmdCreate)
 	CmdRoot.AddCommand(run.CmdRun)
-
 	CmdRoot.AddCommand(upgrade.CmdUpgrade)
 	create.CmdCreate.AddCommand(create.CmdCreateHandler)
 	create.CmdCreate.AddCommand(create.CmdCreateService)

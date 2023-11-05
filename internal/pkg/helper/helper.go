@@ -26,6 +26,7 @@ func GetProjectName(dir string) string {
 	}
 	return moduleName
 }
+
 func SplitArgs(cmd *cobra.Command, args []string) (cmdArgs, programArgs []string) {
 	dashAt := cmd.ArgsLenAtDash()
 	if dashAt >= 0 {
@@ -33,6 +34,7 @@ func SplitArgs(cmd *cobra.Command, args []string) (cmdArgs, programArgs []string
 	}
 	return args, []string{}
 }
+
 func FindMain(base, excludeDir string) (map[string]string, error) {
 	wd, err := os.Getwd()
 	if err != nil {
@@ -68,7 +70,6 @@ func FindMain(base, excludeDir string) (map[string]string, error) {
 				}
 				d, _ := filepath.Split(absPath)
 				cmdPath[strings.TrimPrefix(absPath, wd)] = d
-
 			}
 		}
 		return nil
