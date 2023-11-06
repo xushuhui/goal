@@ -25,8 +25,7 @@ import (
 
 var quit = make(chan os.Signal, 1)
 
-type Run struct {
-}
+
 
 var excludeDir string
 var includeExt string

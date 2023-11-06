@@ -10,6 +10,9 @@ import (
 	"text/template"
 
 	"github.com/spf13/cobra"
+	"gorm.io/driver/mysql"
+	"gorm.io/gen"
+	"gorm.io/gorm"
 
 	"github.com/xushuhui/goal/internal/pkg/helper"
 	"github.com/xushuhui/goal/tpl"
@@ -23,6 +26,7 @@ type Create struct {
 	FileNameTitleLower string
 	FileNameFirstChar  string
 	IsFull             bool
+	Dsn                string
 }
 
 func NewCreate() *Create {
@@ -39,13 +43,14 @@ var CmdCreate = &cobra.Command{
 
 var (
 	tplPath string
+	dsn     string
 )
 
 func init() {
 	CmdCreateHandler.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
 	CmdCreateService.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
 	CmdCreateRepo.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
-	CmdCreateModel.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
+	CmdCreateModel.Flags().StringVarP(&dsn, "dsn","d", dsn, "dsn")
 	CmdCreateAll.Flags().StringVarP(&tplPath, "tpl-path", "t", tplPath, "template path")
 }
 
@@ -73,7 +78,7 @@ var CmdCreateRepo = &cobra.Command{
 var CmdCreateModel = &cobra.Command{
 	Use:     "model",
 	Short:   "Create a new model",
-	Example: "goal create model user",
+	Example: "goal create model all/user",
 	Args:    cobra.ExactArgs(1),
 	Run:     runCreate,
 }
@@ -93,10 +98,12 @@ func runCreate(cmd *cobra.Command, args []string) {
 	c.FileName = strings.ReplaceAll(strings.ToUpper(string(c.FileName[0]))+c.FileName[1:], ".go", "")
 	c.FileNameTitleLower = strings.ToLower(string(c.FileName[0])) + c.FileName[1:]
 	c.FileNameFirstChar = string(c.FileNameTitleLower[0])
-
+	c.Dsn = dsn
 	switch c.CreateType {
-	case "handler", "service", "repo", "model":
+	case "handler", "service", "repo":
 		c.genFile()
+	case "model":
+		c.genModel()
 	case "all":
 
 		c.CreateType = "handler"
@@ -109,7 +116,7 @@ func runCreate(cmd *cobra.Command, args []string) {
 		c.genFile()
 
 		c.CreateType = "model"
-		c.genFile()
+		c.genModel()
 	default:
 		log.Fatalf("Invalid handler type: %s", c.CreateType)
 	}
@@ -162,4 +169,33 @@ func createFile(dirPath string, filename string) *os.File {
 	}
 
 	return file
+}
+
+func (c *Create) genModel() {
+	if c.Dsn == "" {
+		log.Fatal("dsn is required")
+	}
+	fmt.Println(c.Dsn)
+	cfg := gen.Config{
+		OutPath: "./internal/data/model",
+		Mode:    gen.WithDefaultQuery | gen.WithQueryInterface,
+	}
+	cfg.WithDataTypeMap(map[string]func(gorm.ColumnType) (dataType string){
+		"tinyint": func(columnType gorm.ColumnType) (dataType string) {
+			return "int32"
+		},
+	})
+	g := gen.NewGenerator(cfg)
+	gormdb, err := gorm.Open(mysql.Open(c.Dsn))
+	if err != nil {
+		log.Fatalf("open db error: %s", err.Error())
+	}
+	g.UseDB(gormdb)
+	if c.FileName == "all" {
+		g.GenerateAllTable()
+	} else {
+		g.GenerateModel(c.FileName)
+	}
+	
+	g.Execute()
 }
