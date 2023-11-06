@@ -7,6 +7,7 @@ import (
 
 	"github.com/xushuhui/goal/config"
 	"github.com/xushuhui/goal/internal/command/create"
+	"github.com/xushuhui/goal/internal/command/gen"
 	"github.com/xushuhui/goal/internal/command/new"
 	"github.com/xushuhui/goal/internal/command/run"
 	"github.com/xushuhui/goal/internal/command/upgrade"
@@ -24,10 +25,11 @@ func init() {
 	CmdRoot.AddCommand(create.CmdCreate)
 	CmdRoot.AddCommand(run.CmdRun)
 	CmdRoot.AddCommand(upgrade.CmdUpgrade)
+	CmdRoot.AddCommand(gen.CmdGen)
 	create.CmdCreate.AddCommand(create.CmdCreateHandler)
 	create.CmdCreate.AddCommand(create.CmdCreateService)
 	create.CmdCreate.AddCommand(create.CmdCreateRepo)
-	create.CmdCreate.AddCommand(create.CmdCreateModel)
+	
 	create.CmdCreate.AddCommand(create.CmdCreateAll)
 }
 
