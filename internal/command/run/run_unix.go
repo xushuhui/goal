@@ -55,7 +55,7 @@ var CmdRun = &cobra.Command{
 			return
 		}
 		if dir == "" {
-			cmdPath, err := helper.FindMain(base, excludeDir)
+			cmdPath, err := findCMD(base, excludeDir)
 
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
@@ -93,7 +93,67 @@ var CmdRun = &cobra.Command{
 		watch(dir, programArgs)
 	},
 }
+func findCMD(base string, excludeDir string) (map[string]string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+	if !strings.HasSuffix(wd, "/") {
+		wd += "/"
+	}
+	var root bool
+	next := func(dir string) (map[string]string, error) {
+		cmdPath := make(map[string]string)
+		err := filepath.Walk(dir, func(walkPath string, info os.FileInfo, err error) error {
+			for _, s := range strings.Split(excludeDir, ",") {
+				if strings.HasPrefix(walkPath, s) {
+					return nil
+				}
+			}
+			// multi level directory is not allowed under the cmdPath directory, so it is judged that the path ends with cmdPath.
+			if strings.HasSuffix(walkPath, "cmd") {
+				paths, err := os.ReadDir(walkPath)
+				if err != nil {
+					return err
+				}
+				for _, fileInfo := range paths {
+					if fileInfo.IsDir() {
+						abs := filepath.Join(walkPath, fileInfo.Name())
+						cmdPath[strings.TrimPrefix(abs, wd)] = abs
+					}
+				}
+				return nil
+			}
+			if info.Name() == "go.mod" {
+				root = true
+			}
+			return nil
+		})
+		return cmdPath, err
+	}
+	for i := 0; i < 5; i++ {
+		tmp := base
+		cmd, err := next(tmp)
+		if err != nil {
+			return nil, err
+		}
+		if len(cmd) > 0 {
+			return cmd, nil
+		}
+		if root {
+			break
+		}
+		_ = filepath.Join(base, "..")
+	}
+	return map[string]string{"": base}, nil
+}
 
+func changeWorkingDirectory(cmd *exec.Cmd, targetDir string) {
+	targetDir = strings.TrimSpace(targetDir)
+	if targetDir != "" {
+		cmd.Dir = targetDir
+	}
+}
 func watch(dir string, programArgs []string) {
 	// Listening file path
 	watchPath := "./"

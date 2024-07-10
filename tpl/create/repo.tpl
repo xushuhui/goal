@@ -1,21 +1,21 @@
-package repository
+package data
 
 import (
-	"{{ .ProjectName }}/internal/model"
+	"{{ .ProjectName }}/internal/data/model"
 )
 
 type {{ .FileName }}Repo interface {
 	FirstById(id int64) (*model.{{ .FileName }}, error)
 }
 
-func New{{ .FileName }}Repo(repo *Repo) {{ .FileName }}Repo {
+func New{{ .FileName }}Repo(data *Data) {{ .FileName }}Repo {
 	return &{{ .FileNameTitleLower }}Repo{
-		Repo: repo,
+		Data: data,
 	}
 }
 
 type {{ .FileNameTitleLower }}Repo struct {
-	*Repo
+	*Data
 }
 
 func (r *{{ .FileNameTitleLower }}Repo) FirstById(id int64) (*model.{{ .FileName }}, error) {

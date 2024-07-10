@@ -114,7 +114,7 @@ func (c *Create) genFile() {
 		filePath = fmt.Sprintf("internal/%s/", c.CreateType)
 	}
 	if c.CreateType == "repo" {
-		filePath = fmt.Sprintf("internal/data/%s/", c.CreateType)
+		filePath = "internal/data/"
 	}
 	f := createFile(filePath, strings.ToLower(c.FileName)+".go")
 	if f == nil {
