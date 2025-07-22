@@ -44,6 +44,7 @@ func run(cmd *cobra.Command, args []string) {
 	cfg := gen.Config{
 		OutPath: "./internal/data/model",
 		Mode:    gen.WithDefaultQuery | gen.WithQueryInterface,
+		FieldSignable:	true,
 	}
 	cfg.WithDataTypeMap(map[string]func(gorm.ColumnType) (dataType string){
 		"tinyint": func(columnType gorm.ColumnType) (dataType string) {
