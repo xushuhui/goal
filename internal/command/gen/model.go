@@ -42,7 +42,7 @@ func run(cmd *cobra.Command, args []string) {
 		g.Model = args[0]
 	}
 	cfg := gen.Config{
-		OutPath: "./internal/data/model",
+		OutPath: ".",
 		Mode:    gen.WithDefaultQuery | gen.WithQueryInterface,
 		FieldSignable:	true,
 	}
